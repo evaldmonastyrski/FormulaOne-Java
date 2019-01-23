@@ -10,6 +10,7 @@ public class Main {
 
     private Main() {
         final GuiMain guiMain = new GuiMain();
+        final Controller controller = new Controller();
         guiMain.startGui();
     }
 
