@@ -1,0 +1,17 @@
+package controller;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class Main {
+
+    private static Logger LOGGER = LoggerFactory.getLogger(Main.class);
+
+    private Main() {
+    }
+
+    public static void main(String[] args) {
+        LOGGER.info("Formula 1 Simulator is starting up...");
+        new Main();
+    }
+}
