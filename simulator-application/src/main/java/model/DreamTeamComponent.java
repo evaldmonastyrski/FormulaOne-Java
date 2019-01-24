@@ -1,6 +1,6 @@
 package model;
 
-public abstract class DreamTeamComponent {
+public abstract class DreamTeamComponent implements Comparable<DreamTeamComponent> {
 
     private String name;
     private double price;

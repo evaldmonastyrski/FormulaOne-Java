@@ -2,9 +2,8 @@ package model;
 
 import java.util.Comparator;
 
-public class Driver extends DreamTeamComponent implements Comparable<Driver>
+public class Driver extends DreamTeamComponent
 {
-
     public String surname;
 
     public String getSurname(){
@@ -17,7 +16,7 @@ public class Driver extends DreamTeamComponent implements Comparable<Driver>
     }
 
     @Override
-    public int compareTo(Driver o) {
+    public int compareTo(DreamTeamComponent o) {
         return 0;
     }
 }
