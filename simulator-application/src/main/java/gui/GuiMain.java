@@ -16,7 +16,7 @@ public class GuiMain {
         tabbedPane = new JTabbedPane();
         simulationTab = new SimulationTab();
 
-        mainFrame.setSize(400, 400);
+        mainFrame.setSize(900, 400);
         mainFrame.add(tabbedPane);
         tabbedPane.addTab("Simulation", simulationTab);
 
