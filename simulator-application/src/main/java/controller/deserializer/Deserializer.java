@@ -1,5 +1,6 @@
 package controller.deserializer;
 
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,8 +10,8 @@ import java.util.Scanner;
 
 public class Deserializer {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Deserializer.class);
-    private static final String FILE = "MarketData.txt";
+    @NotNull private static final Logger LOGGER = LoggerFactory.getLogger(Deserializer.class);
+    @NotNull private static final String FILE = "MarketData.txt";
 
     public void readTextFile() {
         LOGGER.info("Reading Market Data...");

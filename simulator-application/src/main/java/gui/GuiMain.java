@@ -1,6 +1,7 @@
 package gui;
 
 import controller.Controller;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,11 +12,13 @@ import java.awt.event.WindowEvent;
 
 public class GuiMain {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GuiMain.class);
+    @NotNull private static final Logger LOGGER = LoggerFactory.getLogger(GuiMain.class);
+    private static final int WINDOW_WIDTH = 900;
+    private static final int WINDOW_HEIGHT = 400;
 
-    private final Controller controller;
+    @NotNull private final Controller controller;
 
-    public GuiMain(Controller controller) {
+    public GuiMain(@NotNull Controller controller) {
         this.controller = controller;
     }
 
@@ -28,7 +31,7 @@ public class GuiMain {
         tabbedPane = new JTabbedPane();
         simulationTab = new SimulationTab();
 
-        mainFrame.setSize(900, 400);
+        mainFrame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         mainFrame.add(tabbedPane);
         tabbedPane.addTab("Simulation", simulationTab);
 
