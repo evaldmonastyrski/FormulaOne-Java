@@ -43,6 +43,7 @@ public class GuiMain {
             }
         });
 
+        simulationTab.init();
         LOGGER.info("GUI has started, {} is received", controller);
     }
 }
