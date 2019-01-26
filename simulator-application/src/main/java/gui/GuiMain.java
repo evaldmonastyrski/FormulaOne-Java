@@ -1,5 +1,12 @@
 package gui;
 
+import com.apple.eawt.Application;
+import controller.GuiController;
+import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import java.awt.event.WindowAdapter;
@@ -7,16 +14,27 @@ import java.awt.event.WindowEvent;
 
 public class GuiMain {
 
-    public void startGui() {
-        final JFrame mainFrame;
-        final JTabbedPane tabbedPane;
-        final SimulationTab simulationTab;
+    @NotNull private static final Logger LOGGER = LoggerFactory.getLogger(GuiMain.class);
+    private static final int WINDOW_WIDTH = 900;
+    private static final int WINDOW_HEIGHT = 400;
 
+    @NotNull private final GuiController guiController;
+    @NotNull private final JFrame mainFrame;
+    @NotNull private final JTabbedPane tabbedPane;
+    @NotNull private final SimulationTab simulationTab;
+    @NotNull private final ImageIcon icon;
+
+    public GuiMain(@NotNull GuiController guiController) {
+        this.guiController = guiController;
+        icon = new ImageIcon("logo.png");
         mainFrame = new JFrame("Formula 1");
         tabbedPane = new JTabbedPane();
-        simulationTab = new SimulationTab();
+        simulationTab = new SimulationTab(guiController);
+    }
 
-        mainFrame.setSize(400, 400);
+    public void runGui() {
+        addIcon();
+        mainFrame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         mainFrame.add(tabbedPane);
         tabbedPane.addTab("Simulation", simulationTab);
 
@@ -27,5 +45,22 @@ public class GuiMain {
                 System.exit(0);
             }
         });
+
+        simulationTab.init();
+        LOGGER.info("GUI has started, {} is received", guiController);
+    }
+
+    public void closeGui() {
+        mainFrame.setVisible(false);
+    }
+
+    private void addIcon() {
+        if (GuiMainUtil.isApple()) {
+            Application.getApplication().setDockIconImage(icon.getImage());
+        }
+
+        if (GuiMainUtil.isWindows()) {
+            mainFrame.setIconImage(icon.getImage());
+        }
     }
 }
