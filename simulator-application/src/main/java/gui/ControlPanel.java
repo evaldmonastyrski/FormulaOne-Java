@@ -1,5 +1,6 @@
 package gui;
 
+import controller.GuiController;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.JButton;
@@ -13,6 +14,7 @@ import java.awt.FlowLayout;
 
 class ControlPanel extends JPanel {
 
+    @NotNull private final GuiController guiController;
     @NotNull private final JButton reloadButton;
     @NotNull private final JLabel budgetLabel;
     @NotNull private final JSpinner budgetSpinner;
@@ -23,11 +25,13 @@ class ControlPanel extends JPanel {
     @NotNull private final JCheckBox pointsThresholdCheckBox;
     @NotNull private final JCheckBox raceSetupCheckBox;
 
-    ControlPanel() {
+    ControlPanel(@NotNull GuiController guiController) {
         super(new FlowLayout());
 
-        SpinnerNumberModel budgetSpinnerModel =new SpinnerNumberModel(30.0, 0.0, 100.0, 0.1);
-        SpinnerNumberModel pointsThresholdSpinnerModel =new SpinnerNumberModel(80, 0, 100, 1);
+        this.guiController = guiController;
+
+        SpinnerNumberModel budgetSpinnerModel = new SpinnerNumberModel(30.0, 0.0, 100.0, 0.1);
+        SpinnerNumberModel pointsThresholdSpinnerModel = new SpinnerNumberModel(80, 0, 100, 1);
 
         reloadButton = new JButton("Reload");
         budgetLabel = new JLabel("Budget");
@@ -43,6 +47,8 @@ class ControlPanel extends JPanel {
     void init() {
         grandPrixComboBox.addItem("Australia");
         pointsThresholdSpinner.setValue(80);
+
+        reloadButton.addActionListener(e -> guiController.onReloadButtonClicked());
 
         this.add(reloadButton);
         this.add(budgetLabel);

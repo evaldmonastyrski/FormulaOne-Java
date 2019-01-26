@@ -1,5 +1,6 @@
 package gui;
 
+import controller.GuiController;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.JPanel;
@@ -9,8 +10,8 @@ class SimulationTab extends JPanel {
 
     @NotNull private final ControlPanel controlPanel;
 
-    SimulationTab() {
-        controlPanel = new ControlPanel();
+    SimulationTab(@NotNull GuiController guiController) {
+        controlPanel = new ControlPanel(guiController);
     }
 
     void init() {

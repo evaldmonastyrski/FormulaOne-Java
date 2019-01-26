@@ -1,6 +1,6 @@
 package gui;
 
-import controller.Controller;
+import controller.GuiController;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,21 +16,19 @@ public class GuiMain {
     private static final int WINDOW_WIDTH = 900;
     private static final int WINDOW_HEIGHT = 400;
 
-    @NotNull private final Controller controller;
+    @NotNull private final GuiController guiController;
+    @NotNull private final JFrame mainFrame;
+    @NotNull private final JTabbedPane tabbedPane;
+    @NotNull private final SimulationTab simulationTab;
 
-    public GuiMain(@NotNull Controller controller) {
-        this.controller = controller;
-    }
-
-    public void startGui() {
-        final JFrame mainFrame;
-        final JTabbedPane tabbedPane;
-        final SimulationTab simulationTab;
-
+    public GuiMain(@NotNull GuiController guiController) {
+        this.guiController = guiController;
         mainFrame = new JFrame("Formula 1");
         tabbedPane = new JTabbedPane();
-        simulationTab = new SimulationTab();
+        simulationTab = new SimulationTab(guiController);
+    }
 
+    public void runGui() {
         mainFrame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         mainFrame.add(tabbedPane);
         tabbedPane.addTab("Simulation", simulationTab);
@@ -44,6 +42,10 @@ public class GuiMain {
         });
 
         simulationTab.init();
-        LOGGER.info("GUI has started, {} is received", controller);
+        LOGGER.info("GUI has started, {} is received", guiController);
+    }
+
+    public void closeGui() {
+        mainFrame.setVisible(false);
     }
 }
