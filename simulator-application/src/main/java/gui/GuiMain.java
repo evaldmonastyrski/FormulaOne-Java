@@ -32,7 +32,7 @@ public class GuiMain {
         simulationTab = new SimulationTab(guiController);
     }
 
-    public void runGui() {
+    public void runGui(@NotNull String[] gpStages) {
         addIcon();
         mainFrame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         mainFrame.add(tabbedPane);
@@ -46,7 +46,7 @@ public class GuiMain {
             }
         });
 
-        simulationTab.init();
+        simulationTab.init(gpStages);
         LOGGER.info("GUI has started, {} is received", guiController);
     }
 

@@ -18,7 +18,7 @@ public class GuiController {
         guiMain.closeGui();
     }
 
-    void startGui() {
-        guiMain.runGui();
+    void startGui(@NotNull String[] gpStages) {
+        guiMain.runGui(gpStages);
     }
 }

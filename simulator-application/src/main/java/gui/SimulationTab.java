@@ -14,8 +14,8 @@ class SimulationTab extends JPanel {
         controlPanel = new ControlPanel(guiController);
     }
 
-    void init() {
+    void init(@NotNull String[] gpStages) {
         this.add(controlPanel, BorderLayout.NORTH);
-        controlPanel.init();
+        controlPanel.init(gpStages);
     }
 }

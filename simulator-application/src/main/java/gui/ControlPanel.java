@@ -44,9 +44,10 @@ class ControlPanel extends JPanel {
         raceSetupCheckBox = new JCheckBox("Race Setup");
     }
 
-    void init() {
-        grandPrixComboBox.addItem("Australia");
+    void init(@NotNull String[] gpStages) {
         pointsThresholdSpinner.setValue(80);
+
+        setGrandPrixComboBox(gpStages);
 
         reloadButton.addActionListener(e -> guiController.onReloadButtonClicked());
 
@@ -59,5 +60,11 @@ class ControlPanel extends JPanel {
         this.add(pointsThresholdSpinner);
         this.add(pointsThresholdCheckBox);
         this.add(raceSetupCheckBox);
+    }
+
+    private void setGrandPrixComboBox(String[] gpStages) {
+        for (String gpStage : gpStages) {
+            grandPrixComboBox.addItem(gpStage);
+        }
     }
 }
