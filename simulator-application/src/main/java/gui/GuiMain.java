@@ -16,7 +16,7 @@ public class GuiMain {
 
     @NotNull private static final Logger LOGGER = LoggerFactory.getLogger(GuiMain.class);
     private static final int WINDOW_WIDTH = 900;
-    private static final int WINDOW_HEIGHT = 400;
+    private static final int WINDOW_HEIGHT = 680;
 
     @NotNull private final GuiController guiController;
     @NotNull private final JFrame mainFrame;
@@ -38,7 +38,6 @@ public class GuiMain {
         mainFrame.add(tabbedPane);
         tabbedPane.addTab("Simulation", simulationTab);
 
-        mainFrame.setVisible(true);
         mainFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -48,6 +47,7 @@ public class GuiMain {
 
         simulationTab.init(gpStages);
         LOGGER.info("GUI has started, {} is received", guiController);
+        mainFrame.setVisible(true);
     }
 
     public void closeGui() {
