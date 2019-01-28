@@ -47,6 +47,7 @@ class ControlPanel extends JPanel {
     void init(@NotNull String[] gpStages) {
         pointsThresholdSpinner.setValue(80);
 
+        grandPrixComboBox.setMaximumRowCount(gpStages.length);
         setGrandPrixComboBox(gpStages);
 
         reloadButton.addActionListener(e -> guiController.onReloadButtonClicked());
