@@ -24,7 +24,6 @@ class Controller {
     }
 
     private void initialize() {
-        guiController.startGui();
-        deserializer.readTextFile();
+        guiController.startGui(deserializer.getGPStages());
     }
 }
