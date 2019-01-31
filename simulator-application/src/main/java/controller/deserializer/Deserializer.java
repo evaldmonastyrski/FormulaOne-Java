@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Deserializer {
@@ -21,7 +20,7 @@ public class Deserializer {
         try {
             File file = new File(FILE);
             Scanner scanner = new Scanner(file);
-            extractGPStages(scanner);
+            gpStages = extractGPStages(scanner.nextLine());
 
             while (scanner.hasNextLine()) {
                 LOGGER.info(scanner.nextLine());
@@ -38,24 +37,16 @@ public class Deserializer {
         return gpStages;
     }
 
-    private void extractGPStages(Scanner scanner) {
-        String[] gpStagesCollection = Arrays.stream(scanner.nextLine().split("[ ]"))
-                .filter(str -> !str.isEmpty())
-                .toArray(String[]::new);
+    @NotNull
+    private String[] extractGPStages(String firstLine) {
+        String[] gpStageEntries = firstLine.trim().split("\\s+");
 
-        gpStages = new String[gpStagesCollection.length];
-
-        int counter  = 0;
-        for (String gpStage : gpStagesCollection) {
-            gpStages[counter] = gpStage.chars().map(ch -> {
-                if ((char) ch == '_') {
-                    return ' ';
-                } else {
-                    return ch;
-                }
-            }).collect(StringBuilder::new,
-                    StringBuilder::appendCodePoint, StringBuilder::append).toString();
-            counter++;
+        for (int i = 0; i < gpStageEntries.length; i++) {
+            if (gpStageEntries[i].contains("_")) {
+                gpStageEntries[i] = gpStageEntries[i].replace("_", " ");
+            }
         }
+
+        return gpStageEntries;
     }
 }
