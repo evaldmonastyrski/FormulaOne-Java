@@ -6,25 +6,33 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class Deserializer {
 
     @NotNull private static final Logger LOGGER = LoggerFactory.getLogger(Deserializer.class);
     @NotNull private static final String FILE = "MarketData.txt";
-
+    @NotNull private final List<BaseDriver> drivers;
     @NotNull private String[] gpStages = new String[0];
 
     public Deserializer() {
         LOGGER.info("Reading Market Data...");
+        drivers = new ArrayList<>();
         try {
             File file = new File(FILE);
             Scanner scanner = new Scanner(file);
             gpStages = extractGPStages(scanner.nextLine());
 
             while (scanner.hasNextLine()) {
-                LOGGER.info(scanner.nextLine());
+                extractDriver(scanner.nextLine());
             }
+
+            LOGGER.info("Parsing {} is completed", FILE);
+            LOGGER.info("Number of GP Stages: {}", gpStages.length);
+            LOGGER.info("Number of drivers: {}", drivers.size());
 
             scanner.close();
         } catch (FileNotFoundException e) {
@@ -35,6 +43,11 @@ public class Deserializer {
     @NotNull
     public String[] getGPStages() {
         return gpStages;
+    }
+
+    @NotNull
+    public List<BaseDriver> getDrivers() {
+        return drivers;
     }
 
     @NotNull
