@@ -49,4 +49,20 @@ public class Deserializer {
 
         return gpStageEntries;
     }
+
+    @NotNull
+    private void extractDriver(String entryLine) {
+        String[] driver = entryLine.split("\\s+");
+        String[] driverPriceStrings = Arrays.copyOfRange(driver, 4, driver.length);
+
+        double[] driverPrices = Arrays.stream(driverPriceStrings)
+                .mapToDouble(Double::parseDouble)
+                .toArray();
+
+        drivers.add(ImmutableBaseDriver.builder()
+                .name(driver[0])
+                .surname(driver[1])
+                .prices(driverPrices)
+                .build());
+    }
 }
