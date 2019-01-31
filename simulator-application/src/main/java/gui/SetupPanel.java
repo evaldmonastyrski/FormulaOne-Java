@@ -13,6 +13,7 @@ import javax.swing.border.Border;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,39 +22,28 @@ class SetupPanel extends JPanel {
     private static final int COMPONENTS_START_ROW = 0;
     private static final int ENGINE_ROW_OFFSET = 13;
 
-    @NotNull private final Border border;
-    @NotNull private final GridBagConstraints constraints;
-    @NotNull private final Dimension pointLabelsDimension;
-    @NotNull private final JLabel[] driverLabels;
-    @NotNull private final List<JComboBox<Integer>> driverQualificationPositions;
-    @NotNull private final List<JComboBox<Integer>> driverRacePositions;
-    @NotNull private final JLabel[] driverPointsLabels;
-    @NotNull private final JLabel[] driverPriceChangeLabels;
-    @NotNull private final JLabel[] teamLabels;
-    @NotNull private final JLabel[] engineLabels;
-    @NotNull private final JLabel[] teamPointsLabels;
-    @NotNull private final JLabel[] enginePointsLabels;
-    @NotNull private final JLabel[] teamPriceChangeLabels;
-    @NotNull private final JLabel[] enginePriceChangeLabels;
+    @NotNull private final Border border = BorderFactory.createBevelBorder(BevelBorder.LOWERED);
+    @NotNull private final GridBagConstraints constraints = new GridBagConstraints();
+    @NotNull private final Dimension pointLabelsDimension = new Dimension(60, 20);
+    @NotNull private final JLabel[] driverLabels = new JLabel[GuiConstants.NUMBER_OF_DRIVERS];
+    @NotNull private final List<JComboBox<Integer>> driverQualificationPositions = new ArrayList<>();
+    @NotNull private final List<JComboBox<Integer>> driverRacePositions = new ArrayList<>();
+    @NotNull private final JLabel[] driverPointsLabels = new JLabel[GuiConstants.NUMBER_OF_DRIVERS];
+    @NotNull private final JLabel[] driverPriceChangeLabels = new JLabel[GuiConstants.NUMBER_OF_DRIVERS];
+    @NotNull private final JLabel[]teamLabels = new JLabel[GuiConstants.NUMBER_OF_TEAMS];
+    @NotNull private final JLabel[] engineLabels = new JLabel[GuiConstants.NUMBER_OF_ENGINES];
+    @NotNull private final JLabel[]teamPointsLabels = new JLabel[GuiConstants.NUMBER_OF_TEAMS];
+    @NotNull private final JLabel[]enginePointsLabels = new JLabel[GuiConstants.NUMBER_OF_ENGINES];
+    @NotNull private final JLabel[] teamPriceChangeLabels = new JLabel[GuiConstants.NUMBER_OF_TEAMS];
+    @NotNull private final JLabel[] enginePriceChangeLabels = new JLabel[GuiConstants.NUMBER_OF_ENGINES];
+    @NotNull private final JButton simulateButton = new JButton("Simulate");
+    @NotNull private final JButton flushQButton = new JButton("Flush Q");
+    @NotNull private final JButton flushRButton = new JButton("Flush R");
+    @NotNull private final JButton pointSortButton = new JButton("Point Sort");
+    @NotNull private final JButton priceChangeSortButton = new JButton("Price Change Sort");
 
     SetupPanel() {
         super(new GridBagLayout());
-        border = BorderFactory.createBevelBorder(BevelBorder.LOWERED);
-        constraints = new GridBagConstraints();
-        constraints.weightx = 1;
-        pointLabelsDimension = new Dimension(10000, 1);
-
-        driverLabels = new JLabel[GuiConstants.NUMBER_OF_DRIVERS];
-        driverQualificationPositions = new ArrayList<>();
-        driverRacePositions = new ArrayList<>();
-        driverPointsLabels = new JLabel[GuiConstants.NUMBER_OF_DRIVERS];
-        driverPriceChangeLabels = new JLabel[GuiConstants.NUMBER_OF_DRIVERS];
-        teamLabels = new JLabel[GuiConstants.NUMBER_OF_TEAMS];
-        engineLabels = new JLabel[GuiConstants.NUMBER_OF_ENGINES];
-        teamPointsLabels = new JLabel[GuiConstants.NUMBER_OF_TEAMS];
-        enginePointsLabels = new JLabel[GuiConstants.NUMBER_OF_ENGINES];
-        teamPriceChangeLabels = new JLabel[GuiConstants.NUMBER_OF_TEAMS];
-        enginePriceChangeLabels = new JLabel[GuiConstants.NUMBER_OF_ENGINES];
         for (int i = 0; i < GuiConstants.NUMBER_OF_DRIVERS; i++) {
             driverQualificationPositions.add(new JComboBox<>());
             driverRacePositions.add(new JComboBox<>());
@@ -61,8 +51,7 @@ class SetupPanel extends JPanel {
     }
 
     void init() {
-
-
+        constraints.weightx = 1;
         initializeNameLabels(constraints, driverLabels, COMPONENTS_START_ROW, 0, "Name Name ");
         initializeComboBoxes(constraints, driverQualificationPositions, 1);
         initializeComboBoxes(constraints, driverRacePositions, 2);
@@ -101,6 +90,7 @@ class SetupPanel extends JPanel {
             constraints.fill = GridBagConstraints.CENTER;
             constraints.gridx = columnNo;
             constraints.gridy = rowNo;
+            constraints.insets = new Insets(1, 0, 1, 0);
             driverPosition.setMaximumRowCount(GuiConstants.NUMBER_OF_DRIVERS);
             for (int j = 1; j < GuiConstants.NUMBER_OF_DRIVERS + 1; j++) {
                 driverPosition.addItem(j);
@@ -122,7 +112,7 @@ class SetupPanel extends JPanel {
             constraints.gridy = row;
             pointsLabels[i] = new JLabel("0", SwingConstants.CENTER);
             pointsLabels[i].setBorder(border);
-            pointsLabels[i].setPreferredSize(new Dimension(60, 20));
+            pointsLabels[i].setPreferredSize(dimension);
             this.add(pointsLabels[i], constraints);
             row++;
         }
@@ -148,12 +138,7 @@ class SetupPanel extends JPanel {
         constraints.fill = GridBagConstraints.CENTER;
         constraints.gridx = 0;
         constraints.gridy = GuiConstants.NUMBER_OF_DRIVERS + 1;
-
-        JButton simulateButton = new JButton("Simulate");
-        JButton flushQButton = new JButton("Flush Q");
-        JButton flushRButton = new JButton("Flush R");
-        JButton pointSortButton = new JButton("Point Sort");
-        JButton priceChangeSortButton = new JButton("Price Change Sort");
+        constraints.insets = new Insets(15, 0, 0, 0);
 
         this.add(simulateButton, constraints);
         constraints.gridx = 1;
