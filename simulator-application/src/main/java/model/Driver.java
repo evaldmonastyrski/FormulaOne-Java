@@ -1,6 +1,6 @@
 package model;
 
-import controller.deserializer.BaseDriver;
+import controller.deserializer.DataEntry;
 import org.jetbrains.annotations.NotNull;
 
 public class Driver implements Comparable<Driver> {
@@ -10,10 +10,14 @@ public class Driver implements Comparable<Driver> {
 
     private final double price;
 
-    public Driver (@NotNull BaseDriver driver, int gpStage) {
-        this.name = driver.getName();
-        this.surname = driver.getSurname();
-        price = driver.getPrices()[gpStage];
+    public Driver(@NotNull DataEntry data, int gpStage) {
+        this.name = data.getName();
+        this.surname = data.getSurname();
+        price = data.getPrices()[gpStage];
+    }
+
+    double getPrice() {
+        return price;
     }
 
     @Override
