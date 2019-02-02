@@ -8,5 +8,5 @@ public interface BaseDriver {
 
     @NotNull String getName();
     @NotNull String getSurname();
-    double getPrice();
+    @NotNull double[] getPrices();
 }
