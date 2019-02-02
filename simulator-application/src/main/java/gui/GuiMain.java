@@ -2,6 +2,7 @@ package gui;
 
 import com.apple.eawt.Application;
 import controller.GuiController;
+import model.Driver;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Set;
 
 public class GuiMain {
 
@@ -48,6 +50,10 @@ public class GuiMain {
         simulationTab.init(gpStages);
         LOGGER.info("GUI has started, {} is received", guiController);
         mainFrame.setVisible(true);
+    }
+
+    public void initializeLabels(@NotNull Set<Driver> drivers) {
+        simulationTab.setLabels(drivers);
     }
 
     public void closeGui() {

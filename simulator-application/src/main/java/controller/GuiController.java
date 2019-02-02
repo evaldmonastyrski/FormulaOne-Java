@@ -1,9 +1,16 @@
 package controller;
 
 import gui.GuiMain;
+import model.Driver;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Set;
 
 public class GuiController {
+
+    @NotNull private static final Logger LOGGER = LoggerFactory.getLogger(GuiController.class);
 
     @NotNull private final Controller controller;
     @NotNull private final GuiMain guiMain;
@@ -14,11 +21,21 @@ public class GuiController {
     }
 
     public void onReloadButtonClicked() {
+        LOGGER.info("Reload button clicked");
         controller.onReloadButtonClicked();
         guiMain.closeGui();
     }
 
+    public void onGPIndexChanged(int gpIndex) {
+        LOGGER.info("GP stage changed");
+        controller.onGPIndexChanged(gpIndex);
+    }
+
     void startGui(@NotNull String[] gpStages) {
         guiMain.runGui(gpStages);
+    }
+
+    void initializeLabels(@NotNull Set<Driver> drivers) {
+        guiMain.initializeLabels(drivers);
     }
 }

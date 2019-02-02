@@ -51,6 +51,8 @@ class ControlPanel extends JPanel {
         setGrandPrixComboBox(gpStages);
 
         reloadButton.addActionListener(e -> guiController.onReloadButtonClicked());
+        grandPrixComboBox.addActionListener(e -> guiController.onGPIndexChanged(grandPrixComboBox.getSelectedIndex()));
+        grandPrixComboBox.setSelectedIndex(gpStages.length - 1);
 
         this.add(reloadButton);
         this.add(budgetLabel);

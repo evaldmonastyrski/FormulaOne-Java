@@ -1,10 +1,12 @@
 package gui;
 
 import controller.GuiController;
+import model.Driver;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
+import java.util.Set;
 
 class SimulationTab extends JPanel {
 
@@ -13,14 +15,18 @@ class SimulationTab extends JPanel {
 
     SimulationTab(@NotNull GuiController guiController) {
         super(new BorderLayout());
-        controlPanel = new ControlPanel(guiController);
         setupPanel = new SetupPanel();
+        controlPanel = new ControlPanel(guiController);
     }
 
     void init(@NotNull String[] gpStages) {
         this.add(controlPanel, BorderLayout.NORTH);
         this.add(setupPanel, BorderLayout.CENTER);
-        controlPanel.init(gpStages);
         setupPanel.init();
+        controlPanel.init(gpStages);
+    }
+
+    void setLabels(@NotNull Set<Driver> drivers) {
+        setupPanel.setLabels(drivers);
     }
 }
