@@ -4,6 +4,8 @@ import controller.deserializer.DataEntry;
 import model.Driver;
 import model.Team;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +14,8 @@ import java.util.Map;
 import java.util.Set;
 
 class DreamTeamComponentsCreator {
+
+    @NotNull private static final Logger LOGGER = LoggerFactory.getLogger(DreamTeamComponentsCreator.class);
 
     @NotNull private final List<DataEntry> data;
     @NotNull private final Map<String, List<Driver>> teamCache = new HashMap<>();
@@ -25,18 +29,8 @@ class DreamTeamComponentsCreator {
         this.teams = teams;
     }
 
-    @NotNull
-    Set<Driver> getDrivers() {
-        return drivers;
-    }
-
-    @NotNull
-    Set<Team> getTeams() {
-        return teams;
-    }
-
     void createDreamTeamComponents(int gpStage) {
-        drivers.clear();
+        clearCollections();
         for (DataEntry dataEntry : data) {
             Driver driver = new Driver(dataEntry, gpStage);
             cacheTeam(dataEntry.getTeam(), driver);
@@ -47,6 +41,14 @@ class DreamTeamComponentsCreator {
             List<Driver> drivers = teamCache.get(team);
             teams.add(new Team(team, drivers));
         }
+        LOGGER.info("Drivers: {}", drivers.size());
+        LOGGER.info("Teams: {}", teams.size());
+    }
+
+    private void clearCollections() {
+        drivers.clear();
+        teams.clear();
+        teamCache.clear();
     }
 
     private void cacheTeam(@NotNull String teamName, @NotNull Driver driver) {

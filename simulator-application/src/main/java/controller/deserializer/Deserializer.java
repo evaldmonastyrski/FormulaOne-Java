@@ -66,6 +66,10 @@ public class Deserializer {
         String[] dataChunks = entryLine.split("\\s+");
         String[] priceDataChunks = Arrays.copyOfRange(dataChunks, 4, dataChunks.length);
 
+        if (dataChunks[2].contains("_")) {
+            dataChunks[2] = dataChunks[2].replace("_", " ");
+        }
+
         double[] prices = Arrays.stream(priceDataChunks)
                 .mapToDouble(Double::parseDouble)
                 .toArray();

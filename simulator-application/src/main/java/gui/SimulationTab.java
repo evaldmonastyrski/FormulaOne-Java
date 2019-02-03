@@ -1,12 +1,11 @@
 package gui;
 
+import controller.DreamTeamComponents;
 import controller.GuiController;
-import model.Driver;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
-import java.util.Set;
 
 class SimulationTab extends JPanel {
 
@@ -26,7 +25,7 @@ class SimulationTab extends JPanel {
         controlPanel.init(gpStages);
     }
 
-    void setLabels(@NotNull Set<Driver> drivers) {
-        setupPanel.setLabels(drivers);
+    void setLabels(@NotNull DreamTeamComponents components) {
+        setupPanel.setLabels(components);
     }
 }

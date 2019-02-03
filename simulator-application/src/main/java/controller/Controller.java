@@ -38,7 +38,6 @@ class Controller {
         LOGGER.info("GP Index: {}", gpIndex);
         componentsCreator.createDreamTeamComponents(gpIndex);
         initializeLabels();
-        LOGGER.info("Drivers: {}", drivers.size());
     }
 
     private void initialize() {
@@ -46,6 +45,9 @@ class Controller {
     }
 
     private void initializeLabels() {
-        guiController.initializeLabels(drivers);
+        guiController.initializeLabels(ImmutableDreamTeamComponents.builder()
+                .drivers(drivers)
+                .teams(teams)
+                .build());
     }
 }

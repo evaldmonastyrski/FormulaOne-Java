@@ -1,6 +1,8 @@
 package gui;
 
+import controller.DreamTeamComponents;
 import model.Driver;
+import model.Team;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.BorderFactory;
@@ -26,7 +28,8 @@ class SetupPanel extends JPanel {
 
     @NotNull private final Border border = BorderFactory.createBevelBorder(BevelBorder.LOWERED);
     @NotNull private final GridBagConstraints constraints = new GridBagConstraints();
-    @NotNull private final Dimension nameLabelsDimension = new Dimension(120, 20);
+    @NotNull private final Dimension driverLabelsDimension = new Dimension(120, 20);
+    @NotNull private final Dimension corporateLabelsDimension = new Dimension(80, 20);
     @NotNull private final Dimension pointLabelsDimension = new Dimension(60, 20);
     @NotNull private final JLabel[] driverLabels = new JLabel[GuiConstants.NUMBER_OF_DRIVERS];
     @NotNull private final List<JComboBox<Integer>> driverQualificationPositions = new ArrayList<>();
@@ -69,13 +72,9 @@ class SetupPanel extends JPanel {
         initializeSimulationButtons(constraints);
     }
 
-    void setLabels(@NotNull Set<Driver> drivers) {
-        int i = 0;
-        for (Driver driver : drivers) {
-            driverLabels[i].setText(driver.toString());
-            driverLabels[i].setPreferredSize(nameLabelsDimension);
-            i++;
-        }
+    void setLabels(@NotNull DreamTeamComponents components) {
+        setDriverLabels(components.getDrivers());
+        setTeamLabels(components.getTeams());
     }
 
     private void initializeNameLabels(@NotNull GridBagConstraints constraints,
@@ -87,7 +86,7 @@ class SetupPanel extends JPanel {
             constraints.fill = GridBagConstraints.CENTER;
             constraints.gridx = columnNo;
             constraints.gridy = row;
-            nameLabels[i] = new JLabel("Component " + (i + 1), SwingConstants.LEFT);
+            nameLabels[i] = new JLabel("Engine " + (i + 1), SwingConstants.LEFT);
             this.add(nameLabels[i], constraints);
             row++;
         }
@@ -160,5 +159,23 @@ class SetupPanel extends JPanel {
         this.add(pointSortButton, constraints);
         constraints.gridx = 4;
         this.add(priceChangeSortButton, constraints);
+    }
+
+    private void setDriverLabels(@NotNull Set<Driver> drivers) {
+        int i = 0;
+        for (Driver driver : drivers) {
+            driverLabels[i].setText(driver.toString());
+            driverLabels[i].setPreferredSize(driverLabelsDimension);
+            i++;
+        }
+    }
+
+    private void setTeamLabels(@NotNull Set<Team> teams) {
+        int i = 0;
+        for (Team team : teams) {
+            teamLabels[i].setText(team.getName());
+            teamLabels[i].setPreferredSize(corporateLabelsDimension);
+            i++;
+        }
     }
 }

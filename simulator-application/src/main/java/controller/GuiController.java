@@ -1,12 +1,9 @@
 package controller;
 
 import gui.GuiMain;
-import model.Driver;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Set;
 
 public class GuiController {
 
@@ -35,7 +32,7 @@ public class GuiController {
         guiMain.runGui(gpStages);
     }
 
-    void initializeLabels(@NotNull Set<Driver> drivers) {
-        guiMain.initializeLabels(drivers);
+    void initializeLabels(@NotNull DreamTeamComponents components) {
+        guiMain.initializeLabels(components);
     }
 }
