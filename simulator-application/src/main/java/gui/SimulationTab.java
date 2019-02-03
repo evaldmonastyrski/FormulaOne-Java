@@ -1,6 +1,6 @@
 package gui;
 
-import controller.DreamTeamComponents;
+import model.DreamTeamComponents;
 import controller.GuiController;
 import org.jetbrains.annotations.NotNull;
 
@@ -9,12 +9,11 @@ import java.awt.BorderLayout;
 
 class SimulationTab extends JPanel {
 
+    @NotNull private final SetupPanel setupPanel = new SetupPanel();
     @NotNull private final ControlPanel controlPanel;
-    @NotNull private final SetupPanel setupPanel;
 
     SimulationTab(@NotNull GuiController guiController) {
         super(new BorderLayout());
-        setupPanel = new SetupPanel();
         controlPanel = new ControlPanel(guiController);
     }
 

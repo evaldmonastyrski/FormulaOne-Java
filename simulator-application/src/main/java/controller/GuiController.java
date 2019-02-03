@@ -1,6 +1,7 @@
 package controller;
 
 import gui.GuiMain;
+import model.DreamTeamComponents;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

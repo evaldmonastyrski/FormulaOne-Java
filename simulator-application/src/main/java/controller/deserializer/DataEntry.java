@@ -7,8 +7,12 @@ import org.jetbrains.annotations.NotNull;
 public interface DataEntry {
 
     @NotNull String getName();
+
     @NotNull String getSurname();
+
     @NotNull String getTeam();
+
     @NotNull String getEngine();
+
     @NotNull double[] getPrices();
 }

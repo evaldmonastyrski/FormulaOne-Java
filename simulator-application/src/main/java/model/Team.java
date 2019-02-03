@@ -8,7 +8,7 @@ import java.util.List;
 public class Team implements Comparable<Team> {
 
     @NotNull private final String name;
-    @NotNull private List<Driver> drivers;
+    @NotNull private final List<Driver> drivers;
 
     private final double price;
 
@@ -18,12 +18,13 @@ public class Team implements Comparable<Team> {
         this.price = derivePrice();
     }
 
-    private double derivePrice() {
-        double priceCache = 0;
-        for (Driver driver : drivers) {
-            priceCache += Constants.TEAM_COEFFICIENT * driver.getPrice();
-        }
-        return priceCache;
+    @NotNull
+    public String getName() {
+        return name;
+    }
+
+    public double getPrice() {
+        return price;
     }
 
     @Override
@@ -59,12 +60,11 @@ public class Team implements Comparable<Team> {
         return this.name;
     }
 
-    @NotNull
-    public String getName() {
-        return name;
-    }
-
-    public double getPrice() {
-        return price;
+    private double derivePrice() {
+        double priceCache = 0;
+        for (Driver driver : drivers) {
+            priceCache += Constants.TEAM_COEFFICIENT * driver.getPrice();
+        }
+        return priceCache;
     }
 }

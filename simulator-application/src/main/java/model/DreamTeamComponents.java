@@ -1,7 +1,5 @@
-package controller;
+package model;
 
-import model.Driver;
-import model.Team;
 import org.immutables.value.Value;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,5 +9,6 @@ import java.util.Set;
 public interface DreamTeamComponents {
 
     @NotNull Set<Driver> getDrivers();
+
     @NotNull Set<Team> getTeams();
 }

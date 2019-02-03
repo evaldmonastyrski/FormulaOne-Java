@@ -1,6 +1,6 @@
 package gui;
 
-import controller.DreamTeamComponents;
+import model.DreamTeamComponents;
 import model.Driver;
 import model.Team;
 import org.jetbrains.annotations.NotNull;
