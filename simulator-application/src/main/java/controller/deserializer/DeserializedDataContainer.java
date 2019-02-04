@@ -1,6 +1,5 @@
-package controller.componentscreator;
+package controller.deserializer;
 
-import controller.deserializer.DataEntry;
 import model.Driver;
 import model.Team;
 import org.jetbrains.annotations.NotNull;
@@ -14,20 +13,19 @@ import java.util.Set;
 
 import static com.google.common.collect.Lists.newArrayList;
 
-public class DreamTeamComponentsCreator {
+public class DeserializedDataContainer {
 
-    @NotNull private static final Logger LOGGER = LoggerFactory.getLogger(DreamTeamComponentsCreator.class);
+    @NotNull private static final Logger LOGGER = LoggerFactory.getLogger(DeserializedDataContainer.class);
 
+    @NotNull private final Deserializer deserializer = new Deserializer();
     @NotNull private final List<DataEntry> data;
     @NotNull private final Map<String, List<Driver>> teamCache = new HashMap<>();
 
     @NotNull private final Set<Driver> drivers;
     @NotNull private final Set<Team> teams;
 
-    public DreamTeamComponentsCreator(@NotNull List<DataEntry> data,
-                                      @NotNull Set<Driver> drivers,
-                                      @NotNull Set<Team> teams) {
-        this.data = data;
+    public DeserializedDataContainer(@NotNull Set<Driver> drivers, @NotNull Set<Team> teams) {
+        this.data = deserializer.getData();
         this.drivers = drivers;
         this.teams = teams;
     }
@@ -38,6 +36,11 @@ public class DreamTeamComponentsCreator {
         createTeams();
         LOGGER.debug("Drivers: {}", drivers.size());
         LOGGER.debug("Teams: {}", teams.size());
+    }
+
+    @NotNull
+    public String[] getGPStages() {
+        return deserializer.getGPStages();
     }
 
     private void clearCollections() {

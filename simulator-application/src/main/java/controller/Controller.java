@@ -1,7 +1,6 @@
 package controller;
 
-import controller.componentscreator.DreamTeamComponentsCreator;
-import controller.deserializer.Deserializer;
+import controller.deserializer.DeserializedDataContainer;
 import model.Driver;
 import model.ImmutableDreamTeamComponents;
 import model.Team;
@@ -17,17 +16,15 @@ class Controller {
     @NotNull private static final Logger LOGGER = LoggerFactory.getLogger(Controller.class);
 
     @NotNull private final GuiController guiController;
-    @NotNull private final Deserializer deserializer;
-    @NotNull private final DreamTeamComponentsCreator componentsCreator;
+    @NotNull private final DeserializedDataContainer componentsCreator;
 
     @NotNull private final Set<Driver> drivers = new TreeSet<>();
     @NotNull private final Set<Team> teams = new TreeSet<>();
 
     Controller() {
         guiController = new GuiController(this);
-        deserializer = new Deserializer();
-        componentsCreator = new DreamTeamComponentsCreator(deserializer.getData(), drivers, teams);
-        initialize();
+        componentsCreator = new DeserializedDataContainer(drivers, teams);
+        initializeGUI();
         initializeLabels();
     }
 
@@ -42,8 +39,8 @@ class Controller {
         initializeLabels();
     }
 
-    private void initialize() {
-        guiController.startGui(deserializer.getGPStages());
+    private void initializeGUI() {
+        guiController.startGui(componentsCreator.getGPStages());
     }
 
     private void initializeLabels() {

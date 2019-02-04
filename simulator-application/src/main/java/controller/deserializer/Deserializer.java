@@ -11,14 +11,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-public class Deserializer {
+class Deserializer {
 
     @NotNull private static final Logger LOGGER = LoggerFactory.getLogger(Deserializer.class);
     @NotNull private static final String FILE = "MarketData.txt";
     @NotNull private final List<DataEntry> data = new ArrayList<>();
     @NotNull private String[] gpStages = new String[0];
 
-    public Deserializer() {
+    Deserializer() {
         LOGGER.info("Reading Market Data...");
         try {
             File file = new File(FILE);
@@ -40,12 +40,12 @@ public class Deserializer {
     }
 
     @NotNull
-    public String[] getGPStages() {
+    String[] getGPStages() {
         return gpStages;
     }
 
     @NotNull
-    public List<DataEntry> getData() {
+    List<DataEntry> getData() {
         return data;
     }
 
