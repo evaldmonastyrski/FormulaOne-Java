@@ -1,8 +1,7 @@
 package gui;
 
+import gui.setuppanel.SetupLabelManager;
 import model.DreamTeamComponents;
-import model.Driver;
-import model.Team;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.BorderFactory;
@@ -19,25 +18,21 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-class SetupPanel extends JPanel {
+public class SetupPanel extends JPanel {
 
     private static final int COMPONENTS_START_ROW = 0;
     private static final int ENGINE_ROW_OFFSET = 13;
 
-    @NotNull private final Border border = BorderFactory.createBevelBorder(BevelBorder.LOWERED);
     @NotNull private final GridBagConstraints constraints = new GridBagConstraints();
-    @NotNull private final Dimension driverLabelsDimension = new Dimension(120, 20);
-    @NotNull private final Dimension corporateLabelsDimension = new Dimension(80, 20);
+    @NotNull private final SetupLabelManager setupLabelManager = new SetupLabelManager(this, constraints);
+
+    @NotNull private final Border border = BorderFactory.createBevelBorder(BevelBorder.LOWERED);
     @NotNull private final Dimension pointLabelsDimension = new Dimension(60, 20);
-    @NotNull private final JLabel[] driverLabels = new JLabel[GuiConstants.NUMBER_OF_DRIVERS];
     @NotNull private final List<JComboBox<Integer>> driverQualificationPositions = new ArrayList<>();
     @NotNull private final List<JComboBox<Integer>> driverRacePositions = new ArrayList<>();
     @NotNull private final JLabel[] driverPointsLabels = new JLabel[GuiConstants.NUMBER_OF_DRIVERS];
     @NotNull private final JLabel[] driverPriceChangeLabels = new JLabel[GuiConstants.NUMBER_OF_DRIVERS];
-    @NotNull private final JLabel[] teamLabels = new JLabel[GuiConstants.NUMBER_OF_TEAMS];
-    @NotNull private final JLabel[] engineLabels = new JLabel[GuiConstants.NUMBER_OF_ENGINES];
     @NotNull private final JLabel[] teamPointsLabels = new JLabel[GuiConstants.NUMBER_OF_TEAMS];
     @NotNull private final JLabel[] enginePointsLabels = new JLabel[GuiConstants.NUMBER_OF_ENGINES];
     @NotNull private final JLabel[] teamPriceChangeLabels = new JLabel[GuiConstants.NUMBER_OF_TEAMS];
@@ -58,13 +53,11 @@ class SetupPanel extends JPanel {
 
     void init() {
         constraints.weightx = 1;
-        initializeNameLabels(constraints, driverLabels, COMPONENTS_START_ROW, 0);
+        setupLabelManager.init(COMPONENTS_START_ROW, ENGINE_ROW_OFFSET);
         initializeComboBoxes(constraints, driverQualificationPositions, 1);
         initializeComboBoxes(constraints, driverRacePositions, 2);
         initializePointsLabels(constraints, driverPointsLabels, pointLabelsDimension, COMPONENTS_START_ROW, 3);
         initializePriceChangeLabels(constraints, driverPriceChangeLabels, COMPONENTS_START_ROW, 4);
-        initializeNameLabels(constraints, teamLabels, COMPONENTS_START_ROW, 5);
-        initializeNameLabels(constraints, engineLabels, ENGINE_ROW_OFFSET, 5);
         initializePointsLabels(constraints, teamPointsLabels, pointLabelsDimension, COMPONENTS_START_ROW, 6);
         initializePointsLabels(constraints, enginePointsLabels, pointLabelsDimension, ENGINE_ROW_OFFSET, 6);
         initializePriceChangeLabels(constraints, teamPriceChangeLabels, COMPONENTS_START_ROW, 7);
@@ -73,23 +66,8 @@ class SetupPanel extends JPanel {
     }
 
     void setLabels(@NotNull DreamTeamComponents components) {
-        setDriverLabels(components.getDrivers());
-        setTeamLabels(components.getTeams());
-    }
-
-    private void initializeNameLabels(@NotNull GridBagConstraints constraints,
-                                      JLabel[] nameLabels,
-                                      int rowNo,
-                                      int columnNo) {
-        int row = rowNo;
-        for (int i = 0; i < nameLabels.length; i++) {
-            constraints.fill = GridBagConstraints.CENTER;
-            constraints.gridx = columnNo;
-            constraints.gridy = row;
-            nameLabels[i] = new JLabel("Engine " + (i + 1), SwingConstants.LEFT);
-            this.add(nameLabels[i], constraints);
-            row++;
-        }
+        setupLabelManager.setDriverLabels(components.getDrivers());
+        setupLabelManager.setTeamLabels(components.getTeams());
     }
 
     private void initializeComboBoxes(@NotNull GridBagConstraints constraints,
@@ -159,23 +137,5 @@ class SetupPanel extends JPanel {
         this.add(pointSortButton, constraints);
         constraints.gridx = 4;
         this.add(priceChangeSortButton, constraints);
-    }
-
-    private void setDriverLabels(@NotNull Set<Driver> drivers) {
-        int i = 0;
-        for (Driver driver : drivers) {
-            driverLabels[i].setText(driver.toString());
-            driverLabels[i].setPreferredSize(driverLabelsDimension);
-            i++;
-        }
-    }
-
-    private void setTeamLabels(@NotNull Set<Team> teams) {
-        int i = 0;
-        for (Team team : teams) {
-            teamLabels[i].setText(team.getName());
-            teamLabels[i].setPreferredSize(corporateLabelsDimension);
-            i++;
-        }
     }
 }
