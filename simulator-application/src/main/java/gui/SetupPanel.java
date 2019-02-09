@@ -1,12 +1,12 @@
 package gui;
 
+import gui.setuppanel.SetupComboBoxManager;
 import gui.setuppanel.SetupLabelManager;
 import model.DreamTeamComponents;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -16,8 +16,6 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.ArrayList;
-import java.util.List;
 
 public class SetupPanel extends JPanel {
 
@@ -25,12 +23,11 @@ public class SetupPanel extends JPanel {
     private static final int ENGINE_ROW_OFFSET = 13;
 
     @NotNull private final GridBagConstraints constraints = new GridBagConstraints();
-    @NotNull private final SetupLabelManager setupLabelManager = new SetupLabelManager(this, constraints);
+    @NotNull private final SetupLabelManager labelManager = new SetupLabelManager(this, constraints);
+    @NotNull private final SetupComboBoxManager comboBoxManager = new SetupComboBoxManager(this, constraints);
 
     @NotNull private final Border border = BorderFactory.createBevelBorder(BevelBorder.LOWERED);
     @NotNull private final Dimension pointLabelsDimension = new Dimension(60, 20);
-    @NotNull private final List<JComboBox<Integer>> driverQualificationPositions = new ArrayList<>();
-    @NotNull private final List<JComboBox<Integer>> driverRacePositions = new ArrayList<>();
     @NotNull private final JLabel[] driverPointsLabels = new JLabel[GuiConstants.NUMBER_OF_DRIVERS];
     @NotNull private final JLabel[] driverPriceChangeLabels = new JLabel[GuiConstants.NUMBER_OF_DRIVERS];
     @NotNull private final JLabel[] teamPointsLabels = new JLabel[GuiConstants.NUMBER_OF_TEAMS];
@@ -45,17 +42,12 @@ public class SetupPanel extends JPanel {
 
     SetupPanel() {
         super(new GridBagLayout());
-        for (int i = 0; i < GuiConstants.NUMBER_OF_DRIVERS; i++) {
-            driverQualificationPositions.add(new JComboBox<>());
-            driverRacePositions.add(new JComboBox<>());
-        }
     }
 
     void init() {
         constraints.weightx = 1;
-        setupLabelManager.init(COMPONENTS_START_ROW, ENGINE_ROW_OFFSET);
-        initializeComboBoxes(constraints, driverQualificationPositions, 1);
-        initializeComboBoxes(constraints, driverRacePositions, 2);
+        labelManager.init(COMPONENTS_START_ROW, ENGINE_ROW_OFFSET);
+        comboBoxManager.init();
         initializePointsLabels(constraints, driverPointsLabels, pointLabelsDimension, COMPONENTS_START_ROW, 3);
         initializePriceChangeLabels(constraints, driverPriceChangeLabels, COMPONENTS_START_ROW, 4);
         initializePointsLabels(constraints, teamPointsLabels, pointLabelsDimension, COMPONENTS_START_ROW, 6);
@@ -66,26 +58,8 @@ public class SetupPanel extends JPanel {
     }
 
     void setLabels(@NotNull DreamTeamComponents components) {
-        setupLabelManager.setDriverLabels(components.getDrivers());
-        setupLabelManager.setTeamLabels(components.getTeams());
-    }
-
-    private void initializeComboBoxes(@NotNull GridBagConstraints constraints,
-                                      List<JComboBox<Integer>> driverPositions,
-                                      int columnNo) {
-        int rowNo = 0;
-        for (JComboBox<Integer> driverPosition : driverPositions) {
-            constraints.fill = GridBagConstraints.CENTER;
-            constraints.gridx = columnNo;
-            constraints.gridy = rowNo;
-            constraints.insets = new Insets(1, 0, 1, 0);
-            driverPosition.setMaximumRowCount(GuiConstants.NUMBER_OF_DRIVERS);
-            for (int j = 1; j < GuiConstants.NUMBER_OF_DRIVERS + 1; j++) {
-                driverPosition.addItem(j);
-            }
-            this.add(driverPosition, constraints);
-            rowNo++;
-        }
+        labelManager.setDriverLabels(components.getDrivers());
+        labelManager.setTeamLabels(components.getTeams());
     }
 
     private void initializePointsLabels(@NotNull GridBagConstraints constraints,
