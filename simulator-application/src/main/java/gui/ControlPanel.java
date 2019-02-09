@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
 import java.awt.FlowLayout;
 
 class ControlPanel extends JPanel {
@@ -38,11 +39,13 @@ class ControlPanel extends JPanel {
         pointsThresholdSpinner.setValue(80);
 
         grandPrixComboBox.setMaximumRowCount(gpStages.length);
-        setGrandPrixComboBox(gpStages);
+        SwingUtilities.invokeLater(() -> {
+            setGrandPrixComboBox(gpStages);
+            grandPrixComboBox.setSelectedIndex(gpStages.length - 1);
+        });
 
         reloadButton.addActionListener(e -> guiController.onReloadButtonClicked());
         grandPrixComboBox.addActionListener(e -> guiController.onGPIndexChanged(grandPrixComboBox.getSelectedIndex()));
-        grandPrixComboBox.setSelectedIndex(gpStages.length - 1);
 
         this.add(reloadButton);
         this.add(budgetLabel);

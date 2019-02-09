@@ -6,6 +6,8 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.swing.SwingUtilities;
+
 public class GuiController {
 
     @NotNull private static final Logger LOGGER = LoggerFactory.getLogger(GuiController.class);
@@ -26,6 +28,7 @@ public class GuiController {
 
     public void onGPIndexChanged(int gpIndex) {
         LOGGER.info("GP stage changed");
+        System.out.println(SwingUtilities.isEventDispatchThread());
         controller.onGPIndexChanged(gpIndex);
     }
 
