@@ -28,7 +28,6 @@ public class GuiController {
 
     public void onGPIndexChanged(int gpIndex) {
         LOGGER.info("GP stage changed");
-        System.out.println(SwingUtilities.isEventDispatchThread());
         controller.onGPIndexChanged(gpIndex);
     }
 
