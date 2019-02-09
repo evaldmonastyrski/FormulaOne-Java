@@ -54,6 +54,9 @@ public class SetupPanel extends JPanel {
         constraints.gridy = GuiConstants.NUMBER_OF_DRIVERS + 1;
         constraints.insets = new Insets(15, 0, 0, 0);
 
+        flushQButton.addActionListener(e -> comboBoxManager.flushQualificationComboBoxes());
+        flushRButton.addActionListener(e -> comboBoxManager.flushRaceComboBoxes());
+
         this.add(simulateButton, constraints);
         constraints.gridx = 1;
         this.add(flushQButton, constraints);

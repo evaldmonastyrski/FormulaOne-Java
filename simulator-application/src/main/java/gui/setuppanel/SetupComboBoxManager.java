@@ -43,6 +43,22 @@ public class SetupComboBoxManager {
         initializeComboBoxes(constraints, driverRacePositions,CompetitionType.RACE, 2);
     }
 
+    public void flushQualificationComboBoxes() {
+        for (JComboBox<Integer> cb : driverQualificationPositions) {
+            if (cb.getSelectedItem() != null) {
+                cb.setSelectedItem(null);
+            }
+        }
+    }
+
+    public void flushRaceComboBoxes() {
+        for (JComboBox<Integer> cb : driverRacePositions) {
+            if (cb.getSelectedItem() != null) {
+                cb.setSelectedItem(null);
+            }
+        }
+    }
+
     private void initializeComboBoxes(@NotNull GridBagConstraints constraints,
                                       List<JComboBox<Integer>> driverPositions,
                                       CompetitionType type,
