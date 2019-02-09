@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.JComboBox;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ public class SetupComboBoxManager {
     @NotNull private final List<JComboBox<Integer>> driverRacePositions = new ArrayList<>();
     @NotNull private final Integer @Nullable [] qualificationCache = new Integer[GuiConstants.NUMBER_OF_DRIVERS];
     @NotNull private final Integer @Nullable [] raceCache = new Integer[GuiConstants.NUMBER_OF_DRIVERS];
+    @NotNull private final Dimension comboBoxDimension = new Dimension(70, 27);
 
     @NotNull private final SetupPanel setupPanel;
     @NotNull private final GridBagConstraints constraints;
@@ -53,6 +55,7 @@ public class SetupComboBoxManager {
             constraints.gridy = rowNo;
             constraints.insets = new Insets(1, 0, 1, 0);
             driverPosition.setMaximumRowCount(GuiConstants.NUMBER_OF_DRIVERS);
+            driverPosition.setPreferredSize(comboBoxDimension);
             driverPosition.addItem(null);
             int awardedPlaces = type == CompetitionType.QUALIFICATION
                     ? GuiConstants.QUALIFICATION_AWARDED_PLACES

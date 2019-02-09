@@ -52,7 +52,9 @@ enum ComboBoxManagerUtil {
             Integer temp = cache[cacheIndex];
             cache[cacheIndex] = position;
             for (JComboBox<Integer> cb : positions) {
-                cb.addItem(temp);
+                if (!cb.equals(receivedCB)) {
+                    cb.addItem(temp);
+                }
             }
         }
     }
