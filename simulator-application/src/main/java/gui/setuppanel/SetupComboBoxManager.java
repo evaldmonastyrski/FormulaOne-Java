@@ -12,11 +12,6 @@ import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.List;
 
-import static gui.setuppanel.ComboBoxManagerUtil.newNumberSelected;
-import static gui.setuppanel.ComboBoxManagerUtil.numberReplaced;
-import static gui.setuppanel.ComboBoxManagerUtil.numberRemoved;
-
-@SuppressWarnings({"NullPointerException", "All"})
 public class SetupComboBoxManager {
 
     @NotNull private final List<JComboBox<Integer>> driverQualificationPositions = new ArrayList<>();
@@ -27,10 +22,13 @@ public class SetupComboBoxManager {
 
     @NotNull private final SetupPanel setupPanel;
     @NotNull private final GridBagConstraints constraints;
+    @NotNull private final ComboBoxUpdater comboBoxUpdater;
 
     public SetupComboBoxManager(@NotNull SetupPanel setupPanel, @NotNull GridBagConstraints constraints) {
         this.setupPanel = setupPanel;
         this.constraints = constraints;
+        this.comboBoxUpdater = new ComboBoxUpdater(setupPanel);
+
 
         for (int i = 0; i < GuiConstants.NUMBER_OF_DRIVERS; i++) {
             driverQualificationPositions.add(new JComboBox<>(new SortedComboBoxModel()));
@@ -61,7 +59,7 @@ public class SetupComboBoxManager {
 
     private void initializeComboBoxes(@NotNull GridBagConstraints constraints,
                                       List<JComboBox<Integer>> driverPositions,
-                                      CompetitionType type,
+                                      @NotNull CompetitionType type,
                                       int columnNo) {
         int rowNo = 0;
         for (JComboBox<Integer> driverPosition : driverPositions) {
@@ -86,17 +84,23 @@ public class SetupComboBoxManager {
         }
     }
 
-    private void updateComboBox(int cacheIndex, @NotNull JComboBox<Integer> receivedCB, CompetitionType type) {
+    private void updateComboBox(int cacheIndex, @NotNull JComboBox<Integer> receivedCB, @NotNull CompetitionType type) {
         @Nullable Integer position = (Integer) receivedCB.getSelectedItem();
 
         if (type == CompetitionType.QUALIFICATION) {
-            newNumberSelected(cacheIndex, receivedCB, position, qualificationCache, driverQualificationPositions);
-            numberReplaced(cacheIndex, receivedCB, position, qualificationCache, driverQualificationPositions);
-            numberRemoved(cacheIndex, receivedCB, position, qualificationCache, driverQualificationPositions);
+            comboBoxUpdater.newNumberSelected(cacheIndex, receivedCB, position, qualificationCache,
+                    driverQualificationPositions, CompetitionType.QUALIFICATION);
+            comboBoxUpdater.numberReplaced(cacheIndex, receivedCB, position, qualificationCache,
+                    driverQualificationPositions, CompetitionType.QUALIFICATION);
+            comboBoxUpdater.numberRemoved(cacheIndex, receivedCB, position, qualificationCache,
+                    driverQualificationPositions, CompetitionType.QUALIFICATION);
         } else {
-            newNumberSelected(cacheIndex, receivedCB, position, raceCache, driverRacePositions);
-            numberReplaced(cacheIndex, receivedCB, position, raceCache, driverRacePositions);
-            numberRemoved(cacheIndex, receivedCB, position, raceCache, driverRacePositions);
+            comboBoxUpdater.newNumberSelected(cacheIndex, receivedCB, position, raceCache,
+                    driverRacePositions, CompetitionType.RACE);
+            comboBoxUpdater.numberReplaced(cacheIndex, receivedCB, position, raceCache,
+                    driverRacePositions, CompetitionType.RACE);
+            comboBoxUpdater.numberRemoved(cacheIndex, receivedCB, position, raceCache,
+                    driverRacePositions, CompetitionType.RACE);
         }
     }
 }

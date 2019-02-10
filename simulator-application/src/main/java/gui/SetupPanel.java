@@ -1,11 +1,14 @@
 package gui;
 
+import controller.GuiController;
+import gui.setuppanel.CompetitionType;
 import gui.setuppanel.SetupComboBoxManager;
 import gui.setuppanel.SetupLabelManager;
 import gui.setuppanel.SetupPointManager;
 import gui.setuppanel.SetupPriceManager;
 import model.DreamTeamComponents;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -17,6 +20,8 @@ public class SetupPanel extends JPanel {
 
     private static final int COMPONENTS_START_ROW = 0;
     private static final int ENGINE_ROW_OFFSET = 13;
+
+    @NotNull private final GuiController guiController;
 
     @NotNull private final GridBagConstraints constraints = new GridBagConstraints();
     @NotNull private final SetupLabelManager labelManager = new SetupLabelManager(this, constraints);
@@ -30,8 +35,9 @@ public class SetupPanel extends JPanel {
     @NotNull private final JButton pointSortButton = new JButton("Point Sort");
     @NotNull private final JButton priceChangeSortButton = new JButton("Price Change Sort");
 
-    SetupPanel() {
+    SetupPanel(@NotNull GuiController guiController) {
         super(new GridBagLayout());
+        this.guiController = guiController;
     }
 
     void init() {
@@ -41,6 +47,14 @@ public class SetupPanel extends JPanel {
         pointManager.init(COMPONENTS_START_ROW, ENGINE_ROW_OFFSET);
         priceManager.init(COMPONENTS_START_ROW, ENGINE_ROW_OFFSET);
         initializeSimulationButtons(constraints);
+    }
+
+    public void updateDriver(int cacheIndex, @Nullable Integer position, @NotNull CompetitionType type) {
+        if (position != null) {
+            guiController.onComboBoxPositionChanged(cacheIndex, position, type);
+        } else {
+            guiController.onComboBoxPositionChanged(cacheIndex, 0, type);
+        }
     }
 
     void setLabels(@NotNull DreamTeamComponents components) {

@@ -9,11 +9,12 @@ import java.awt.BorderLayout;
 
 class SimulationTab extends JPanel {
 
-    @NotNull private final SetupPanel setupPanel = new SetupPanel();
+    @NotNull private final SetupPanel setupPanel;
     @NotNull private final ControlPanel controlPanel;
 
     SimulationTab(@NotNull GuiController guiController) {
         super(new BorderLayout());
+        setupPanel = new SetupPanel(guiController);
         controlPanel = new ControlPanel(guiController);
     }
 

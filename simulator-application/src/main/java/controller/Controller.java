@@ -1,6 +1,7 @@
 package controller;
 
 import controller.deserializer.DeserializedDataContainer;
+import gui.setuppanel.CompetitionType;
 import model.Driver;
 import model.ImmutableDreamTeamComponents;
 import model.Team;
@@ -8,6 +9,8 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -18,13 +21,19 @@ class Controller {
     @NotNull private final GuiController guiController;
     @NotNull private final DeserializedDataContainer componentsCreator;
 
-    @NotNull private final Set<Driver> drivers = new TreeSet<>();
-    @NotNull private final Set<Team> teams = new TreeSet<>();
+    @NotNull private final Set<Driver> driverSet = new TreeSet<>();
+    @NotNull private final Set<Team> teamSet = new TreeSet<>();
+
+    @NotNull private final List<Driver> drivers;
+    @NotNull private final List<Team> teams;
 
     Controller() {
         guiController = new GuiController(this);
-        componentsCreator = new DeserializedDataContainer(drivers, teams);
+        componentsCreator = new DeserializedDataContainer(driverSet, teamSet);
         initializeGUI();
+        LOGGER.info("Number of driverSet: {}", driverSet.size());
+        drivers = new ArrayList<>(driverSet);
+        teams = new ArrayList<>(teamSet);
         initializeLabels();
     }
 
@@ -39,14 +48,25 @@ class Controller {
         initializeLabels();
     }
 
+    void onComboBoxPositionChanged(int cacheIndex, int position, @NotNull CompetitionType type) {
+        Driver myDriver = drivers.get(cacheIndex);
+
+        if (type == CompetitionType.QUALIFICATION) {
+            myDriver.setQPosition(position);
+        } else {
+            myDriver.setRPosition(position);
+        }
+        LOGGER.info("{}'s {} position was changed to {}", myDriver.toString(), type, position);
+    }
+
     private void initializeGUI() {
         guiController.startGui(componentsCreator.getGPStages());
     }
 
     private void initializeLabels() {
         guiController.initializeLabels(ImmutableDreamTeamComponents.builder()
-                .drivers(drivers)
-                .teams(teams)
+                .drivers(driverSet)
+                .teams(teamSet)
                 .build());
     }
 }

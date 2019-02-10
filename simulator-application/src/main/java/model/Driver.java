@@ -10,6 +10,9 @@ public class Driver implements Comparable<Driver> {
 
     private final double price;
 
+    private int qPosition;
+    private int rPosition;
+
     public Driver(@NotNull DataEntry data, int gpStage) {
         this.name = data.getName();
         this.surname = data.getSurname();
@@ -18,6 +21,22 @@ public class Driver implements Comparable<Driver> {
 
     double getPrice() {
         return price;
+    }
+
+    int getQPosition() {
+        return qPosition;
+    }
+
+    public void setQPosition(int qPosition) {
+        this.qPosition = qPosition;
+    }
+
+    int getRPosition() {
+        return rPosition;
+    }
+
+    public void setRPosition(int rPosition) {
+        this.rPosition = rPosition;
     }
 
     @Override
