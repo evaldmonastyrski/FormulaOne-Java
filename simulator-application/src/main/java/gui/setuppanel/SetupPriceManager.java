@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 
@@ -38,8 +39,10 @@ public class SetupPriceManager {
     public void updatePriceChange(@NotNull ComponentsUpdate update) {
         driverPriceChangeLabels[update.getDriverIndex()]
                 .setText(String.valueOf(String.format("%.1f", update.getDriverPriceChange())));
+        colorLabel(driverPriceChangeLabels[update.getDriverIndex()], update.getDriverPriceChange());
         teamPriceChangeLabels[update.getTeamIndex()]
                 .setText(String.valueOf(String.format("%.2f", update.getTeamPriceChange())));
+        colorLabel(teamPriceChangeLabels[update.getTeamIndex()], update.getTeamPriceChange());
     }
 
     private void initializePriceChangeLabels(JLabel[] priceChangeLabels, int rowNo, int columnNo) {
@@ -51,8 +54,32 @@ public class SetupPriceManager {
             priceChangeLabels[i] = new JLabel("", SwingConstants.CENTER);
             priceChangeLabels[i].setBorder(border);
             priceChangeLabels[i].setPreferredSize(priceLabelsDimension);
+            priceChangeLabels[i].setOpaque(true);
             setupPanel.add(priceChangeLabels[i], constraints);
             row++;
+        }
+    }
+
+    @NotNull
+    private void colorLabel(@NotNull JLabel label, double priceChange) {
+        if (priceChange > 1.5d) {
+            label.setBackground(Colours.CHARTREUSE);
+            label.setForeground(Color.BLACK);
+        } else if (priceChange > 0.5F) {
+            label.setBackground(Colours.SPRING_GREEN);
+            label.setForeground(Color.BLACK);
+        } else if (priceChange >= 0F) {
+            label.setBackground(Colours.PALE_GREEN);
+            label.setForeground(Color.BLACK);
+        } else if (priceChange > -0.5F) {
+            label.setBackground(Colours.YELLOW);
+            label.setForeground(Color.BLACK);
+        } else if (priceChange > -1F) {
+            label.setBackground(Colours.RED);
+            label.setForeground(Color.WHITE);
+        } else {
+            label.setBackground(Colours.FIRE_BRICK);
+            label.setForeground(Color.WHITE);
         }
     }
 }
