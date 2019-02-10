@@ -2,8 +2,15 @@ package model;
 
 import controller.deserializer.DataEntry;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import static model.PositionToPointsMap.mapQPosition;
+import static model.PositionToPointsMap.mapRPosition;
 
 public class Driver implements Comparable<Driver> {
+
+    @NotNull private static final Logger LOGGER = LoggerFactory.getLogger(Driver.class);
 
     @NotNull private final String name;
     @NotNull private final String surname;
@@ -12,6 +19,7 @@ public class Driver implements Comparable<Driver> {
 
     private int qPosition;
     private int rPosition;
+    private int points;
 
     public Driver(@NotNull DataEntry data, int gpStage) {
         this.name = data.getName();
@@ -29,6 +37,8 @@ public class Driver implements Comparable<Driver> {
 
     public void setQPosition(int qPosition) {
         this.qPosition = qPosition;
+        this.points = mapQPosition(this.qPosition) + mapRPosition(this.rPosition);
+        LOGGER.info("{} {} earned {}", name, surname, points);
     }
 
     int getRPosition() {
@@ -37,6 +47,8 @@ public class Driver implements Comparable<Driver> {
 
     public void setRPosition(int rPosition) {
         this.rPosition = rPosition;
+        this.points = mapQPosition(this.qPosition) + mapRPosition(this.rPosition);
+        LOGGER.info("{} {} earned {}", name, surname, points);
     }
 
     @Override

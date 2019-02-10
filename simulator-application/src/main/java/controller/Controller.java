@@ -51,12 +51,12 @@ class Controller {
     void onComboBoxPositionChanged(int cacheIndex, int position, @NotNull CompetitionType type) {
         Driver myDriver = drivers.get(cacheIndex);
 
+        LOGGER.info("{}'s {} position was changed to {}", myDriver.toString(), type, position);
         if (type == CompetitionType.QUALIFICATION) {
             myDriver.setQPosition(position);
         } else {
             myDriver.setRPosition(position);
         }
-        LOGGER.info("{}'s {} position was changed to {}", myDriver.toString(), type, position);
     }
 
     private void initializeGUI() {
