@@ -23,11 +23,15 @@ public class DeserializedDataContainer {
 
     @NotNull private final Set<Driver> drivers;
     @NotNull private final Set<Team> teams;
+    @NotNull private final Map<String, Team> teamMap;
 
-    public DeserializedDataContainer(@NotNull Set<Driver> drivers, @NotNull Set<Team> teams) {
+    public DeserializedDataContainer(@NotNull Set<Driver> drivers,
+                                     @NotNull Set<Team> teams,
+                                     @NotNull Map<String, Team> teamMap) {
         this.data = deserializer.getData();
         this.drivers = drivers;
         this.teams = teams;
+        this.teamMap = teamMap;
     }
 
     public void createDreamTeamComponents(int gpStage) {
@@ -60,7 +64,9 @@ public class DeserializedDataContainer {
     private void createTeams() {
         for (String team : teamCache.keySet()) {
             List<Driver> drivers = teamCache.get(team);
-            teams.add(new Team(team, drivers));
+            Team newTeam = new Team(team, drivers);
+            teams.add(newTeam);
+            teamMap.put(team, newTeam);
         }
     }
 

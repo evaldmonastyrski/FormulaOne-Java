@@ -1,6 +1,7 @@
 package gui;
 
 import com.apple.eawt.Application;
+import model.ComponentsUpdate;
 import model.DreamTeamComponents;
 import controller.GuiController;
 import org.jetbrains.annotations.NotNull;
@@ -54,6 +55,10 @@ public class GuiMain {
 
     public void flushComboBoxes() {
         simulationTab.flushComboBoxes();
+    }
+
+    public void updateGUILabels(@NotNull ComponentsUpdate componentsUpdate) {
+        simulationTab.updateGUILabels(componentsUpdate);
     }
 
     public void closeGui() {

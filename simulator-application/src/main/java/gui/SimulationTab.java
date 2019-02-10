@@ -1,5 +1,6 @@
 package gui;
 
+import model.ComponentsUpdate;
 import model.DreamTeamComponents;
 import controller.GuiController;
 import org.jetbrains.annotations.NotNull;
@@ -31,5 +32,9 @@ class SimulationTab extends JPanel {
 
     void flushComboBoxes() {
         setupPanel.flushComboBoxes();
+    }
+
+    void updateGUILabels(@NotNull ComponentsUpdate componentsUpdate) {
+        setupPanel.updateGUILabels(componentsUpdate);
     }
 }

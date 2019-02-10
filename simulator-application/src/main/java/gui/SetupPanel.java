@@ -6,6 +6,7 @@ import gui.setuppanel.SetupComboBoxManager;
 import gui.setuppanel.SetupLabelManager;
 import gui.setuppanel.SetupPointManager;
 import gui.setuppanel.SetupPriceManager;
+import model.ComponentsUpdate;
 import model.DreamTeamComponents;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -65,6 +66,11 @@ public class SetupPanel extends JPanel {
     void flushComboBoxes() {
         comboBoxManager.flushQualificationComboBoxes();
         comboBoxManager.flushRaceComboBoxes();
+    }
+
+    void updateGUILabels(@NotNull ComponentsUpdate componentsUpdate) {
+        pointManager.updatePoints(componentsUpdate);
+        priceManager.updatePriceChange(componentsUpdate);
     }
 
     private void initializeSimulationButtons(@NotNull GridBagConstraints constraints) {
