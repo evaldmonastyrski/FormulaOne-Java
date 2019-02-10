@@ -24,8 +24,8 @@ class Controller {
     @NotNull private final Set<Driver> driverSet = new TreeSet<>();
     @NotNull private final Set<Team> teamSet = new TreeSet<>();
 
-    @NotNull private final List<Driver> drivers;
-    @NotNull private final List<Team> teams;
+    @NotNull private List<Driver> drivers;
+    @NotNull private List<Team> teams;
 
     Controller() {
         guiController = new GuiController(this);
@@ -46,6 +46,8 @@ class Controller {
         LOGGER.info("GP Index: {}", gpIndex);
         componentsCreator.createDreamTeamComponents(gpIndex);
         initializeLabels();
+        drivers = new ArrayList<>(driverSet);
+        teams = new ArrayList<>(teamSet);
     }
 
     void onComboBoxPositionChanged(int cacheIndex, int position, @NotNull CompetitionType type) {
