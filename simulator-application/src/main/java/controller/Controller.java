@@ -32,9 +32,9 @@ class Controller {
         componentsCreator = new DeserializedDataContainer(driverSet, teamSet);
         initializeGUI();
         LOGGER.info("Number of driverSet: {}", driverSet.size());
+        initializeLabels();
         drivers = new ArrayList<>(driverSet);
         teams = new ArrayList<>(teamSet);
-        initializeLabels();
     }
 
     void onReloadButtonClicked() {
