@@ -35,6 +35,10 @@ public class GuiController {
         controller.onComboBoxPositionChanged(cacheIndex, position, type);
     }
 
+    void updateGUILabels() {
+        LOGGER.info("Signal will be sent to update labels");
+    }
+
     void startGui(@NotNull String[] gpStages) {
         guiMain.runGui(gpStages);
     }

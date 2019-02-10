@@ -17,8 +17,8 @@ public class Driver implements Comparable<Driver> {
 
     private final double price;
 
-    private int qPosition;
-    private int rPosition;
+    private int qPosition = 0;
+    private int rPosition = 0;
     private int points;
     private double priceChange;
 
@@ -26,6 +26,7 @@ public class Driver implements Comparable<Driver> {
         this.name = data.getName();
         this.surname = data.getSurname();
         price = data.getPrices()[gpStage];
+        updateDriverFields("{} {} earned {} and {}$");
     }
 
     double getPrice() {

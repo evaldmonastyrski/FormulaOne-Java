@@ -59,6 +59,7 @@ class Controller {
         } else {
             myDriver.setRPosition(position);
         }
+        guiController.updateGUILabels();
     }
 
     private void initializeGUI() {
