@@ -62,6 +62,11 @@ public class SetupPanel extends JPanel {
         labelManager.setTeamLabels(components.getTeams());
     }
 
+    void flushComboBoxes() {
+        comboBoxManager.flushQualificationComboBoxes();
+        comboBoxManager.flushRaceComboBoxes();
+    }
+
     private void initializeSimulationButtons(@NotNull GridBagConstraints constraints) {
         constraints.fill = GridBagConstraints.CENTER;
         constraints.gridx = 0;

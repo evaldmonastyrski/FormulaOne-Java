@@ -28,6 +28,7 @@ public class GuiController {
     public void onGPIndexChanged(int gpIndex) {
         LOGGER.info("GP stage changed");
         controller.onGPIndexChanged(gpIndex);
+        guiMain.flushComboBoxes();
     }
 
     public void onComboBoxPositionChanged(int cacheIndex, int position, @NotNull CompetitionType type) {

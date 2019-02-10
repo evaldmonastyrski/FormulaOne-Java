@@ -28,4 +28,8 @@ class SimulationTab extends JPanel {
     void setLabels(@NotNull DreamTeamComponents components) {
         setupPanel.setLabels(components);
     }
+
+    void flushComboBoxes() {
+        setupPanel.flushComboBoxes();
+    }
 }

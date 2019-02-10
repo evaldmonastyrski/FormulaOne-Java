@@ -52,6 +52,10 @@ public class GuiMain {
         simulationTab.setLabels(components);
     }
 
+    public void flushComboBoxes() {
+        simulationTab.flushComboBoxes();
+    }
+
     public void closeGui() {
         mainFrame.setVisible(false);
     }
