@@ -20,6 +20,7 @@ public class Driver implements Comparable<Driver> {
     private int qPosition;
     private int rPosition;
     private int points;
+    private double priceChange;
 
     public Driver(@NotNull DataEntry data, int gpStage) {
         this.name = data.getName();
@@ -37,8 +38,7 @@ public class Driver implements Comparable<Driver> {
 
     public void setQPosition(int qPosition) {
         this.qPosition = qPosition;
-        this.points = mapQPosition(this.qPosition) + mapRPosition(this.rPosition);
-        LOGGER.info("{} {} earned {}", name, surname, points);
+        updateDriverFields("{} {} earned {} points and {}$");
     }
 
     int getRPosition() {
@@ -47,8 +47,15 @@ public class Driver implements Comparable<Driver> {
 
     public void setRPosition(int rPosition) {
         this.rPosition = rPosition;
+        updateDriverFields("{} {} earned {} and {}$");
+    }
+
+    private void updateDriverFields(@NotNull String s) {
         this.points = mapQPosition(this.qPosition) + mapRPosition(this.rPosition);
-        LOGGER.info("{} {} earned {}", name, surname, points);
+        double newPrice = Constants.PRICING_PRICE_COEFFICIENT * price + Constants.PRICING_POINTS_COEFFICIENT * points;
+        newPrice = (newPrice >= 0.5d) ? newPrice : 0.5d;
+        priceChange = newPrice - price;
+        LOGGER.info(s, name, surname, points, priceChange);
     }
 
     @Override
