@@ -4,9 +4,15 @@ import org.immutables.value.Value;
 import org.jetbrains.annotations.NotNull;
 
 @Value.Immutable
-public interface BaseDriver {
+public interface DataEntry {
 
     @NotNull String getName();
+
     @NotNull String getSurname();
+
+    @NotNull String getTeam();
+
+    @NotNull String getEngine();
+
     @NotNull double[] getPrices();
 }

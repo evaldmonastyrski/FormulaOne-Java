@@ -8,21 +8,17 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
-public class Deserializer {
+class Deserializer {
 
     @NotNull private static final Logger LOGGER = LoggerFactory.getLogger(Deserializer.class);
     @NotNull private static final String FILE = "MarketData.txt";
-    @NotNull private final List<BaseDriver> drivers = new ArrayList<>();
-    @NotNull private final List<BaseTeam> teams = new ArrayList<>();
-    @NotNull private final Map<String, List<BaseDriver>> teamCache = new HashMap<>();
+    @NotNull private final List<DataEntry> data = new ArrayList<>();
     @NotNull private String[] gpStages = new String[0];
 
-    public Deserializer() {
+    Deserializer() {
         LOGGER.info("Reading Market Data...");
         try {
             File file = new File(FILE);
@@ -30,14 +26,12 @@ public class Deserializer {
             gpStages = extractGPStages(scanner.nextLine());
 
             while (scanner.hasNextLine()) {
-                createDriver(scanner.nextLine());
+                createDataEntries(scanner.nextLine());
             }
-            createTeams();
 
             LOGGER.info("Parsing {} is completed", FILE);
             LOGGER.info("Number of GP Stages: {}", gpStages.length);
-            LOGGER.info("Number of drivers: {}", drivers.size());
-            LOGGER.info("Number of teams: {}", teams.size());
+            LOGGER.info("Number of data entries: {}", data.size());
 
             scanner.close();
         } catch (FileNotFoundException e) {
@@ -46,18 +40,13 @@ public class Deserializer {
     }
 
     @NotNull
-    public String[] getGPStages() {
+    String[] getGPStages() {
         return gpStages;
     }
 
     @NotNull
-    public List<BaseDriver> getDrivers() {
-        return drivers;
-    }
-
-    @NotNull
-    public List<BaseTeam> getTeams() {
-        return teams;
+    List<DataEntry> getData() {
+        return data;
     }
 
     @NotNull
@@ -73,41 +62,26 @@ public class Deserializer {
         return gpStageEntries;
     }
 
-    private void createDriver(String entryLine) {
-        String[] driverData = entryLine.split("\\s+");
-        String[] driverPriceStrings = Arrays.copyOfRange(driverData, 4, driverData.length);
+    private void createDataEntries(@NotNull String entryLine) {
+        String[] dataChunks = entryLine.split("\\s+");
+        String[] priceDataChunks = Arrays.copyOfRange(dataChunks, 4, dataChunks.length);
 
-        double[] driverPrices = Arrays.stream(driverPriceStrings)
+        if (dataChunks[2].contains("_")) {
+            dataChunks[2] = dataChunks[2].replace("_", " ");
+        }
+
+        double[] prices = Arrays.stream(priceDataChunks)
                 .mapToDouble(Double::parseDouble)
                 .toArray();
 
-        BaseDriver driver = ImmutableBaseDriver.builder()
-                .name(driverData[0])
-                .surname(driverData[1])
-                .prices(driverPrices)
+        DataEntry dataEntry = ImmutableDataEntry.builder()
+                .name(dataChunks[0])
+                .surname(dataChunks[1])
+                .team(dataChunks[2])
+                .engine(dataChunks[3])
+                .prices(prices)
                 .build();
 
-        cacheTeam(driverData[2], driver);
-        drivers.add(driver);
-    }
-
-    private void createTeams() {
-        for (String team : teamCache.keySet()) {
-            List<BaseDriver> drivers = teamCache.get(team);
-            teams.add(ImmutableBaseTeam.builder()
-                    .name(team)
-                    .addAllDrivers(drivers)
-                    .build());
-        }
-    }
-
-    private void cacheTeam(@NotNull String driverDatum, @NotNull BaseDriver driver) {
-        if (teamCache.containsKey(driverDatum)) {
-            teamCache.get(driverDatum).add(driver);
-        } else {
-            List<BaseDriver> newList = new ArrayList<>();
-            newList.add(driver);
-            teamCache.put(driverDatum, newList);
-        }
+        this.data.add(dataEntry);
     }
 }

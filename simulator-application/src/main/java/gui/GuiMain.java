@@ -1,6 +1,7 @@
 package gui;
 
 import com.apple.eawt.Application;
+import model.DreamTeamComponents;
 import controller.GuiController;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -19,17 +20,14 @@ public class GuiMain {
     private static final int WINDOW_HEIGHT = 740;
 
     @NotNull private final GuiController guiController;
-    @NotNull private final JFrame mainFrame;
-    @NotNull private final JTabbedPane tabbedPane;
+    @NotNull private final JFrame mainFrame = new JFrame("Formula 1");
+    @NotNull private final JTabbedPane tabbedPane = new JTabbedPane();
     @NotNull private final SimulationTab simulationTab;
-    @NotNull private final ImageIcon icon;
+    @NotNull private final ImageIcon icon = new ImageIcon("logo.png");
 
     public GuiMain(@NotNull GuiController guiController) {
-        this.guiController = guiController;
-        icon = new ImageIcon("logo.png");
-        mainFrame = new JFrame("Formula 1");
-        tabbedPane = new JTabbedPane();
         simulationTab = new SimulationTab(guiController);
+        this.guiController = guiController;
     }
 
     public void runGui(@NotNull String[] gpStages) {
@@ -48,6 +46,14 @@ public class GuiMain {
         simulationTab.init(gpStages);
         LOGGER.info("GUI has started, {} is received", guiController);
         mainFrame.setVisible(true);
+    }
+
+    public void initializeLabels(@NotNull DreamTeamComponents components) {
+        simulationTab.setLabels(components);
+    }
+
+    public void flushComboBoxes() {
+        simulationTab.flushComboBoxes();
     }
 
     public void closeGui() {

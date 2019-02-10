@@ -10,47 +10,42 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
 import java.awt.FlowLayout;
 
 class ControlPanel extends JPanel {
 
     @NotNull private final GuiController guiController;
-    @NotNull private final JButton reloadButton;
-    @NotNull private final JLabel budgetLabel;
-    @NotNull private final JSpinner budgetSpinner;
-    @NotNull private final JLabel grandPrixLabel;
-    @NotNull private final JComboBox<String> grandPrixComboBox;
-    @NotNull private final JLabel pointsThresholdSpinnerLabel;
-    @NotNull private final JSpinner pointsThresholdSpinner;
-    @NotNull private final JCheckBox pointsThresholdCheckBox;
-    @NotNull private final JCheckBox raceSetupCheckBox;
+
+    @NotNull private final JButton reloadButton = new JButton("Reload");
+    @NotNull private final JLabel budgetLabel = new JLabel("Budget");
+    @NotNull private final SpinnerNumberModel budgetSpinnerModel = new SpinnerNumberModel(30.0, 0.0, 100.0, 0.1);
+    @NotNull private final JSpinner budgetSpinner = new JSpinner(budgetSpinnerModel);
+    @NotNull private final JLabel grandPrixLabel = new JLabel("Grand Prix");
+    @NotNull private final JComboBox<String> grandPrixComboBox = new JComboBox<>();
+    @NotNull private final JLabel pointsThresholdSpinnerLabel = new JLabel("Points Threshold");
+    @NotNull private final SpinnerNumberModel pointsThresholdSpinnerModel = new SpinnerNumberModel(80, 0, 100, 1);
+    @NotNull private final JSpinner pointsThresholdSpinner = new JSpinner(pointsThresholdSpinnerModel);
+    @NotNull private final JCheckBox pointsThresholdCheckBox = new JCheckBox("Points Threshold", true);
+    @NotNull private final JCheckBox raceSetupCheckBox = new JCheckBox("Race Setup");
 
     ControlPanel(@NotNull GuiController guiController) {
         super(new FlowLayout());
 
         this.guiController = guiController;
-
-        SpinnerNumberModel budgetSpinnerModel = new SpinnerNumberModel(30.0, 0.0, 100.0, 0.1);
-        SpinnerNumberModel pointsThresholdSpinnerModel = new SpinnerNumberModel(80, 0, 100, 1);
-
-        reloadButton = new JButton("Reload");
-        budgetLabel = new JLabel("Budget");
-        budgetSpinner = new JSpinner(budgetSpinnerModel);
-        grandPrixLabel = new JLabel("Grand Prix");
-        grandPrixComboBox = new JComboBox<>();
-        pointsThresholdSpinnerLabel = new JLabel("Points Threshold");
-        pointsThresholdSpinner = new JSpinner(pointsThresholdSpinnerModel);
-        pointsThresholdCheckBox = new JCheckBox("Points Threshold", true);
-        raceSetupCheckBox = new JCheckBox("Race Setup");
     }
 
     void init(@NotNull String[] gpStages) {
         pointsThresholdSpinner.setValue(80);
 
         grandPrixComboBox.setMaximumRowCount(gpStages.length);
-        setGrandPrixComboBox(gpStages);
+        SwingUtilities.invokeLater(() -> {
+            setGrandPrixComboBox(gpStages);
+            grandPrixComboBox.setSelectedIndex(gpStages.length - 1);
+        });
 
         reloadButton.addActionListener(e -> guiController.onReloadButtonClicked());
+        grandPrixComboBox.addActionListener(e -> guiController.onGPIndexChanged(grandPrixComboBox.getSelectedIndex()));
 
         this.add(reloadButton);
         this.add(budgetLabel);
