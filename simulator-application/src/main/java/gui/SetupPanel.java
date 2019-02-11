@@ -34,7 +34,7 @@ public class SetupPanel extends JPanel {
     @NotNull private final JButton flushQButton = new JButton("Flush Q");
     @NotNull private final JButton flushRButton = new JButton("Flush R");
     @NotNull private final JButton pointSortButton = new JButton("Point Sort");
-    @NotNull private final JButton priceChangeSortButton = new JButton("Price Change Sort");
+    @NotNull private final JButton priceChangeSortButton = new JButton("Price Sort");
 
     SetupPanel(@NotNull GuiController guiController) {
         super(new GridBagLayout());

@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 
@@ -19,7 +20,7 @@ public class SetupPointManager {
     @NotNull private final JLabel[] teamPointsLabels = new JLabel[GuiConstants.NUMBER_OF_TEAMS];
     @NotNull private final JLabel[] enginePointsLabels = new JLabel[GuiConstants.NUMBER_OF_ENGINES];
     @NotNull private final Border border = BorderFactory.createBevelBorder(BevelBorder.LOWERED);
-    @NotNull private final Dimension pointLabelsDimension = new Dimension(60, 20);
+    @NotNull private final Dimension pointLabelsDimension = new Dimension(80, 24);
 
     @NotNull private final SetupPanel setupPanel;
     @NotNull private final GridBagConstraints constraints;
@@ -48,6 +49,9 @@ public class SetupPointManager {
             constraints.gridy = row;
             pointsLabels[i] = new JLabel("", SwingConstants.CENTER);
             pointsLabels[i].setBorder(border);
+            pointsLabels[i].setOpaque(true);
+            pointsLabels[i].setBackground(Color.WHITE);
+            pointsLabels[i].setFont(pointsLabels[i].getFont().deriveFont(13f));
             pointsLabels[i].setPreferredSize(pointLabelsDimension);
             setupPanel.add(pointsLabels[i], constraints);
             row++;
