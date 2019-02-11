@@ -12,19 +12,49 @@ public class Team implements Comparable<Team> {
 
     private final double price;
 
+    private double points;
+    private double priceChange;
+
     public Team(@NotNull String name, @NotNull List<Driver> drivers) {
         this.name = name;
         this.drivers = drivers;
         this.price = derivePrice();
+        updateTeamFields();
     }
 
-    @NotNull
-    public String getName() {
+    public double getPoints() {
+        return points;
+    }
+
+    public double getPriceChange() {
+        return priceChange;
+    }
+
+    @NotNull public String getName() {
         return name;
     }
 
-    public double getPrice() {
-        return price;
+    public void updateTeam() {
+        updateTeamFields();
+    }
+
+    private void updateTeamFields() {
+        int tempPoints = 0;
+        double tempPriceChange = 0;
+        for (Driver driver : drivers) {
+            tempPoints += driver.getPoints();
+            tempPriceChange += driver.getPriceChange();
+        }
+        points = Constants.TEAM_COEFFICIENT * tempPoints;
+        priceChange = Constants.TEAM_COEFFICIENT * tempPriceChange;
+    }
+
+    private double derivePrice() {
+        double priceCache = 0;
+        for (Driver driver : drivers) {
+            priceCache += Constants.TEAM_COEFFICIENT * driver.getPrice();
+        }
+        return priceCache;
     }
 
     @Override
@@ -58,13 +88,5 @@ public class Team implements Comparable<Team> {
     @Override
     public String toString() {
         return this.name;
-    }
-
-    private double derivePrice() {
-        double priceCache = 0;
-        for (Driver driver : drivers) {
-            priceCache += Constants.TEAM_COEFFICIENT * driver.getPrice();
-        }
-        return priceCache;
     }
 }

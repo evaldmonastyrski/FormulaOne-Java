@@ -2,6 +2,7 @@ package gui.setuppanel;
 
 import gui.GuiConstants;
 import gui.SetupPanel;
+import model.ComponentsUpdate;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.BorderFactory;
@@ -29,24 +30,25 @@ public class SetupPointManager {
     }
 
     public void init(int startRow, int engineRowOffset) {
-        initializePointsLabels(constraints, driverPointsLabels, pointLabelsDimension, startRow, 3);
-        initializePointsLabels(constraints, teamPointsLabels, pointLabelsDimension, startRow, 6);
-        initializePointsLabels(constraints, enginePointsLabels, pointLabelsDimension, engineRowOffset, 6);
+        initializePointsLabels(driverPointsLabels, startRow, 3);
+        initializePointsLabels(teamPointsLabels, startRow, 6);
+        initializePointsLabels(enginePointsLabels, engineRowOffset, 6);
     }
 
-    private void initializePointsLabels(@NotNull GridBagConstraints constraints,
-                                        @NotNull JLabel[] pointsLabels,
-                                        @NotNull Dimension dimension,
-                                        int rowNo,
-                                        int columnNo) {
+    public void updatePoints(@NotNull ComponentsUpdate update) {
+        driverPointsLabels[update.getDriverIndex()].setText(String.valueOf(Math.round(update.getDriverPoints())));
+        teamPointsLabels[update.getTeamIndex()].setText(String.valueOf(String.format("%.1f", update.getTeamPoints())));
+    }
+
+    private void initializePointsLabels(@NotNull JLabel[] pointsLabels, int rowNo, int columnNo) {
         int row = rowNo;
         for (int i = 0; i < pointsLabels.length; i++) {
             constraints.fill = GridBagConstraints.CENTER;
             constraints.gridx = columnNo;
             constraints.gridy = row;
-            pointsLabels[i] = new JLabel("0", SwingConstants.CENTER);
+            pointsLabels[i] = new JLabel("", SwingConstants.CENTER);
             pointsLabels[i].setBorder(border);
-            pointsLabels[i].setPreferredSize(dimension);
+            pointsLabels[i].setPreferredSize(pointLabelsDimension);
             setupPanel.add(pointsLabels[i], constraints);
             row++;
         }

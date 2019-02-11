@@ -2,6 +2,7 @@ package controller;
 
 import gui.GuiMain;
 import gui.setuppanel.CompetitionType;
+import model.ComponentsUpdate;
 import model.DreamTeamComponents;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -33,6 +34,10 @@ public class GuiController {
 
     public void onComboBoxPositionChanged(int cacheIndex, int position, @NotNull CompetitionType type) {
         controller.onComboBoxPositionChanged(cacheIndex, position, type);
+    }
+
+    void updateGUILabels(@NotNull ComponentsUpdate componentsUpdate) {
+        guiMain.updateGUILabels(componentsUpdate);
     }
 
     void startGui(@NotNull String[] gpStages) {
