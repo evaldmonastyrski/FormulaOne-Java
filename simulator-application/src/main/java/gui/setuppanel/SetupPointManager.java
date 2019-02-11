@@ -1,6 +1,6 @@
 package gui.setuppanel;
 
-import gui.GuiConstants;
+import controller.Constants;
 import gui.SetupPanel;
 import model.ComponentsUpdate;
 import org.jetbrains.annotations.NotNull;
@@ -16,9 +16,9 @@ import java.awt.GridBagConstraints;
 
 public class SetupPointManager {
 
-    @NotNull private final JLabel[] driverPointsLabels = new JLabel[GuiConstants.NUMBER_OF_DRIVERS];
-    @NotNull private final JLabel[] teamPointsLabels = new JLabel[GuiConstants.NUMBER_OF_TEAMS];
-    @NotNull private final JLabel[] enginePointsLabels = new JLabel[GuiConstants.NUMBER_OF_ENGINES];
+    @NotNull private final JLabel[] driverPointsLabels = new JLabel[Constants.NUMBER_OF_DRIVERS];
+    @NotNull private final JLabel[] teamPointsLabels = new JLabel[Constants.NUMBER_OF_TEAMS];
+    @NotNull private final JLabel[] enginePointsLabels = new JLabel[Constants.NUMBER_OF_ENGINES];
     @NotNull private final Border border = BorderFactory.createBevelBorder(BevelBorder.LOWERED);
     @NotNull private final Dimension pointLabelsDimension = new Dimension(80, 24);
 

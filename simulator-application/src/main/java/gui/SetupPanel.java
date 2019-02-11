@@ -1,5 +1,6 @@
 package gui;
 
+import controller.Constants;
 import controller.GuiController;
 import gui.setuppanel.CompetitionType;
 import gui.setuppanel.SetupComboBoxManager;
@@ -76,7 +77,7 @@ public class SetupPanel extends JPanel {
     private void initializeSimulationButtons(@NotNull GridBagConstraints constraints) {
         constraints.fill = GridBagConstraints.CENTER;
         constraints.gridx = 0;
-        constraints.gridy = GuiConstants.NUMBER_OF_DRIVERS + 1;
+        constraints.gridy = Constants.NUMBER_OF_DRIVERS + 1;
         constraints.insets = new Insets(15, 0, 0, 0);
 
         flushQButton.addActionListener(e -> comboBoxManager.flushQualificationComboBoxes());
