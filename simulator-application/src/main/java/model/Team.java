@@ -22,16 +22,16 @@ public class Team implements Comparable<Team> {
         updateTeamFields();
     }
 
+    @NotNull public String getName() {
+        return name;
+    }
+
     public double getPoints() {
         return points;
     }
 
     public double getPriceChange() {
         return priceChange;
-    }
-
-    @NotNull public String getName() {
-        return name;
     }
 
     public void updateTeam() {
