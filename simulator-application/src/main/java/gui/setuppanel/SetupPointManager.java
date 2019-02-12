@@ -37,8 +37,12 @@ public class SetupPointManager {
     }
 
     public void updatePoints(@NotNull ComponentsUpdate update) {
-        driverPointsLabels[update.getDriverIndex()].setText(String.valueOf(Math.round(update.getDriverPoints())));
-        teamPointsLabels[update.getTeamIndex()].setText(String.valueOf(String.format("%.1f", update.getTeamPoints())));
+        String driverPoints = (update.getDriverPoints() == 0d)
+                ? "" : String.valueOf(Math.round(update.getDriverPoints()));
+        String teamPoints = (update.getTeamPoints() == 0d)
+                ? "" : String.valueOf(String.format("%.1f", update.getTeamPoints()));
+        driverPointsLabels[update.getDriverIndex()].setText(driverPoints);
+        teamPointsLabels[update.getTeamIndex()].setText(teamPoints);
     }
 
     private void initializePointsLabels(@NotNull JLabel[] pointsLabels, int rowNo, int columnNo) {
