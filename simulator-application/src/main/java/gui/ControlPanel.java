@@ -46,6 +46,7 @@ class ControlPanel extends JPanel {
 
         reloadButton.addActionListener(e -> guiController.onReloadButtonClicked());
         grandPrixComboBox.addActionListener(e -> guiController.onGPIndexChanged(grandPrixComboBox.getSelectedIndex()));
+        raceSetupCheckBox.addActionListener(e -> guiController.onRaceSetupStateChanged(raceSetupCheckBox.isSelected()));
 
         this.add(reloadButton);
         this.add(budgetLabel);
