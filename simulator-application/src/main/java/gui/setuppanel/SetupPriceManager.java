@@ -1,6 +1,6 @@
 package gui.setuppanel;
 
-import gui.GuiConstants;
+import controller.Constants;
 import gui.SetupPanel;
 import model.ComponentsUpdate;
 import org.jetbrains.annotations.NotNull;
@@ -16,11 +16,11 @@ import java.awt.GridBagConstraints;
 
 public class SetupPriceManager {
 
-    @NotNull private final JLabel[] driverPriceChangeLabels = new JLabel[GuiConstants.NUMBER_OF_DRIVERS];
-    @NotNull private final JLabel[] teamPriceChangeLabels = new JLabel[GuiConstants.NUMBER_OF_TEAMS];
-    @NotNull private final JLabel[] enginePriceChangeLabels = new JLabel[GuiConstants.NUMBER_OF_ENGINES];
+    @NotNull private final JLabel[] driverPriceChangeLabels = new JLabel[Constants.NUMBER_OF_DRIVERS];
+    @NotNull private final JLabel[] teamPriceChangeLabels = new JLabel[Constants.NUMBER_OF_TEAMS];
+    @NotNull private final JLabel[] enginePriceChangeLabels = new JLabel[Constants.NUMBER_OF_ENGINES];
     @NotNull private final Border border = BorderFactory.createBevelBorder(BevelBorder.LOWERED);
-    @NotNull private final Dimension priceLabelsDimension = new Dimension(60, 20);
+    @NotNull private final Dimension priceLabelsDimension = new Dimension(80, 24);
 
     @NotNull private final SetupPanel setupPanel;
     @NotNull private final GridBagConstraints constraints;
@@ -54,6 +54,7 @@ public class SetupPriceManager {
             priceChangeLabels[i] = new JLabel("", SwingConstants.CENTER);
             priceChangeLabels[i].setBorder(border);
             priceChangeLabels[i].setPreferredSize(priceLabelsDimension);
+            priceChangeLabels[i].setFont(priceChangeLabels[i].getFont().deriveFont(13f));
             priceChangeLabels[i].setOpaque(true);
             setupPanel.add(priceChangeLabels[i], constraints);
             row++;

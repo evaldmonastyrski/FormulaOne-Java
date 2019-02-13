@@ -1,6 +1,6 @@
 package gui.setuppanel;
 
-import gui.GuiConstants;
+import controller.Constants;
 import gui.SetupPanel;
 import model.Driver;
 import model.Team;
@@ -14,9 +14,9 @@ import java.util.Set;
 
 public class SetupLabelManager {
 
-    @NotNull private final JLabel[] driverLabels = new JLabel[GuiConstants.NUMBER_OF_DRIVERS];
-    @NotNull private final JLabel[] teamLabels = new JLabel[GuiConstants.NUMBER_OF_TEAMS];
-    @NotNull private final JLabel[] engineLabels = new JLabel[GuiConstants.NUMBER_OF_ENGINES];
+    @NotNull private final JLabel[] driverLabels = new JLabel[Constants.NUMBER_OF_DRIVERS];
+    @NotNull private final JLabel[] teamLabels = new JLabel[Constants.NUMBER_OF_TEAMS];
+    @NotNull private final JLabel[] engineLabels = new JLabel[Constants.NUMBER_OF_ENGINES];
     @NotNull private final Dimension driverLabelsDimension = new Dimension(120, 20);
     @NotNull private final Dimension corporateLabelsDimension = new Dimension(80, 20);
 

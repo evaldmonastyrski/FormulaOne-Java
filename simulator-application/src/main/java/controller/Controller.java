@@ -1,7 +1,6 @@
 package controller;
 
 import controller.deserializer.DeserializedDataContainer;
-import gui.GuiConstants;
 import gui.setuppanel.CompetitionType;
 import model.ComponentsUpdate;
 import model.Driver;
@@ -59,7 +58,7 @@ class Controller {
     }
 
     private void initializePointsAndPrices() {
-        for (int i = 0; i < GuiConstants.NUMBER_OF_DRIVERS; i ++) {
+        for (int i = 0; i < Constants.NUMBER_OF_DRIVERS; i ++) {
             final int index = i;
             SwingUtilities.invokeLater(() -> onComboBoxPositionChanged(index, 0, CompetitionType.QUALIFICATION));
         }

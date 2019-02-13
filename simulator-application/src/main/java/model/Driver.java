@@ -1,5 +1,6 @@
 package model;
 
+import controller.Constants;
 import controller.deserializer.DataEntry;
 import org.jetbrains.annotations.NotNull;
 

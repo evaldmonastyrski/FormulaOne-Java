@@ -1,6 +1,6 @@
 package gui.setuppanel;
 
-import gui.GuiConstants;
+import controller.Constants;
 import gui.SetupPanel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -16,8 +16,8 @@ public class SetupComboBoxManager {
 
     @NotNull private final List<JComboBox<Integer>> driverQualificationPositions = new ArrayList<>();
     @NotNull private final List<JComboBox<Integer>> driverRacePositions = new ArrayList<>();
-    @NotNull private final Integer @Nullable [] qualificationCache = new Integer[GuiConstants.NUMBER_OF_DRIVERS];
-    @NotNull private final Integer @Nullable [] raceCache = new Integer[GuiConstants.NUMBER_OF_DRIVERS];
+    @NotNull private final Integer @Nullable [] qualificationCache = new Integer[Constants.NUMBER_OF_DRIVERS];
+    @NotNull private final Integer @Nullable [] raceCache = new Integer[Constants.NUMBER_OF_DRIVERS];
     @NotNull private final Dimension comboBoxDimension = new Dimension(70, 27);
 
     @NotNull private final SetupPanel setupPanel;
@@ -30,7 +30,7 @@ public class SetupComboBoxManager {
         this.comboBoxUpdater = new ComboBoxUpdater(setupPanel);
 
 
-        for (int i = 0; i < GuiConstants.NUMBER_OF_DRIVERS; i++) {
+        for (int i = 0; i < Constants.NUMBER_OF_DRIVERS; i++) {
             driverQualificationPositions.add(new JComboBox<>(new SortedComboBoxModel()));
             driverRacePositions.add(new JComboBox<>(new SortedComboBoxModel()));
         }
@@ -68,12 +68,12 @@ public class SetupComboBoxManager {
             constraints.gridx = columnNo;
             constraints.gridy = rowNo;
             constraints.insets = new Insets(1, 0, 1, 0);
-            driverPosition.setMaximumRowCount(GuiConstants.NUMBER_OF_DRIVERS);
+            driverPosition.setMaximumRowCount(Constants.NUMBER_OF_DRIVERS);
             driverPosition.setPreferredSize(comboBoxDimension);
             driverPosition.addItem(null);
             int awardedPlaces = type == CompetitionType.QUALIFICATION
-                    ? GuiConstants.QUALIFICATION_AWARDED_PLACES
-                    : GuiConstants.RACE_AWARDED_PLACES;
+                    ? Constants.QUALIFICATION_AWARDED_PLACES
+                    : Constants.RACE_AWARDED_PLACES;
             for (Integer j = 1; j <= awardedPlaces; j++) {
                 driverPosition.addItem(j);
             }
