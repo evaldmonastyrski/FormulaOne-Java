@@ -12,6 +12,7 @@ public class Driver implements Comparable<Driver> {
     @NotNull private final String name;
     @NotNull private final String surname;
     @NotNull private final String team;
+    @NotNull private final String engine;
 
     private final double price;
 
@@ -24,6 +25,7 @@ public class Driver implements Comparable<Driver> {
         this.name = data.getName();
         this.surname = data.getSurname();
         this.team = data.getTeam();
+        this.engine = data.getEngine();
         price = data.getPrices()[gpStage];
         updateDriverFields();
     }
@@ -31,6 +33,8 @@ public class Driver implements Comparable<Driver> {
     @NotNull public String getTeam() {
         return team;
     }
+
+    @NotNull public String getEngine() { return engine; }
 
     double getPrice() {
         return price;

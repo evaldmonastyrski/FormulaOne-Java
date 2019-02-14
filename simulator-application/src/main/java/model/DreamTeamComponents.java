@@ -11,4 +11,6 @@ public interface DreamTeamComponents {
     @NotNull Set<Driver> getDrivers();
 
     @NotNull Set<Team> getTeams();
+
+    @NotNull Set<Engine> getEngine();
 }

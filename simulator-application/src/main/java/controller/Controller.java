@@ -55,6 +55,7 @@ class Controller {
         initializePointsAndPrices();
         drivers = new ArrayList<>(driverSet);
         teams = new ArrayList<>(teamSet);
+        engines = new ArrayList<>(engineSet);
     }
 
     private void initializePointsAndPrices() {
@@ -75,6 +76,8 @@ class Controller {
 
         Team teamToUpdate = teamMap.get(myDriver.getTeam());
         teamToUpdate.updateTeam();
+        Engine engineToUpdate = engineMap.get(myDriver.getEngine());
+        engineToUpdate.updateEngine();
 
         ComponentsUpdate componentsUpdate = ImmutableComponentsUpdate.builder()
                 .driverIndex(cacheIndex)
@@ -83,7 +86,11 @@ class Controller {
                 .teamIndex(teams.indexOf(teamToUpdate))
                 .teamPoints(teamToUpdate.getPoints())
                 .teamPriceChange(teamToUpdate.getPriceChange())
+                .engineIndex(engines.indexOf(engineToUpdate))
+                .enginePoints(engineToUpdate.getPoints())
+                .enginePriceChange(engineToUpdate.getPriceChange())
                 .build();
+
 
         guiController.updateGUILabels(componentsUpdate);
     }
