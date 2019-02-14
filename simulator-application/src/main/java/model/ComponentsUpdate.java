@@ -17,4 +17,10 @@ public interface ComponentsUpdate {
     double getTeamPoints();
 
     double getTeamPriceChange();
+
+    int getEngineIndex();
+
+    double getEnginePoints();
+
+    double getEnginePriceChange();
 }
