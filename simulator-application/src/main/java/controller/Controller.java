@@ -2,7 +2,12 @@ package controller;
 
 import controller.deserializer.DeserializedDataContainer;
 import gui.setuppanel.CompetitionType;
-import model.*;
+import model.Driver;
+import model.ImmutableDreamTeamComponents;
+import model.Team;
+import model.Engine;
+import model.ComponentsUpdate;
+import model.ImmutableComponentsUpdate;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -90,7 +95,6 @@ class Controller {
                 .enginePoints(engineToUpdate.getPoints())
                 .enginePriceChange(engineToUpdate.getPriceChange())
                 .build();
-
 
         guiController.updateGUILabels(componentsUpdate);
     }

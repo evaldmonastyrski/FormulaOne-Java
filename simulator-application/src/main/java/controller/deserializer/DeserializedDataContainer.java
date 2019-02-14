@@ -3,7 +3,6 @@ package controller.deserializer;
 import model.Driver;
 import model.Engine;
 import model.Team;
-import org.immutables.value.internal.$processor$.meta.$ValueMirrors;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,6 +69,7 @@ public class DeserializedDataContainer {
         for (DataEntry dataEntry : data) {
             Driver driver = new Driver(dataEntry, gpStage);
             cacheTeam(dataEntry.getTeam(), driver);
+            cacheEngine(dataEntry.getEngine(), driver);
             drivers.add(driver);
         }
     }
