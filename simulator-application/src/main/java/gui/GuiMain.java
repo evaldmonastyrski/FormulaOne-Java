@@ -61,6 +61,10 @@ public class GuiMain {
         simulationTab.updateGUILabels(componentsUpdate);
     }
 
+    public void raceSetup(boolean isSelected) {
+        simulationTab.raceSetup(isSelected);
+    }
+
     public void closeGui() {
         mainFrame.setVisible(false);
     }

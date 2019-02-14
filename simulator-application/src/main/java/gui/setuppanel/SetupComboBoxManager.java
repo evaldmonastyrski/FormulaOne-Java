@@ -29,7 +29,6 @@ public class SetupComboBoxManager {
         this.constraints = constraints;
         this.comboBoxUpdater = new ComboBoxUpdater(setupPanel);
 
-
         for (int i = 0; i < Constants.NUMBER_OF_DRIVERS; i++) {
             driverQualificationPositions.add(new JComboBox<>(new SortedComboBoxModel()));
             driverRacePositions.add(new JComboBox<>(new SortedComboBoxModel()));
@@ -54,6 +53,12 @@ public class SetupComboBoxManager {
             if (cb.getSelectedItem() != null) {
                 cb.setSelectedItem(null);
             }
+        }
+    }
+
+    public void raceSetup(boolean isSelected) {
+        for (JComboBox<Integer> cb : driverQualificationPositions) {
+            cb.setEnabled(!isSelected);
         }
     }
 

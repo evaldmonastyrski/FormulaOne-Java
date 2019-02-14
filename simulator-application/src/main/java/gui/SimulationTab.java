@@ -34,6 +34,10 @@ class SimulationTab extends JPanel {
         setupPanel.flushComboBoxes();
     }
 
+    void raceSetup(boolean isSelected) {
+        setupPanel.raceSetup(isSelected);
+    }
+
     void updateGUILabels(@NotNull ComponentsUpdate componentsUpdate) {
         setupPanel.updateGUILabels(componentsUpdate);
     }

@@ -74,6 +74,10 @@ public class SetupPanel extends JPanel {
         priceManager.updatePriceChange(componentsUpdate);
     }
 
+    void raceSetup(boolean isSelected) {
+        comboBoxManager.raceSetup(isSelected);
+    }
+
     private void initializeSimulationButtons(@NotNull GridBagConstraints constraints) {
         constraints.fill = GridBagConstraints.CENTER;
         constraints.gridx = 0;

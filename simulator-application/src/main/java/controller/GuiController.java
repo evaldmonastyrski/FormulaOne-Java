@@ -36,6 +36,10 @@ public class GuiController {
         controller.onComboBoxPositionChanged(cacheIndex, position, type);
     }
 
+    public void onRaceSetupStateChanged(boolean isSelected) {
+        guiMain.raceSetup(isSelected);
+    }
+
     void updateGUILabels(@NotNull ComponentsUpdate componentsUpdate) {
         guiMain.updateGUILabels(componentsUpdate);
     }
