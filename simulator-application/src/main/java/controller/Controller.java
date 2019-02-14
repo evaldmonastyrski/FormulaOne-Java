@@ -2,11 +2,7 @@ package controller;
 
 import controller.deserializer.DeserializedDataContainer;
 import gui.setuppanel.CompetitionType;
-import model.ComponentsUpdate;
-import model.Driver;
-import model.ImmutableComponentsUpdate;
-import model.ImmutableDreamTeamComponents;
-import model.Team;
+import model.*;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,18 +25,22 @@ class Controller {
     @NotNull private final Set<Driver> driverSet = new TreeSet<>();
     @NotNull private final Set<Team> teamSet = new TreeSet<>();
     @NotNull private final Map<String, Team> teamMap = new HashMap<>();
+    @NotNull private final Set<Engine> engineSet = new TreeSet<>();
+    @NotNull private final Map<String, Engine> engineMap = new HashMap<>();
 
     @NotNull private List<Driver> drivers;
     @NotNull private List<Team> teams;
+    @NotNull private List<Engine> engines;
 
     Controller() {
         guiController = new GuiController(this);
-        componentsCreator = new DeserializedDataContainer(driverSet, teamSet, teamMap);
+        componentsCreator = new DeserializedDataContainer(driverSet, teamSet, teamMap, engineSet, engineMap);
         initializeGUI();
         LOGGER.info("Number of driverSet: {}", driverSet.size());
         initializeLabels();
         drivers = new ArrayList<>(driverSet);
         teams = new ArrayList<>(teamSet);
+        engines = new ArrayList<>(engineSet);
     }
 
     void onReloadButtonClicked() {
