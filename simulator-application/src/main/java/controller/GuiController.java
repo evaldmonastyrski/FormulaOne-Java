@@ -32,12 +32,19 @@ public class GuiController {
         guiMain.flushComboBoxes();
     }
 
-    public void onComboBoxPositionChanged(int cacheIndex, int position, @NotNull CompetitionType type) {
-        controller.onComboBoxPositionChanged(cacheIndex, position, type);
+    public void onComboBoxPositionChanged(int cacheIndex,
+                                          int position,
+                                          @NotNull CompetitionType type,
+                                          boolean isRaceSetup) {
+        controller.onComboBoxPositionChanged(cacheIndex, position, type, isRaceSetup);
     }
 
     public void onRaceSetupStateChanged(boolean isSelected) {
         guiMain.raceSetup(isSelected);
+    }
+
+    public boolean isRaceSetup() {
+        return guiMain.isRaceSetup();
     }
 
     void updateGUILabels(@NotNull ComponentsUpdate componentsUpdate) {

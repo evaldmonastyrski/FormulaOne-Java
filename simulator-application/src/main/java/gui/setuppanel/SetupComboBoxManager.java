@@ -16,8 +16,8 @@ public class SetupComboBoxManager {
 
     @NotNull private final List<JComboBox<Integer>> driverQualificationPositions = new ArrayList<>();
     @NotNull private final List<JComboBox<Integer>> driverRacePositions = new ArrayList<>();
-    @NotNull private final Integer @Nullable [] qualificationCache = new Integer[Constants.NUMBER_OF_DRIVERS];
-    @NotNull private final Integer @Nullable [] raceCache = new Integer[Constants.NUMBER_OF_DRIVERS];
+    @NotNull private final Integer[] qualificationCache = new Integer[Constants.NUMBER_OF_DRIVERS];
+    @NotNull private final Integer[] raceCache = new Integer[Constants.NUMBER_OF_DRIVERS];
     @NotNull private final Dimension comboBoxDimension = new Dimension(70, 27);
 
     @NotNull private final SetupPanel setupPanel;
@@ -60,6 +60,16 @@ public class SetupComboBoxManager {
         for (JComboBox<Integer> cb : driverQualificationPositions) {
             cb.setEnabled(!isSelected);
         }
+
+        if (!isSelected) {
+            for (int i = 0; i < Constants.NUMBER_OF_DRIVERS; i++) {
+                setupPanel.updateDriver(i, qualificationCache[i], CompetitionType.QUALIFICATION, false);
+            }
+        } else {
+            for (int i = 0; i < Constants.NUMBER_OF_DRIVERS; i++) {
+                setupPanel.updateDriver(i, raceCache[i], CompetitionType.RACE, true);
+            }
+        }
     }
 
     private void initializeComboBoxes(@NotNull GridBagConstraints constraints,
@@ -91,21 +101,22 @@ public class SetupComboBoxManager {
 
     private void updateComboBox(int cacheIndex, @NotNull JComboBox<Integer> receivedCB, @NotNull CompetitionType type) {
         @Nullable Integer position = (Integer) receivedCB.getSelectedItem();
+        boolean isRaceSetup = setupPanel.isRaceSetup();
 
         if (type == CompetitionType.QUALIFICATION) {
             comboBoxUpdater.newNumberSelected(cacheIndex, receivedCB, position, qualificationCache,
-                    driverQualificationPositions, CompetitionType.QUALIFICATION);
+                    driverQualificationPositions, CompetitionType.QUALIFICATION, isRaceSetup);
             comboBoxUpdater.numberReplaced(cacheIndex, receivedCB, position, qualificationCache,
-                    driverQualificationPositions, CompetitionType.QUALIFICATION);
+                    driverQualificationPositions, CompetitionType.QUALIFICATION, isRaceSetup);
             comboBoxUpdater.numberRemoved(cacheIndex, receivedCB, position, qualificationCache,
-                    driverQualificationPositions, CompetitionType.QUALIFICATION);
+                    driverQualificationPositions, CompetitionType.QUALIFICATION, isRaceSetup);
         } else {
             comboBoxUpdater.newNumberSelected(cacheIndex, receivedCB, position, raceCache,
-                    driverRacePositions, CompetitionType.RACE);
+                    driverRacePositions, CompetitionType.RACE, isRaceSetup);
             comboBoxUpdater.numberReplaced(cacheIndex, receivedCB, position, raceCache,
-                    driverRacePositions, CompetitionType.RACE);
+                    driverRacePositions, CompetitionType.RACE, isRaceSetup);
             comboBoxUpdater.numberRemoved(cacheIndex, receivedCB, position, raceCache,
-                    driverRacePositions, CompetitionType.RACE);
+                    driverRacePositions, CompetitionType.RACE, isRaceSetup);
         }
     }
 }

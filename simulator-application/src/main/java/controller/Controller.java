@@ -66,16 +66,21 @@ class Controller {
     private void initializePointsAndPrices() {
         for (int i = 0; i < Constants.NUMBER_OF_DRIVERS; i ++) {
             final int index = i;
-            SwingUtilities.invokeLater(() -> onComboBoxPositionChanged(index, 0, CompetitionType.QUALIFICATION));
+            SwingUtilities.invokeLater(() -> onComboBoxPositionChanged(index, 0, CompetitionType.QUALIFICATION, false));
         }
     }
 
-    void onComboBoxPositionChanged(int cacheIndex, int position, @NotNull CompetitionType type) {
+    void onComboBoxPositionChanged(int cacheIndex, int position, @NotNull CompetitionType type, boolean isRaceSetup) {
         Driver myDriver = drivers.get(cacheIndex);
 
-        if (type == CompetitionType.QUALIFICATION) {
-            myDriver.setQPosition(position);
+        if (!isRaceSetup) {
+            if (type == CompetitionType.QUALIFICATION) {
+                myDriver.setQPosition(position);
+            } else {
+                myDriver.setRPosition(position);
+            }
         } else {
+            myDriver.setQPosition(position);
             myDriver.setRPosition(position);
         }
 

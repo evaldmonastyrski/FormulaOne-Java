@@ -51,11 +51,14 @@ public class SetupPanel extends JPanel {
         initializeSimulationButtons(constraints);
     }
 
-    public void updateDriver(int cacheIndex, @Nullable Integer position, @NotNull CompetitionType type) {
+    public void updateDriver(int cacheIndex,
+                             @Nullable Integer position,
+                             @NotNull CompetitionType type,
+                             boolean isRaceSetup) {
         if (position != null) {
-            guiController.onComboBoxPositionChanged(cacheIndex, position, type);
+            guiController.onComboBoxPositionChanged(cacheIndex, position, type, isRaceSetup);
         } else {
-            guiController.onComboBoxPositionChanged(cacheIndex, 0, type);
+            guiController.onComboBoxPositionChanged(cacheIndex, 0, type, isRaceSetup);
         }
     }
 
@@ -77,6 +80,10 @@ public class SetupPanel extends JPanel {
 
     void raceSetup(boolean isSelected) {
         comboBoxManager.raceSetup(isSelected);
+    }
+
+    public boolean isRaceSetup() {
+        return guiController.isRaceSetup();
     }
 
     private void initializeSimulationButtons(@NotNull GridBagConstraints constraints) {
