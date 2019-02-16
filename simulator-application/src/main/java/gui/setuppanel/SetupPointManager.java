@@ -41,8 +41,11 @@ public class SetupPointManager {
                 ? "" : String.valueOf(Math.round(update.getDriverPoints()));
         String teamPoints = (update.getTeamPoints() == 0d)
                 ? "" : String.valueOf(String.format("%.1f", update.getTeamPoints()));
+        String enginePoints = (update.getEnginePoints() == 0d)
+                ? "" : String.valueOf(String.format("%.1f", update.getEnginePoints()));
         driverPointsLabels[update.getDriverIndex()].setText(driverPoints);
         teamPointsLabels[update.getTeamIndex()].setText(teamPoints);
+        enginePointsLabels[update.getEngineIndex()].setText(enginePoints);
     }
 
     private void initializePointsLabels(@NotNull JLabel[] pointsLabels, int rowNo, int columnNo) {

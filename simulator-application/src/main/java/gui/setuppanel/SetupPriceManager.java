@@ -43,6 +43,9 @@ public class SetupPriceManager {
         teamPriceChangeLabels[update.getTeamIndex()]
                 .setText(String.valueOf(String.format("%.2f", update.getTeamPriceChange())));
         colorLabel(teamPriceChangeLabels[update.getTeamIndex()], update.getTeamPriceChange());
+        enginePriceChangeLabels[update.getEngineIndex()]
+                .setText(String.valueOf(String.format("%.2f", update.getEnginePriceChange())));
+        colorLabel(enginePriceChangeLabels[update.getEngineIndex()], update.getEnginePriceChange());
     }
 
     private void initializePriceChangeLabels(JLabel[] priceChangeLabels, int rowNo, int columnNo) {
