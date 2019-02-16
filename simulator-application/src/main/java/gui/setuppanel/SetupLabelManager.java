@@ -3,6 +3,7 @@ package gui.setuppanel;
 import controller.Constants;
 import gui.SetupPanel;
 import model.Driver;
+import model.Engine;
 import model.Team;
 import org.jetbrains.annotations.NotNull;
 
@@ -48,6 +49,15 @@ public class SetupLabelManager {
         for (Team team : teams) {
             teamLabels[i].setText(team.getName());
             teamLabels[i].setPreferredSize(corporateLabelsDimension);
+            i++;
+        }
+    }
+
+    public void setEngineLabels(@NotNull Set<Engine> engines) {
+        int i = 0;
+        for (Engine engine : engines) {
+            engineLabels[i].setText(engine.getName());
+            engineLabels[i].setPreferredSize(corporateLabelsDimension);
             i++;
         }
     }

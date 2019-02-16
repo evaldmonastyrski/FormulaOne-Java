@@ -62,6 +62,7 @@ public class SetupPanel extends JPanel {
     void setLabels(@NotNull DreamTeamComponents components) {
         labelManager.setDriverLabels(components.getDrivers());
         labelManager.setTeamLabels(components.getTeams());
+        labelManager.setEngineLabels(components.getEngines());
     }
 
     void flushComboBoxes() {
