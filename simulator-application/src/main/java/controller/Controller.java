@@ -73,10 +73,16 @@ class Controller {
     void onComboBoxPositionChanged(int cacheIndex, int position, @NotNull CompetitionType type) {
         Driver myDriver = drivers.get(cacheIndex);
 
-        if (type == CompetitionType.QUALIFICATION) {
-            myDriver.setQPosition(position);
-        } else {
-            myDriver.setRPosition(position);
+        switch(type) {
+            case QUALIFICATION:
+                myDriver.setQPosition(position);
+                break;
+            case RACE:
+                myDriver.setRPosition(position);
+                break;
+            case FULL:
+                myDriver.setQPosition(position);
+                myDriver.setRPosition(position);
         }
 
         Team teamToUpdate = teamMap.get(myDriver.getTeam());

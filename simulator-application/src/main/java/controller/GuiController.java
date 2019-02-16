@@ -40,6 +40,10 @@ public class GuiController {
         guiMain.raceSetup(isSelected);
     }
 
+    public boolean isRaceSetup() {
+        return guiMain.isRaceSetup();
+    }
+
     void updateGUILabels(@NotNull ComponentsUpdate componentsUpdate) {
         guiMain.updateGUILabels(componentsUpdate);
     }
