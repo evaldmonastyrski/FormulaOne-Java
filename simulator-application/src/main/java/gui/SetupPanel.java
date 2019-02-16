@@ -59,10 +59,6 @@ public class SetupPanel extends JPanel {
         }
     }
 
-    public boolean isRaceSetup() {
-        return guiController.isRaceSetup();
-    }
-
     void setLabels(@NotNull DreamTeamComponents components) {
         labelManager.setDriverLabels(components.getDrivers());
         labelManager.setTeamLabels(components.getTeams());

@@ -59,10 +59,6 @@ class ControlPanel extends JPanel {
         this.add(raceSetupCheckBox);
     }
 
-    boolean isRaceSetupSelected() {
-        return raceSetupCheckBox.isSelected();
-    }
-
     private void setGrandPrixComboBox(String[] gpStages) {
         for (String gpStage : gpStages) {
             grandPrixComboBox.addItem(gpStage);

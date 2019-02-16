@@ -65,10 +65,6 @@ public class GuiMain {
         simulationTab.raceSetup(isSelected);
     }
 
-    public boolean isRaceSetup() {
-        return simulationTab.isRaceSetup();
-    }
-
     public void closeGui() {
         mainFrame.setVisible(false);
     }

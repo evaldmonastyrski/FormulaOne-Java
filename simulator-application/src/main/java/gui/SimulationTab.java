@@ -41,8 +41,4 @@ class SimulationTab extends JPanel {
     void updateGUILabels(@NotNull ComponentsUpdate componentsUpdate) {
         setupPanel.updateGUILabels(componentsUpdate);
     }
-
-    boolean isRaceSetup() {
-        return controlPanel.isRaceSetupSelected();
-    }
 }
