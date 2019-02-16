@@ -12,5 +12,5 @@ public interface DreamTeamComponents {
 
     @NotNull Set<Team> getTeams();
 
-    @NotNull Set<Engine> getEngine();
+    @NotNull Set<Engine> getEngines();
 }

@@ -107,6 +107,7 @@ class Controller {
         guiController.initializeLabels(ImmutableDreamTeamComponents.builder()
                 .drivers(driverSet)
                 .teams(teamSet)
+                .engines(engineSet)
                 .build());
     }
 }
