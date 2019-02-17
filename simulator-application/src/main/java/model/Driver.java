@@ -49,7 +49,7 @@ public class Driver implements Comparable<Driver> {
     }
 
     public void setQPosition(int qPosition) {
-        this.qPosition = qPosition;
+        this.qPosition = (qPosition <= Constants.QUALIFICATION_AWARDED_PLACES) ? qPosition : 0;
         updateDriverFields();
     }
 

@@ -9,6 +9,7 @@ import gui.setuppanel.SetupPointManager;
 import gui.setuppanel.SetupPriceManager;
 import model.ComponentsUpdate;
 import model.DreamTeamComponents;
+import model.DriverUpdate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -51,15 +52,8 @@ public class SetupPanel extends JPanel {
         initializeSimulationButtons(constraints);
     }
 
-    public void updateDriver(int cacheIndex,
-                             @Nullable Integer position,
-                             @NotNull CompetitionType type,
-                             boolean isRaceSetup) {
-        if (position != null) {
-            guiController.onComboBoxPositionChanged(cacheIndex, position, type, isRaceSetup);
-        } else {
-            guiController.onComboBoxPositionChanged(cacheIndex, 0, type, isRaceSetup);
-        }
+    public void updateDriver(@NotNull DriverUpdate driverUpdate) {
+        guiController.onComboBoxPositionChanged(driverUpdate);
     }
 
     void setLabels(@NotNull DreamTeamComponents components) {

@@ -2,6 +2,8 @@ package gui.setuppanel;
 
 import controller.Constants;
 import gui.SetupPanel;
+import model.DriverUpdate;
+import model.ImmutableDriverUpdate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -63,11 +65,11 @@ public class SetupComboBoxManager {
 
         if (!isSelected) {
             for (int i = 0; i < Constants.NUMBER_OF_DRIVERS; i++) {
-                setupPanel.updateDriver(i, qualificationCache[i], CompetitionType.QUALIFICATION, false);
+                setupPanel.updateDriver(driverUpdate(i, qualificationCache[i], CompetitionType.QUALIFICATION, false));
             }
         } else {
             for (int i = 0; i < Constants.NUMBER_OF_DRIVERS; i++) {
-                setupPanel.updateDriver(i, raceCache[i], CompetitionType.RACE, true);
+                setupPanel.updateDriver(driverUpdate(i, raceCache[i], CompetitionType.RACE, true));
             }
         }
     }
@@ -118,5 +120,20 @@ public class SetupComboBoxManager {
             comboBoxUpdater.numberRemoved(cacheIndex, receivedCB, position, raceCache,
                     driverRacePositions, CompetitionType.RACE, isRaceSetup);
         }
+    }
+
+    @NotNull
+    private DriverUpdate driverUpdate(int index,
+                                      @Nullable Integer position,
+                                      @NotNull CompetitionType type,
+                                      boolean raceSetup) {
+        int intPosition = position != null ? position : 0;
+
+        return ImmutableDriverUpdate.builder()
+                .index(index)
+                .position(intPosition)
+                .competitionType(type)
+                .isRaceSetup(raceSetup)
+                .build();
     }
 }

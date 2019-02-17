@@ -1,6 +1,8 @@
 package gui.setuppanel;
 
 import gui.SetupPanel;
+import model.DriverUpdate;
+import model.ImmutableDriverUpdate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,7 +27,7 @@ class ComboBoxUpdater {
                            boolean isRaceSetup) {
         if (cache[cacheIndex] == null && position != null) {
             cache[cacheIndex] = position;
-            setupPanel.updateDriver(cacheIndex, position, type, isRaceSetup);
+            sendUpdate(cacheIndex, position, type, isRaceSetup);
             for (JComboBox<Integer> cb : positions) {
                 if (!cb.equals(receivedCB)) {
                     cb.removeItem(position);
@@ -45,7 +47,7 @@ class ComboBoxUpdater {
             if (!cache[cacheIndex].equals(position)) {
                 Integer temp = cache[cacheIndex];
                 cache[cacheIndex] = position;
-                setupPanel.updateDriver(cacheIndex, position, type, isRaceSetup);
+                sendUpdate(cacheIndex, position, type, isRaceSetup);
                 for (JComboBox<Integer> cb : positions) {
                     if (!cb.equals(receivedCB)) {
                         cb.addItem(temp);
@@ -66,12 +68,28 @@ class ComboBoxUpdater {
         if (cache[cacheIndex] != null && position == null) {
             Integer temp = cache[cacheIndex];
             cache[cacheIndex] = position;
-            setupPanel.updateDriver(cacheIndex, position, type, isRaceSetup);
+            sendUpdate(cacheIndex, position, type, isRaceSetup);
             for (JComboBox<Integer> cb : positions) {
                 if (!cb.equals(receivedCB)) {
                     cb.addItem(temp);
                 }
             }
         }
+    }
+
+    private void sendUpdate(int cacheIndex,
+                            @Nullable Integer position,
+                            @NotNull CompetitionType type,
+                            boolean isRaceSetup) {
+        int intPosition = position != null ? position : 0;
+
+        DriverUpdate driverUpdate = ImmutableDriverUpdate.builder()
+                .index(cacheIndex)
+                .position(intPosition)
+                .competitionType(type)
+                .isRaceSetup(isRaceSetup)
+                .build();
+
+        setupPanel.updateDriver(driverUpdate);
     }
 }

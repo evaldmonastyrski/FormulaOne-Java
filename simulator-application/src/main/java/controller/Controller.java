@@ -3,7 +3,9 @@ package controller;
 import controller.deserializer.DeserializedDataContainer;
 import gui.setuppanel.CompetitionType;
 import model.Driver;
+import model.DriverUpdate;
 import model.ImmutableDreamTeamComponents;
+import model.ImmutableDriverUpdate;
 import model.Team;
 import model.Engine;
 import model.ComponentsUpdate;
@@ -14,9 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.swing.SwingUtilities;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 class Controller {
 
@@ -25,17 +25,14 @@ class Controller {
     @NotNull private final GuiController guiController;
     @NotNull private final DeserializedDataContainer componentsCreator;
 
-    @NotNull private final Map<String, Team> teamMap = new HashMap<>();
-    @NotNull private final Map<String, Engine> engineMap = new HashMap<>();
     @NotNull private final List<Driver> drivers = new ArrayList<>();
     @NotNull private final List<Team> teams = new ArrayList<>();
     @NotNull private final List<Engine> engines = new ArrayList<>();
 
     Controller() {
         guiController = new GuiController(this);
-        componentsCreator = new DeserializedDataContainer(drivers, teams, teamMap, engines, engineMap);
+        componentsCreator = new DeserializedDataContainer(drivers, teams, engines);
         initializeGUI();
-        LOGGER.info("Number of driverSet: {}", drivers.size());
         initializeLabels();
     }
 
@@ -51,34 +48,23 @@ class Controller {
         initializePointsAndPrices();
     }
 
-    private void initializePointsAndPrices() {
-        for (int i = 0; i < Constants.NUMBER_OF_DRIVERS; i ++) {
-            final int index = i;
-            SwingUtilities.invokeLater(() -> onComboBoxPositionChanged(index, 0, CompetitionType.QUALIFICATION, false));
-        }
-    }
+    void onComboBoxPositionChanged(@NotNull DriverUpdate driverUpdate) {
+        Driver myDriver = drivers.get(driverUpdate.getIndex());
 
-    void onComboBoxPositionChanged(int cacheIndex, int position, @NotNull CompetitionType type, boolean isRaceSetup) {
-        Driver myDriver = drivers.get(cacheIndex);
-
-        if (!isRaceSetup) {
-            if (type == CompetitionType.QUALIFICATION) {
-                myDriver.setQPosition(position);
-            } else {
-                myDriver.setRPosition(position);
-            }
+        if (!driverUpdate.getIsRaceSetup()) {
+            setPosition(driverUpdate.getPosition(), driverUpdate.getCompetitionType(), myDriver);
         } else {
-            myDriver.setQPosition(position);
-            myDriver.setRPosition(position);
+            myDriver.setQPosition(driverUpdate.getPosition());
+            myDriver.setRPosition(driverUpdate.getPosition());
         }
 
-        Team teamToUpdate = teamMap.get(myDriver.getTeam());
+        Team teamToUpdate = componentsCreator.getTeamMap().get(myDriver.getTeam());
         teamToUpdate.updateTeam();
-        Engine engineToUpdate = engineMap.get(myDriver.getEngine());
+        Engine engineToUpdate = componentsCreator.getEngineMap().get(myDriver.getEngine());
         engineToUpdate.updateEngine();
 
         ComponentsUpdate componentsUpdate = ImmutableComponentsUpdate.builder()
-                .driverIndex(cacheIndex)
+                .driverIndex(driverUpdate.getIndex())
                 .driverPoints(myDriver.getPoints())
                 .driverPriceChange(myDriver.getPriceChange())
                 .teamIndex(teams.indexOf(teamToUpdate))
@@ -90,6 +76,27 @@ class Controller {
                 .build();
 
         guiController.updateGUILabels(componentsUpdate);
+    }
+
+    private void initializePointsAndPrices() {
+        for (int i = 0; i < Constants.NUMBER_OF_DRIVERS; i ++) {
+            DriverUpdate driverUpdate = ImmutableDriverUpdate.builder()
+                    .index(i)
+                    .position(0)
+                    .competitionType(CompetitionType.QUALIFICATION)
+                    .isRaceSetup(false)
+                    .build();
+
+            SwingUtilities.invokeLater(() -> onComboBoxPositionChanged(driverUpdate));
+        }
+    }
+
+    private void setPosition(int position, @NotNull CompetitionType type, @NotNull Driver myDriver) {
+        if (type == CompetitionType.QUALIFICATION) {
+            myDriver.setQPosition(position);
+        } else {
+            myDriver.setRPosition(position);
+        }
     }
 
     private void initializeGUI() {

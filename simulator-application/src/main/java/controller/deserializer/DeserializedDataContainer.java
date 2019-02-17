@@ -24,23 +24,20 @@ public class DeserializedDataContainer {
     @NotNull private final Map<String, List<Driver>> teamCache = new HashMap<>();
     @NotNull private final Map<String, List<Driver>> engineCache = new HashMap<>();
 
+    @NotNull private final Map<String, Team> teamMap = new HashMap<>();
+    @NotNull private final Map<String, Engine> engineMap = new HashMap<>();
+
     @NotNull private final List<Driver> drivers;
     @NotNull private final List<Team> teams;
     @NotNull private final List<Engine> engines;
-    @NotNull private final Map<String, Team> teamMap;
-    @NotNull private final Map<String, Engine> engineMap;
 
     public DeserializedDataContainer(@NotNull List<Driver> drivers,
                                      @NotNull List<Team> teams,
-                                     @NotNull Map<String, Team> teamMap,
-                                     @NotNull List<Engine> engines,
-                                     @NotNull Map<String, Engine> engineMap) {
+                                     @NotNull List<Engine> engines) {
         this.data = deserializer.getData();
         this.drivers = drivers;
         this.teams = teams;
-        this.teamMap = teamMap;
         this.engines = engines;
-        this.engineMap = engineMap;
     }
 
     public void createDreamTeamComponents(int gpStage) {
@@ -56,6 +53,16 @@ public class DeserializedDataContainer {
     @NotNull
     public String[] getGPStages() {
         return deserializer.getGPStages();
+    }
+
+    @NotNull
+    public Map<String, Team> getTeamMap() {
+        return teamMap;
+    }
+
+    @NotNull
+    public Map<String, Engine> getEngineMap() {
+        return engineMap;
     }
 
     private void clearCollections() {

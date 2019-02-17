@@ -4,6 +4,7 @@ import gui.GuiMain;
 import gui.setuppanel.CompetitionType;
 import model.ComponentsUpdate;
 import model.DreamTeamComponents;
+import model.DriverUpdate;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,11 +33,8 @@ public class GuiController {
         guiMain.flushComboBoxes();
     }
 
-    public void onComboBoxPositionChanged(int cacheIndex,
-                                          int position,
-                                          @NotNull CompetitionType type,
-                                          boolean isRaceSetup) {
-        controller.onComboBoxPositionChanged(cacheIndex, position, type, isRaceSetup);
+    public void onComboBoxPositionChanged(@NotNull DriverUpdate driverUpdate) {
+        controller.onComboBoxPositionChanged(driverUpdate);
     }
 
     public void onRaceSetupStateChanged(boolean isSelected) {
