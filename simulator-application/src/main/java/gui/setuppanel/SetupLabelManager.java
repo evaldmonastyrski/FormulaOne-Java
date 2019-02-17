@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
-import java.util.Set;
+import java.util.List;
 
 public class SetupLabelManager {
 
@@ -35,7 +35,7 @@ public class SetupLabelManager {
         initializeNameLabels(constraints, engineLabels, engineRowOffset, 5);
     }
 
-    public void setDriverLabels(@NotNull Set<Driver> drivers) {
+    public void setDriverLabels(@NotNull List<Driver> drivers) {
         int i = 0;
         for (Driver driver : drivers) {
             driverLabels[i].setText(driver.toString());
@@ -44,7 +44,7 @@ public class SetupLabelManager {
         }
     }
 
-    public void setTeamLabels(@NotNull Set<Team> teams) {
+    public void setTeamLabels(@NotNull List<Team> teams) {
         int i = 0;
         for (Team team : teams) {
             teamLabels[i].setText(team.getName());
@@ -53,7 +53,7 @@ public class SetupLabelManager {
         }
     }
 
-    public void setEngineLabels(@NotNull Set<Engine> engines) {
+    public void setEngineLabels(@NotNull List<Engine> engines) {
         int i = 0;
         for (Engine engine : engines) {
             engineLabels[i].setText(engine.getName());

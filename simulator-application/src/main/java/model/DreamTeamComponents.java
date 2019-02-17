@@ -3,14 +3,14 @@ package model;
 import org.immutables.value.Value;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Set;
+import java.util.List;
 
 @Value.Immutable
 public interface DreamTeamComponents {
 
-    @NotNull Set<Driver> getDrivers();
+    @NotNull List<Driver> getDrivers();
 
-    @NotNull Set<Team> getTeams();
+    @NotNull List<Team> getTeams();
 
-    @NotNull Set<Engine> getEngines();
+    @NotNull List<Engine> getEngines();
 }

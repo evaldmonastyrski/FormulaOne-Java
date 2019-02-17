@@ -17,8 +17,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
 class Controller {
 
@@ -27,25 +25,18 @@ class Controller {
     @NotNull private final GuiController guiController;
     @NotNull private final DeserializedDataContainer componentsCreator;
 
-    @NotNull private final Set<Driver> driverSet = new TreeSet<>();
-    @NotNull private final Set<Team> teamSet = new TreeSet<>();
     @NotNull private final Map<String, Team> teamMap = new HashMap<>();
-    @NotNull private final Set<Engine> engineSet = new TreeSet<>();
     @NotNull private final Map<String, Engine> engineMap = new HashMap<>();
-
-    @NotNull private List<Driver> drivers;
-    @NotNull private List<Team> teams;
-    @NotNull private List<Engine> engines;
+    @NotNull private final List<Driver> drivers = new ArrayList<>();
+    @NotNull private final List<Team> teams = new ArrayList<>();
+    @NotNull private final List<Engine> engines = new ArrayList<>();
 
     Controller() {
         guiController = new GuiController(this);
-        componentsCreator = new DeserializedDataContainer(driverSet, teamSet, teamMap, engineSet, engineMap);
+        componentsCreator = new DeserializedDataContainer(drivers, teams, teamMap, engines, engineMap);
         initializeGUI();
-        LOGGER.info("Number of driverSet: {}", driverSet.size());
+        LOGGER.info("Number of driverSet: {}", drivers.size());
         initializeLabels();
-        drivers = new ArrayList<>(driverSet);
-        teams = new ArrayList<>(teamSet);
-        engines = new ArrayList<>(engineSet);
     }
 
     void onReloadButtonClicked() {
@@ -58,9 +49,6 @@ class Controller {
         componentsCreator.createDreamTeamComponents(gpIndex);
         initializeLabels();
         initializePointsAndPrices();
-        drivers = new ArrayList<>(driverSet);
-        teams = new ArrayList<>(teamSet);
-        engines = new ArrayList<>(engineSet);
     }
 
     private void initializePointsAndPrices() {
@@ -110,9 +98,9 @@ class Controller {
 
     private void initializeLabels() {
         guiController.initializeLabels(ImmutableDreamTeamComponents.builder()
-                .drivers(driverSet)
-                .teams(teamSet)
-                .engines(engineSet)
+                .drivers(drivers)
+                .teams(teams)
+                .engines(engines)
                 .build());
     }
 }
