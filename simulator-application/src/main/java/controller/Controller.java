@@ -1,5 +1,6 @@
 package controller;
 
+import controller.combinator.Combinator;
 import controller.deserializer.DeserializedDataContainer;
 import gui.setuppanel.CompetitionType;
 import model.Driver;
@@ -23,6 +24,7 @@ class Controller {
 
     @NotNull private final GuiController guiController;
     @NotNull private final DeserializedDataContainer componentsCreator;
+    @NotNull private final Combinator combinator = new Combinator();
 
     @NotNull private final List<Driver> drivers = new ArrayList<>();
     @NotNull private final List<Team> teams = new ArrayList<>();
@@ -33,6 +35,8 @@ class Controller {
         componentsCreator = new DeserializedDataContainer(drivers, teams, engines);
         initializeGUI();
         initializeLabels();
+        combinator.combine(drivers, teams, engines);
+        combinator.tempPrintDreamTeams();
     }
 
     void onReloadButtonClicked() {
