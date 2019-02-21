@@ -24,6 +24,10 @@ public class Engine implements Comparable<Engine> {
 
     @NotNull public String getName() { return name; }
 
+    double getPrice() {
+        return price;
+    }
+
     public double getPoints() { return points; }
 
     public double getPriceChange() { return priceChange; }

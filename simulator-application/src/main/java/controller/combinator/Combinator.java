@@ -3,22 +3,42 @@ package controller.combinator;
 import model.DreamTeam;
 import model.Driver;
 import model.Engine;
-import model.ImmutableDreamTeam;
+import model.SimulationParameters;
 import model.Team;
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Combinator {
-    @NotNull private static final Logger LOGGER = LoggerFactory.getLogger(Combinator.class);
 
     @NotNull private final List<DreamTeam> dreamTeams = new ArrayList<>();
 
-    @NotNull public List<DreamTeam> getAvailableDreamTeams() {
-        return dreamTeams;
+    @NotNull public List<DreamTeam> getAvailableDreamTeams(@NotNull SimulationParameters simulationParameters) {
+        List<DreamTeam> tempDreamTeams = new ArrayList<>();
+
+        for (DreamTeam dreamTeam : dreamTeams) {
+            if (dreamTeam.getPrice() <= simulationParameters.getBudget()) {
+                tempDreamTeams.add(dreamTeam);
+            }
+        }
+
+        double pointsThreshold =
+                getPointsThreshold(simulationParameters.getPointsThreshold(), maxPoints(tempDreamTeams));
+        List<DreamTeam> availableDreamTeams = new ArrayList<>();
+        for (DreamTeam dreamTeam : tempDreamTeams) {
+            if (dreamTeam.getPrice() <= simulationParameters.getBudget()) {
+                if (simulationParameters.usePointsThreshold()) {
+                    if (dreamTeam.getPoints() >= pointsThreshold) {
+                        availableDreamTeams.add(dreamTeam);
+                    }
+                } else {
+                    availableDreamTeams.add(dreamTeam);
+                }
+            }
+        }
+
+        return availableDreamTeams;
     }
 
     public void combine(@NotNull List<Driver> drivers, @NotNull List<Team> teams, @NotNull List<Engine> engines) {
@@ -27,12 +47,7 @@ public class Combinator {
                 if (j > i) {
                     for (Team team : teams) {
                         for (Engine engine : engines) {
-                            dreamTeams.add(ImmutableDreamTeam.builder()
-                                    .driver1(drivers.get(i))
-                                    .driver2(drivers.get(j))
-                                    .team(team)
-                                    .engine(engine)
-                                    .build());
+                            dreamTeams.add(new DreamTeam(drivers.get(i), drivers.get(j), team, engine));
                         }
                     }
                 }
@@ -40,11 +55,17 @@ public class Combinator {
         }
     }
 
-    public void tempPrintDreamTeams() {
-        for (DreamTeam dreamTeam : dreamTeams) {
-            LOGGER.info("Driver 1: {}, Driver 2: {}, Team: {}, Engine: {}",
-                    dreamTeam.getDriver1(), dreamTeam.getDriver2(), dreamTeam.getTeam(), dreamTeam.getEngine());
+    private static double maxPoints(@NotNull List<DreamTeam> tempDreamTeams) {
+        double maxPoints = 0;
+        for (DreamTeam dreamTeam : tempDreamTeams) {
+            if (dreamTeam.getPoints() > maxPoints) {
+                maxPoints = dreamTeam.getPoints();
+            }
         }
-        LOGGER.info("Number of dream teams: {}", dreamTeams.size());
+        return maxPoints;
+    }
+
+    private static double getPointsThreshold(double coefficient, double maxPoints) {
+        return (coefficient / 100) * maxPoints;
     }
 }

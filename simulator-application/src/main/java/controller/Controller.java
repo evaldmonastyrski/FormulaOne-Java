@@ -3,9 +3,11 @@ package controller;
 import controller.combinator.Combinator;
 import controller.deserializer.DeserializedDataContainer;
 import gui.setuppanel.CompetitionType;
+import model.DreamTeam;
 import model.Driver;
 import model.DriverUpdate;
 import model.ImmutableDreamTeamComponents;
+import model.SimulationParameters;
 import model.Team;
 import model.Engine;
 import model.ComponentsUpdate;
@@ -35,8 +37,6 @@ class Controller {
         componentsCreator = new DeserializedDataContainer(drivers, teams, engines);
         initializeGUI();
         initializeLabels();
-        combinator.combine(drivers, teams, engines);
-        combinator.tempPrintDreamTeams();
     }
 
     void onReloadButtonClicked() {
@@ -47,6 +47,7 @@ class Controller {
     void onGPIndexChanged(int gpIndex) {
         LOGGER.info("GP Index: {}", gpIndex);
         componentsCreator.createDreamTeamComponents(gpIndex);
+        combinator.combine(drivers, teams, engines);
         initializeLabels();
         initializePointsAndPrices();
     }
@@ -73,6 +74,12 @@ class Controller {
                 .build();
 
         guiController.updateGUILabels(componentsUpdate);
+    }
+
+    @NotNull
+    List<DreamTeam> onSimulateButtonClicked(@NotNull SimulationParameters simulationParameters) {
+        LOGGER.info("Number of teams: {}", combinator.getAvailableDreamTeams(simulationParameters).size());
+        return combinator.getAvailableDreamTeams(simulationParameters);
     }
 
     private void initializePointsAndPrices() {

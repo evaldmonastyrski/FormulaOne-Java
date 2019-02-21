@@ -2,7 +2,6 @@ package gui;
 
 import controller.Constants;
 import controller.GuiController;
-import gui.setuppanel.CompetitionType;
 import gui.setuppanel.SetupComboBoxManager;
 import gui.setuppanel.SetupLabelManager;
 import gui.setuppanel.SetupPointManager;
@@ -11,7 +10,6 @@ import model.ComponentsUpdate;
 import model.DreamTeamComponents;
 import model.DriverUpdate;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -86,6 +84,7 @@ public class SetupPanel extends JPanel {
         constraints.gridy = Constants.NUMBER_OF_DRIVERS + 1;
         constraints.insets = new Insets(15, 0, 0, 0);
 
+        simulateButton.addActionListener(e -> guiController.onSimulateButtonClicked());
         flushQButton.addActionListener(e -> comboBoxManager.flushQualificationComboBoxes());
         flushRButton.addActionListener(e -> comboBoxManager.flushRaceComboBoxes());
 

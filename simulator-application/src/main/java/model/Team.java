@@ -26,6 +26,10 @@ public class Team implements Comparable<Team> {
         return name;
     }
 
+    double getPrice() {
+        return price;
+    }
+
     public double getPoints() {
         return points;
     }

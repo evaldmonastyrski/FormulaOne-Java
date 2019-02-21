@@ -36,6 +36,10 @@ public class Driver implements Comparable<Driver> {
 
     @NotNull public String getEngine() { return engine; }
 
+    @NotNull public String getSurname() {
+        return surname;
+    }
+
     double getPrice() {
         return price;
     }

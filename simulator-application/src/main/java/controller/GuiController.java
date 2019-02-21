@@ -1,13 +1,16 @@
 package controller;
 
+import gui.CombinationsDialog;
 import gui.GuiMain;
-import gui.setuppanel.CompetitionType;
 import model.ComponentsUpdate;
+import model.DreamTeam;
 import model.DreamTeamComponents;
 import model.DriverUpdate;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 public class GuiController {
 
@@ -35,6 +38,11 @@ public class GuiController {
 
     public void onComboBoxPositionChanged(@NotNull DriverUpdate driverUpdate) {
         controller.onComboBoxPositionChanged(driverUpdate);
+    }
+
+    public void onSimulateButtonClicked() {
+        List<DreamTeam> dreamTeams = controller.onSimulateButtonClicked(guiMain.getSimulationParameters());
+        new CombinationsDialog(dreamTeams);
     }
 
     public void onRaceSetupStateChanged(boolean isSelected) {
