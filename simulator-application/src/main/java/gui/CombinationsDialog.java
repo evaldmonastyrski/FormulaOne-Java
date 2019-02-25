@@ -25,7 +25,7 @@ public class CombinationsDialog {
 
         int i = 1;
         for (DreamTeam dreamTeam : dreamTeams) {
-            String entry = String.format("%4d %-1s %-12s %-12s %-12s %-8s %9.2f %9.2f %9.2f \n",
+            String entry = String.format("%4d %-1s %-12s %-12s %-12s %-8s %9.2f %9.2f %12.2f \n",
                     i,
                     " ",
                     dreamTeam.getDriver1().getSurname(),
@@ -46,7 +46,7 @@ public class CombinationsDialog {
 
     @NotNull
     private String getFirstLine() {
-        String firstLine = String.format("%4s %-1s %-12s %-12s %-12s %-8s %9s %9s %11s \n",
+        String firstLine = String.format("%4s %-1s %-12s %-12s %-12s %-8s %9s %9s %12s \n",
                 "No",
                 " ",
                 "Driver 1",

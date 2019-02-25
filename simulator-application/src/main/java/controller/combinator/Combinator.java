@@ -13,9 +13,11 @@ import java.util.List;
 public class Combinator {
 
     @NotNull private final List<DreamTeam> dreamTeams = new ArrayList<>();
+    @NotNull private final List<DreamTeam> availableDreamTeams = new ArrayList<>();
 
-    @NotNull public List<DreamTeam> getAvailableDreamTeams(@NotNull SimulationParameters simulationParameters) {
+    public void setAvailableDreamTeams(@NotNull SimulationParameters simulationParameters) {
         List<DreamTeam> tempDreamTeams = new ArrayList<>();
+        availableDreamTeams.clear();
 
         for (DreamTeam dreamTeam : dreamTeams) {
             if (dreamTeam.getPrice() <= simulationParameters.getBudget()) {
@@ -25,7 +27,6 @@ public class Combinator {
 
         double pointsThreshold =
                 getPointsThreshold(simulationParameters.getPointsThreshold(), maxPoints(tempDreamTeams));
-        List<DreamTeam> availableDreamTeams = new ArrayList<>();
         for (DreamTeam dreamTeam : tempDreamTeams) {
             if (dreamTeam.getPrice() <= simulationParameters.getBudget()) {
                 if (simulationParameters.usePointsThreshold()) {
@@ -37,11 +38,15 @@ public class Combinator {
                 }
             }
         }
+    }
 
+    @NotNull
+    public List<DreamTeam> getAvailableDreamTeams() {
         return availableDreamTeams;
     }
 
     public void combine(@NotNull List<Driver> drivers, @NotNull List<Team> teams, @NotNull List<Engine> engines) {
+        dreamTeams.clear();
         for (int i = 0; i < drivers.size(); i++) {
             for (int j = 0; j < drivers.size(); j ++) {
                 if (j > i) {

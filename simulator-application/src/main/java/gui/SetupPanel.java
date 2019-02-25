@@ -97,6 +97,8 @@ public class SetupPanel extends JPanel {
         });
         flushQButton.addActionListener(e -> comboBoxManager.flushQualificationComboBoxes());
         flushRButton.addActionListener(e -> comboBoxManager.flushRaceComboBoxes());
+        pointSortButton.addActionListener(e -> guiController.onPointsSortClicked());
+        priceChangeSortButton.addActionListener(e -> guiController.onPriceChangeSortClicked());
 
         this.add(simulateButton, constraints);
         constraints.gridx = 1;

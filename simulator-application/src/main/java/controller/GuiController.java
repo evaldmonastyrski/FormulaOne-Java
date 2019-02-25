@@ -42,8 +42,7 @@ public class GuiController {
     }
 
     public void onSimulateButtonClicked() {
-        List<DreamTeam> dreamTeams = controller.onSimulateButtonClicked(guiMain.getSimulationParameters());
-        new CombinationsDialog(dreamTeams);
+        controller.onSimulateButtonClicked(guiMain.getSimulationParameters());
     }
 
     public void disableSimulationResults() {
@@ -56,6 +55,14 @@ public class GuiController {
 
     public boolean isRaceSetup() {
         return guiMain.isRaceSetup();
+    }
+
+    public void onPointsSortClicked() {
+        new CombinationsDialog(controller.getSortedByPointsList());
+    }
+
+    public void onPriceChangeSortClicked() {
+        new CombinationsDialog(controller.getSortedByPriceChangeList());
     }
 
     void updateGUILabels(@NotNull ComponentsUpdate componentsUpdate) {

@@ -1,6 +1,7 @@
 package controller;
 
 import controller.combinator.Combinator;
+import controller.combinator.Sorter;
 import controller.deserializer.DeserializedDataContainer;
 import gui.setuppanel.CompetitionType;
 import model.DreamTeam;
@@ -76,10 +77,20 @@ class Controller {
         guiController.updateGUILabels(componentsUpdate);
     }
 
+
+    void onSimulateButtonClicked(@NotNull SimulationParameters simulationParameters) {
+        combinator.setAvailableDreamTeams(simulationParameters);
+        LOGGER.info("Number of teams: {}", combinator.getAvailableDreamTeams().size());
+    }
+
     @NotNull
-    List<DreamTeam> onSimulateButtonClicked(@NotNull SimulationParameters simulationParameters) {
-        LOGGER.info("Number of teams: {}", combinator.getAvailableDreamTeams(simulationParameters).size());
-        return combinator.getAvailableDreamTeams(simulationParameters);
+    List<DreamTeam> getSortedByPointsList() {
+        return Sorter.sortByPoints(combinator.getAvailableDreamTeams());
+    }
+
+    @NotNull
+    List<DreamTeam> getSortedByPriceChangeList() {
+        return Sorter.sortByPriceChange(combinator.getAvailableDreamTeams());
     }
 
     private void initializePointsAndPrices() {

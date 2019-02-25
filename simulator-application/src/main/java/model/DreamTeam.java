@@ -2,7 +2,7 @@ package model;
 
 import org.jetbrains.annotations.NotNull;
 
-public class DreamTeam {
+public class DreamTeam implements Comparable<DreamTeam>{
 
     @NotNull private final Driver driver1;
     @NotNull private final Driver driver2;
@@ -42,5 +42,10 @@ public class DreamTeam {
 
     public double getPriceChange() {
         return driver1.getPriceChange() + driver2.getPriceChange() + team.getPriceChange() + engine.getPriceChange();
+    }
+
+    @Override
+    public int compareTo(@NotNull DreamTeam o) {
+        return 0;
     }
 }
