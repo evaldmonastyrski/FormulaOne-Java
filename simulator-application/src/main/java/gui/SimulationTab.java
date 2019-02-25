@@ -3,6 +3,7 @@ package gui;
 import model.ComponentsUpdate;
 import model.DreamTeamComponents;
 import controller.GuiController;
+import model.SimulationParameters;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.JPanel;
@@ -40,6 +41,10 @@ class SimulationTab extends JPanel {
 
     boolean isRaceSetup() {
         return controlPanel.isRaceSetup();
+    }
+
+    @NotNull SimulationParameters getSimulationParameters() {
+        return controlPanel.getSimulationParameters();
     }
 
     void updateGUILabels(@NotNull ComponentsUpdate componentsUpdate) {

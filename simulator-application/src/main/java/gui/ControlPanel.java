@@ -1,6 +1,8 @@
 package gui;
 
 import controller.GuiController;
+import model.ImmutableSimulationParameters;
+import model.SimulationParameters;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.JButton;
@@ -57,6 +59,14 @@ class ControlPanel extends JPanel {
         this.add(pointsThresholdSpinner);
         this.add(pointsThresholdCheckBox);
         this.add(raceSetupCheckBox);
+    }
+
+    @NotNull SimulationParameters getSimulationParameters() {
+        return ImmutableSimulationParameters.builder()
+                .budget((Double) budgetSpinner.getValue())
+                .pointsThreshold((Integer) pointsThresholdSpinner.getValue())
+                .usePointsThreshold(pointsThresholdCheckBox.isSelected())
+                .build();
     }
 
     boolean isRaceSetup() {

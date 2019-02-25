@@ -4,6 +4,7 @@ import com.apple.eawt.Application;
 import model.ComponentsUpdate;
 import model.DreamTeamComponents;
 import controller.GuiController;
+import model.SimulationParameters;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,6 +68,10 @@ public class GuiMain {
 
     public boolean isRaceSetup() {
         return simulationTab.isRaceSetup();
+    }
+
+    @NotNull public SimulationParameters getSimulationParameters() {
+        return simulationTab.getSimulationParameters();
     }
 
     public void closeGui() {
