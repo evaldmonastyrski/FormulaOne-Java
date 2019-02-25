@@ -70,6 +70,10 @@ public class GuiMain {
         return simulationTab.isRaceSetup();
     }
 
+    public void disableSimulationResults() {
+        simulationTab.disableSimulationResults();
+    }
+
     @NotNull public SimulationParameters getSimulationParameters() {
         return simulationTab.getSimulationParameters();
     }
