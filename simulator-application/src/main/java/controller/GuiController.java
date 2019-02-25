@@ -34,6 +34,7 @@ public class GuiController {
         LOGGER.info("GP stage changed");
         controller.onGPIndexChanged(gpIndex);
         guiMain.flushComboBoxes();
+        guiMain.disableSimulationResults();
     }
 
     public void onComboBoxPositionChanged(@NotNull DriverUpdate driverUpdate) {
@@ -43,6 +44,10 @@ public class GuiController {
     public void onSimulateButtonClicked() {
         List<DreamTeam> dreamTeams = controller.onSimulateButtonClicked(guiMain.getSimulationParameters());
         new CombinationsDialog(dreamTeams);
+    }
+
+    public void disableSimulationResults() {
+        guiMain.disableSimulationResults();
     }
 
     public void onRaceSetupStateChanged(boolean isSelected) {

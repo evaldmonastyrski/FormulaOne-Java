@@ -43,6 +43,10 @@ class SimulationTab extends JPanel {
         return controlPanel.isRaceSetup();
     }
 
+    void disableSimulationResults() {
+        setupPanel.activateSimulationResults(false);
+    }
+
     @NotNull SimulationParameters getSimulationParameters() {
         return controlPanel.getSimulationParameters();
     }

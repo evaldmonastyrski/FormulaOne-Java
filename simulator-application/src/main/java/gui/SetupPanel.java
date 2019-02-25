@@ -48,10 +48,12 @@ public class SetupPanel extends JPanel {
         pointManager.init(COMPONENTS_START_ROW, ENGINE_ROW_OFFSET);
         priceManager.init(COMPONENTS_START_ROW, ENGINE_ROW_OFFSET);
         initializeSimulationButtons(constraints);
+        activateSimulationResults(false);
     }
 
     public void updateDriver(@NotNull DriverUpdate driverUpdate) {
         guiController.onComboBoxPositionChanged(driverUpdate);
+        activateSimulationResults(false);
     }
 
     void setLabels(@NotNull DreamTeamComponents components) {
@@ -74,6 +76,11 @@ public class SetupPanel extends JPanel {
         comboBoxManager.raceSetup(isSelected);
     }
 
+    void activateSimulationResults(boolean enable) {
+        pointSortButton.setEnabled(enable);
+        priceChangeSortButton.setEnabled(enable);
+    }
+
     public boolean isRaceSetup() {
         return guiController.isRaceSetup();
     }
@@ -84,7 +91,10 @@ public class SetupPanel extends JPanel {
         constraints.gridy = Constants.NUMBER_OF_DRIVERS + 1;
         constraints.insets = new Insets(15, 0, 0, 0);
 
-        simulateButton.addActionListener(e -> guiController.onSimulateButtonClicked());
+        simulateButton.addActionListener(e -> {
+            guiController.onSimulateButtonClicked();
+            activateSimulationResults(true);
+        });
         flushQButton.addActionListener(e -> comboBoxManager.flushQualificationComboBoxes());
         flushRButton.addActionListener(e -> comboBoxManager.flushRaceComboBoxes());
 
