@@ -4,15 +4,17 @@ import controller.combinator.Combinator;
 import controller.combinator.Sorter;
 import controller.deserializer.DeserializedDataContainer;
 import gui.setuppanel.CompetitionType;
-import model.DreamTeam;
+import model.ComponentsUpdate;
 import model.Driver;
-import model.DriverUpdate;
+import model.ImmutableComponentsUpdate;
+import model.ImmutableOffsetUpdate;
 import model.ImmutableDreamTeamComponents;
+import model.OffsetUpdate;
 import model.SimulationParameters;
 import model.Team;
 import model.Engine;
-import model.ComponentsUpdate;
-import model.ImmutableComponentsUpdate;
+import model.DriverUpdate;
+import model.DreamTeam;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,6 +79,17 @@ class Controller {
         guiController.updateGUILabels(componentsUpdate);
     }
 
+    void onSamplingChanged(int sampleNumber) {
+        componentsCreator.updateDriversPriceOffset(sampleNumber);
+
+        OffsetUpdate offsetUpdate = ImmutableOffsetUpdate.builder()
+                .addAllDrivers(drivers)
+                .addAllTeams(teams)
+                .addAllEngines(engines)
+                .build();
+
+        guiController.updateOffsets(offsetUpdate);
+    }
 
     void onSimulateButtonClicked(@NotNull SimulationParameters simulationParameters) {
         combinator.setAvailableDreamTeams(simulationParameters);
@@ -93,10 +106,16 @@ class Controller {
         return Sorter.sortByPriceChange(combinator.getAvailableDreamTeams());
     }
 
+    @NotNull
+    List<DreamTeam> getSortedByPriceOffset() {
+        return Sorter.sortByPriceOffset(combinator.getAvailableDreamTeams());
+    }
+
     private void initializePointsAndPrices() {
         for (int i = 0; i < Constants.NUMBER_OF_DRIVERS; i ++) {
             DriverUpdate driverUpdate = DriverUpdate.initialDriverUpdate(i);
             SwingUtilities.invokeLater(() -> onComboBoxPositionChanged(driverUpdate));
+            SwingUtilities.invokeLater(() -> onSamplingChanged(Constants.OFFSET_STAGES));
         }
     }
 

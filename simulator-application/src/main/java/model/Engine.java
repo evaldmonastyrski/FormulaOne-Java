@@ -14,6 +14,7 @@ public class Engine implements Comparable<Engine> {
 
     private double points;
     private double priceChange;
+    private double priceOffset;
 
     public Engine (@NotNull String name, @NotNull List<Driver> drivers) {
         this.name = name;
@@ -32,7 +33,19 @@ public class Engine implements Comparable<Engine> {
 
     public double getPriceChange() { return priceChange; }
 
+    public double getPriceOffset() {
+        return priceOffset;
+    }
+
     public void updateEngine() { updateEngineFields(); }
+
+    public void setPriceOffset() {
+        double priceOffset = 0;
+        for (Driver driver : drivers) {
+            priceOffset += Constants.ENGINE_COEFFICIENT * driver.getPriceOffset();
+        }
+        this.priceOffset = priceOffset;
+    }
 
     private void updateEngineFields() {
        int tempPoints = 0;
@@ -51,7 +64,6 @@ public class Engine implements Comparable<Engine> {
             priceCache += Constants.ENGINE_COEFFICIENT * driver.getPrice();
         }
         return priceCache;
-
     }
 
     @Override

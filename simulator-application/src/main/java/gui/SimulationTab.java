@@ -3,6 +3,7 @@ package gui;
 import model.ComponentsUpdate;
 import model.DreamTeamComponents;
 import controller.GuiController;
+import model.OffsetUpdate;
 import model.SimulationParameters;
 import org.jetbrains.annotations.NotNull;
 
@@ -53,5 +54,9 @@ class SimulationTab extends JPanel {
 
     void updateGUILabels(@NotNull ComponentsUpdate componentsUpdate) {
         setupPanel.updateGUILabels(componentsUpdate);
+    }
+
+    void updateOffsets(@NotNull OffsetUpdate offsetUpdate) {
+        setupPanel.updateOffsets(offsetUpdate);
     }
 }

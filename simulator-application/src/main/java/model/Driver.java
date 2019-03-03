@@ -14,18 +14,21 @@ public class Driver implements Comparable<Driver> {
     @NotNull private final String team;
     @NotNull private final String engine;
 
+    private final int gpStage;
     private final double price;
 
     private int qPosition = 0;
     private int rPosition = 0;
     private double points;
     private double priceChange;
+    private double priceOffset;
 
     public Driver(@NotNull DataEntry data, int gpStage) {
         this.name = data.getName();
         this.surname = data.getSurname();
         this.team = data.getTeam();
         this.engine = data.getEngine();
+        this.gpStage = gpStage;
         price = data.getPrices()[gpStage];
         updateDriverFields();
     }
@@ -52,6 +55,10 @@ public class Driver implements Comparable<Driver> {
         return priceChange;
     }
 
+    public double getPriceOffset() {
+        return priceOffset;
+    }
+
     public void setQPosition(int qPosition) {
         this.qPosition = (qPosition <= Constants.QUALIFICATION_AWARDED_PLACES) ? qPosition : 0;
         updateDriverFields();
@@ -67,6 +74,19 @@ public class Driver implements Comparable<Driver> {
         double newPrice = Constants.PRICING_PRICE_COEFFICIENT * price + Constants.PRICING_POINTS_COEFFICIENT * points;
         newPrice = (newPrice >= 0.5d) ? newPrice : 0.5d;
         priceChange = Math.round((newPrice - price) * 10.0) / 10.0;
+    }
+
+    public void setPriceOffset(@NotNull DataEntry data, int samplesNumber) {
+        double priceSum = 0;
+        int startingStage = gpStage <= samplesNumber ? 0 : gpStage - samplesNumber;
+        int numberOfStages = gpStage - startingStage;
+
+        for (int i = startingStage; i < gpStage; i++) {
+            priceSum += data.getPrices()[i];
+        }
+
+        double averagePrice = priceSum / numberOfStages;
+        priceOffset = averagePrice - price;
     }
 
     @Override

@@ -14,6 +14,7 @@ public class Team implements Comparable<Team> {
 
     private double points;
     private double priceChange;
+    private double priceOffset;
 
     public Team(@NotNull String name, @NotNull List<Driver> drivers) {
         this.name = name;
@@ -38,8 +39,20 @@ public class Team implements Comparable<Team> {
         return priceChange;
     }
 
+    public double getPriceOffset() {
+        return priceOffset;
+    }
+
     public void updateTeam() {
         updateTeamFields();
+    }
+
+    public void setPriceOffset() {
+        double priceOffset = 0;
+        for (Driver driver : drivers) {
+            priceOffset += Constants.TEAM_COEFFICIENT * driver.getPriceOffset();
+        }
+        this.priceOffset = priceOffset;
     }
 
     private void updateTeamFields() {

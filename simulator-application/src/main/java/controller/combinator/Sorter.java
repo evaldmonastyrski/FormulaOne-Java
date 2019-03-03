@@ -23,4 +23,11 @@ public enum Sorter {
                 .sorted(Comparator.comparing(DreamTeam::getPriceChange).reversed())
                 .collect(Collectors.toList());
     }
+
+    @NotNull
+    public static List<DreamTeam> sortByPriceOffset(@NotNull List<DreamTeam> dreamTeamList) {
+        return dreamTeamList.stream()
+                .sorted(Comparator.comparing(DreamTeam::getPriceOffset).reversed())
+                .collect(Collectors.toList());
+    }
 }

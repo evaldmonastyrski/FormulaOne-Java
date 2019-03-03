@@ -12,4 +12,5 @@ public enum Constants {
     public static final double ENGINE_COEFFICIENT = 0.2d;
     public static final double PRICING_PRICE_COEFFICIENT = 0.66155811d;
     public static final double PRICING_POINTS_COEFFICIENT = 0.284929757d;
+    public static final int OFFSET_STAGES = 7;
 }

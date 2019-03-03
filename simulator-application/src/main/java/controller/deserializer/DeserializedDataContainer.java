@@ -24,6 +24,7 @@ public class DeserializedDataContainer {
     @NotNull private final Map<String, List<Driver>> teamCache = new HashMap<>();
     @NotNull private final Map<String, List<Driver>> engineCache = new HashMap<>();
 
+    @NotNull private final Map<Driver, DataEntry> driverCache = new HashMap<>();
     @NotNull private final Map<String, Team> teamMap = new HashMap<>();
     @NotNull private final Map<String, Engine> engineMap = new HashMap<>();
 
@@ -48,6 +49,18 @@ public class DeserializedDataContainer {
         LOGGER.debug("Drivers: {}", drivers.size());
         LOGGER.debug("Teams: {}", teams.size());
         LOGGER.debug("Engines: {}", engines.size());
+    }
+
+    public void updateDriversPriceOffset(int sampling) {
+        for (Driver driver : drivers) {
+            driver.setPriceOffset(driverCache.get(driver), sampling);
+        }
+        for (Team team : teams) {
+            team.setPriceOffset();
+        }
+        for (Engine engine : engines) {
+            engine.setPriceOffset();
+        }
     }
 
     @NotNull
@@ -77,6 +90,7 @@ public class DeserializedDataContainer {
         @NotNull final Set<Driver> driverSet = new TreeSet<>();
         for (DataEntry dataEntry : data) {
             Driver driver = new Driver(dataEntry, gpStage);
+            driverCache.put(driver, dataEntry);
             cacheTeam(dataEntry.getTeam(), driver);
             cacheEngine(dataEntry.getEngine(), driver);
             driverSet.add(driver);

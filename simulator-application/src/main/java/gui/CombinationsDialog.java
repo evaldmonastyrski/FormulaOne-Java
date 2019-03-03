@@ -13,7 +13,7 @@ public class CombinationsDialog {
 
     public CombinationsDialog(@NotNull List<DreamTeam> dreamTeams) {
         JFrame dialog = new JFrame("Results");
-        dialog.setSize(640, 820);
+        dialog.setSize(730, 820);
         dialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         JTextArea textArea = new JTextArea();
@@ -25,7 +25,7 @@ public class CombinationsDialog {
 
         int i = 1;
         for (DreamTeam dreamTeam : dreamTeams) {
-            String entry = String.format("%4d %-1s %-12s %-12s %-12s %-8s %9.2f %9.2f %12.2f \n",
+            String entry = String.format("%4d %-1s %-12s %-12s %-12s %-8s %9.2f %9.2f %12.2f %12.2f \n",
                     i,
                     " ",
                     dreamTeam.getDriver1().getSurname(),
@@ -34,7 +34,8 @@ public class CombinationsDialog {
                     dreamTeam.getEngine().getName(),
                     dreamTeam.getPrice(),
                     dreamTeam.getPoints(),
-                    dreamTeam.getPriceChange());
+                    dreamTeam.getPriceChange(),
+                    dreamTeam.getPriceOffset());
 
             textArea.append(entry);
             i++;
@@ -46,7 +47,7 @@ public class CombinationsDialog {
 
     @NotNull
     private String getFirstLine() {
-        String firstLine = String.format("%4s %-1s %-12s %-12s %-12s %-8s %9s %9s %12s \n",
+        String firstLine = String.format("%4s %-1s %-12s %-12s %-12s %-8s %9s %9s %12s %12s \n",
                 "No",
                 " ",
                 "Driver 1",
@@ -55,8 +56,10 @@ public class CombinationsDialog {
                 "Engine",
                 "Price",
                 "Points",
-                "Price Change");
-        String secondLine = "---------------------------------------------------------------------------------------\n";
+                "Price Change",
+                "Price Offset");
+        String secondLine = "-------------------------------------------------------------------------------------" +
+                "---------------\n";
         return firstLine + secondLine;
     }
 }

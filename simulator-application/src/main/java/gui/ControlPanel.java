@@ -30,6 +30,9 @@ class ControlPanel extends JPanel {
     @NotNull private final JSpinner pointsThresholdSpinner = new JSpinner(pointsThresholdSpinnerModel);
     @NotNull private final JCheckBox pointsThresholdCheckBox = new JCheckBox("Points Threshold", true);
     @NotNull private final JCheckBox raceSetupCheckBox = new JCheckBox("Race Setup");
+    @NotNull private final JLabel samplesNumberLabel = new JLabel("Max Samples");
+    @NotNull private final SpinnerNumberModel samplesSpinnerModel = new SpinnerNumberModel(7, 1, 21, 1);
+    @NotNull private final JSpinner samplesSpinner = new JSpinner(samplesSpinnerModel);
 
     ControlPanel(@NotNull GuiController guiController) {
         super(new FlowLayout());
@@ -50,6 +53,7 @@ class ControlPanel extends JPanel {
         grandPrixComboBox.addActionListener(e -> guiController.onGPIndexChanged(grandPrixComboBox.getSelectedIndex()));
         raceSetupCheckBox.addActionListener(e -> guiController.onRaceSetupStateChanged(raceSetupCheckBox.isSelected()));
         budgetSpinner.addChangeListener(e -> guiController.disableSimulationResults());
+        samplesSpinner.addChangeListener(e -> guiController.onSamplesNumChanged((Integer) samplesSpinner.getValue()));
         pointsThresholdSpinner.addChangeListener(e -> guiController.disableSimulationResults());
         pointsThresholdCheckBox.addActionListener(e -> guiController.disableSimulationResults());
         raceSetupCheckBox.addActionListener(e -> guiController.disableSimulationResults());
@@ -59,6 +63,8 @@ class ControlPanel extends JPanel {
         this.add(budgetSpinner);
         this.add(grandPrixLabel);
         this.add(grandPrixComboBox);
+        this.add(samplesNumberLabel);
+        this.add(samplesSpinner);
         this.add(pointsThresholdSpinnerLabel);
         this.add(pointsThresholdSpinner);
         this.add(pointsThresholdCheckBox);

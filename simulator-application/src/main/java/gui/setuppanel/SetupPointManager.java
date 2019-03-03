@@ -32,8 +32,8 @@ public class SetupPointManager {
 
     public void init(int startRow, int engineRowOffset) {
         initializePointsLabels(driverPointsLabels, startRow, 3);
-        initializePointsLabels(teamPointsLabels, startRow, 6);
-        initializePointsLabels(enginePointsLabels, engineRowOffset, 6);
+        initializePointsLabels(teamPointsLabels, startRow, 7);
+        initializePointsLabels(enginePointsLabels, engineRowOffset, 7);
     }
 
     public void updatePoints(@NotNull ComponentsUpdate update) {

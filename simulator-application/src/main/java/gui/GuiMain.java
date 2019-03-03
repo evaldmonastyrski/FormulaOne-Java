@@ -4,6 +4,7 @@ import com.apple.eawt.Application;
 import model.ComponentsUpdate;
 import model.DreamTeamComponents;
 import controller.GuiController;
+import model.OffsetUpdate;
 import model.SimulationParameters;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -18,7 +19,7 @@ import java.awt.event.WindowEvent;
 public class GuiMain {
 
     @NotNull private static final Logger LOGGER = LoggerFactory.getLogger(GuiMain.class);
-    private static final int WINDOW_WIDTH = 900;
+    private static final int WINDOW_WIDTH = 1050;
     private static final int WINDOW_HEIGHT = 740;
 
     @NotNull private final GuiController guiController;
@@ -60,6 +61,10 @@ public class GuiMain {
 
     public void updateGUILabels(@NotNull ComponentsUpdate componentsUpdate) {
         simulationTab.updateGUILabels(componentsUpdate);
+    }
+
+    public void updateOffsets(@NotNull OffsetUpdate offsetUpdate) {
+        simulationTab.updateOffsets(offsetUpdate);
     }
 
     public void raceSetup(boolean isSelected) {

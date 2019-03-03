@@ -36,6 +36,10 @@ public class DreamTeam implements Comparable<DreamTeam>{
         return driver1.getPrice() + driver2.getPrice() + team.getPrice() + engine.getPrice();
     }
 
+    public double getPriceOffset() {
+        return driver1.getPriceOffset() + driver2.getPriceOffset() + team.getPriceOffset() + engine.getPriceOffset();
+    }
+
     public double getPoints() {
         return driver1.getPoints() + driver2.getPoints() + team.getPoints() + engine.getPoints();
     }

@@ -3,14 +3,13 @@ package controller;
 import gui.CombinationsDialog;
 import gui.GuiMain;
 import model.ComponentsUpdate;
-import model.DreamTeam;
 import model.DreamTeamComponents;
 import model.DriverUpdate;
+import model.OffsetUpdate;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.List;
 
 public class GuiController {
 
@@ -65,8 +64,24 @@ public class GuiController {
         new CombinationsDialog(controller.getSortedByPriceChangeList());
     }
 
+    public void onPriceOffsetSortClicked() {
+        new CombinationsDialog(controller.getSortedByPriceOffset());
+    }
+
+    public void onSamplesNumChanged(@Nullable Integer samples) {
+        int intSamples = 0;
+        if (samples != null) {
+            intSamples = samples;
+        }
+        controller.onSamplingChanged(intSamples);
+    }
+
     void updateGUILabels(@NotNull ComponentsUpdate componentsUpdate) {
         guiMain.updateGUILabels(componentsUpdate);
+    }
+
+    void updateOffsets(@NotNull OffsetUpdate offsetUpdate) {
+        guiMain.updateOffsets(offsetUpdate);
     }
 
     void startGui(@NotNull String[] gpStages) {
