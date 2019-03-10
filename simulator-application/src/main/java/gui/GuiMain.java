@@ -23,13 +23,15 @@ public class GuiMain {
     private static final int WINDOW_HEIGHT = 740;
 
     @NotNull private final GuiController guiController;
-    @NotNull private final JFrame mainFrame = new JFrame("Formula 1");
+    @NotNull private final JFrame mainFrame = new JFrame("Formula 1      2.0");
     @NotNull private final JTabbedPane tabbedPane = new JTabbedPane();
     @NotNull private final SimulationTab simulationTab;
+    @NotNull private final HelpTab helpTab;
     @NotNull private final ImageIcon icon = new ImageIcon("logo.png");
 
     public GuiMain(@NotNull GuiController guiController) {
         simulationTab = new SimulationTab(guiController);
+        helpTab = new HelpTab();
         this.guiController = guiController;
     }
 
@@ -38,6 +40,7 @@ public class GuiMain {
         mainFrame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         mainFrame.add(tabbedPane);
         tabbedPane.addTab("Simulation", simulationTab);
+        tabbedPane.addTab("Help", helpTab);
 
         mainFrame.addWindowListener(new WindowAdapter() {
             @Override
@@ -47,6 +50,7 @@ public class GuiMain {
         });
 
         simulationTab.init(gpStages);
+        helpTab.init();
         LOGGER.info("GUI has started, {} is received", guiController);
         mainFrame.setVisible(true);
     }
