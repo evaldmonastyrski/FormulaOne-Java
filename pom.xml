@@ -70,4 +70,23 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <scm>
+        <developerConnection>scm:git:https://github.com/evaldmonastyrski/FormulaOne-Java</developerConnection>
+    </scm>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+                <configuration>
+                    <tagBase>
+                        2.0.0
+                    </tagBase>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
