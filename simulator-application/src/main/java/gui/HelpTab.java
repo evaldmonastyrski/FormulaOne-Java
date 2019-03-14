@@ -40,7 +40,7 @@ class HelpTab extends JPanel {
 
     private void loadImage() {
         try {
-            BufferedImage myPicture = ImageIO.read(new File("logo.png"));
+            BufferedImage myPicture = ImageIO.read(new File("Resources/Graphics/logo.png"));
             JLabel picLabel = new JLabel(new ImageIcon(myPicture));
             picLabel.setSize(500, 500);
             Image dimg = myPicture.getScaledInstance(picLabel.getWidth(), picLabel.getHeight(),

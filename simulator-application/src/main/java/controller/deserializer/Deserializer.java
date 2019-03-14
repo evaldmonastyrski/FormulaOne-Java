@@ -14,7 +14,7 @@ import java.util.Scanner;
 class Deserializer {
 
     @NotNull private static final Logger LOGGER = LoggerFactory.getLogger(Deserializer.class);
-    @NotNull private static final String FILE = "MarketData.txt";
+    @NotNull private static final String FILE = "Resources/MarketData.txt";
     @NotNull private final List<DataEntry> data = new ArrayList<>();
     @NotNull private String[] gpStages = new String[0];
 

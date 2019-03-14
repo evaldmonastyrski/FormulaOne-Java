@@ -19,15 +19,15 @@ import java.awt.event.WindowEvent;
 public class GuiMain {
 
     @NotNull private static final Logger LOGGER = LoggerFactory.getLogger(GuiMain.class);
-    private static final int WINDOW_WIDTH = 1050;
+    private static final int WINDOW_WIDTH = 1100;
     private static final int WINDOW_HEIGHT = 740;
 
     @NotNull private final GuiController guiController;
-    @NotNull private final JFrame mainFrame = new JFrame("Formula 1      2.0");
+    @NotNull private final JFrame mainFrame = new JFrame("Formula 1");
     @NotNull private final JTabbedPane tabbedPane = new JTabbedPane();
     @NotNull private final SimulationTab simulationTab;
     @NotNull private final HelpTab helpTab;
-    @NotNull private final ImageIcon icon = new ImageIcon("logo.png");
+    @NotNull private final ImageIcon icon = new ImageIcon("Resources/Graphics/logo.png");
 
     public GuiMain(@NotNull GuiController guiController) {
         simulationTab = new SimulationTab(guiController);
@@ -96,7 +96,7 @@ public class GuiMain {
             Application.getApplication().setDockIconImage(icon.getImage());
         }
 
-        if (GuiMainUtil.isWindows()) {
+        if (GuiMainUtil.isWindows() || GuiMainUtil.isLinux()) {
             mainFrame.setIconImage(icon.getImage());
         }
     }
