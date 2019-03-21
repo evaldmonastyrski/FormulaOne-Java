@@ -30,4 +30,11 @@ public enum Sorter {
                 .sorted(Comparator.comparing(DreamTeam::getPriceOffset).reversed())
                 .collect(Collectors.toList());
     }
+
+    @NotNull
+    public static List<DreamTeam> sortByMaxPriceChange(@NotNull List<DreamTeam> dreamTeamList) {
+        return dreamTeamList.stream()
+                .sorted(Comparator.comparing(DreamTeam::getMaxPriceChange).reversed())
+                .collect(Collectors.toList());
+    }
 }

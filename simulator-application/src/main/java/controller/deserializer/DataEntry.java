@@ -14,5 +14,7 @@ public interface DataEntry {
 
     @NotNull String getEngine();
 
+    double getMinPoints();
+
     @NotNull double[] getPrices();
 }

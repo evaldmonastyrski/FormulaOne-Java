@@ -1,5 +1,6 @@
 package model;
 
+import controller.Constants;
 import org.jetbrains.annotations.NotNull;
 
 public class DreamTeam implements Comparable<DreamTeam>{
@@ -8,6 +9,7 @@ public class DreamTeam implements Comparable<DreamTeam>{
     @NotNull private final Driver driver2;
     @NotNull private final Team team;
     @NotNull private final Engine engine;
+    private double budget;
 
     public DreamTeam(@NotNull Driver driver1, @NotNull Driver driver2, @NotNull Team team, @NotNull Engine engine) {
         this.driver1 = driver1;
@@ -45,7 +47,32 @@ public class DreamTeam implements Comparable<DreamTeam>{
     }
 
     public double getPriceChange() {
-        return driver1.getPriceChange() + driver2.getPriceChange() + team.getPriceChange() + engine.getPriceChange();
+        return driver1.getPriceChange() + driver2.getPriceChange() + team.getPriceChange() + engine.getPriceChange()
+                + Constants.INTEREST_RATE * (budget - getPrice());
+    }
+
+    public double getMinPoints() {
+        return driver1.getMinPoints() + driver2.getMinPoints() + team.getMinPoints() + engine.getMinPoints();
+    }
+
+    public double getMaxPriceChange() {
+        return driver1.getMaxPriceChange() + driver2.getMaxPriceChange() + team.getMaxPriceChange()
+                + engine.getMaxPriceChange() + Constants.INTEREST_RATE * (budget - getPrice());
+    }
+
+    public double getRisk() {
+        double pnl = getMaxPriceChange();
+        if (pnl >= 0d) return 0d;
+
+        return Constants.RISK_FACTOR * pnl;
+    }
+
+    public double getBudget() {
+        return budget;
+    }
+
+    public void setBudget(double budget) {
+        this.budget = budget;
     }
 
     @Override

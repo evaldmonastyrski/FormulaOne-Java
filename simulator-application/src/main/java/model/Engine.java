@@ -11,15 +11,18 @@ public class Engine implements Comparable<Engine> {
     @NotNull private final List<Driver> drivers;
 
     private final double price;
+    private final double minPoints;
 
     private double points;
     private double priceChange;
+    private double maxPriceChange;
     private double priceOffset;
 
     public Engine (@NotNull String name, @NotNull List<Driver> drivers) {
         this.name = name;
         this.drivers = drivers;
         this.price = derivePrice();
+        this.minPoints = deriveMinPoints();
         updateEngineFields();
     }
 
@@ -37,6 +40,14 @@ public class Engine implements Comparable<Engine> {
         return priceOffset;
     }
 
+    double getMinPoints() {
+        return minPoints;
+    }
+
+    double getMaxPriceChange() {
+        return maxPriceChange;
+    }
+
     public void updateEngine() { updateEngineFields(); }
 
     public void setPriceOffset() {
@@ -50,12 +61,15 @@ public class Engine implements Comparable<Engine> {
     private void updateEngineFields() {
        int tempPoints = 0;
        double tempPriceChange = 0;
+       double tempMaxPriceChange = 0;
        for (Driver driver : drivers) {
            tempPoints += driver.getPoints();
            tempPriceChange += driver.getPriceChange();
+           tempMaxPriceChange += driver.getMaxPriceChange();
        }
        points = Constants.ENGINE_COEFFICIENT * tempPoints;
        priceChange = Constants.ENGINE_COEFFICIENT * tempPriceChange;
+       maxPriceChange = Constants.ENGINE_COEFFICIENT * tempMaxPriceChange;
     }
 
     private double derivePrice(){
@@ -64,6 +78,14 @@ public class Engine implements Comparable<Engine> {
             priceCache += Constants.ENGINE_COEFFICIENT * driver.getPrice();
         }
         return priceCache;
+    }
+
+    private double deriveMinPoints() {
+        double pointsCache = 0;
+        for (Driver driver : drivers) {
+            pointsCache += Constants.ENGINE_COEFFICIENT * driver.getMinPoints();
+        }
+        return pointsCache;
     }
 
     @Override

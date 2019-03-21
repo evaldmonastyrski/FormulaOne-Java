@@ -14,6 +14,7 @@ public class Combinator {
 
     @NotNull private final List<DreamTeam> dreamTeams = new ArrayList<>();
     @NotNull private final List<DreamTeam> availableDreamTeams = new ArrayList<>();
+    @NotNull private final List<DreamTeam> lowRiskDreamTeams = new ArrayList<>();
 
     public void setAvailableDreamTeams(@NotNull SimulationParameters simulationParameters) {
         List<DreamTeam> tempDreamTeams = new ArrayList<>();
@@ -40,9 +41,41 @@ public class Combinator {
         }
     }
 
+    public void setLowRiskDreamTeams(@NotNull SimulationParameters simulationParameters) {
+        List<DreamTeam> tempDreamTeams = new ArrayList<>();
+        lowRiskDreamTeams.clear();
+
+        for (DreamTeam dreamTeam : dreamTeams) {
+            if (dreamTeam.getPrice() <= simulationParameters.getBudget()) {
+                tempDreamTeams.add(dreamTeam);
+            }
+        }
+
+        for (DreamTeam dreamTeam : tempDreamTeams) {
+            if (dreamTeam.getPrice() <= simulationParameters.getBudget()) {
+                if (dreamTeam.getMinPoints() >= 0d) {
+                    lowRiskDreamTeams.add(dreamTeam);
+                }
+            }
+        }
+    }
+
+    public void updateDreamTeams(double budget) {
+        if (dreamTeams.get(0).getBudget() != budget) {
+            for (DreamTeam dreamTeam : dreamTeams) {
+                dreamTeam.setBudget(budget);
+            }
+        }
+    }
+
     @NotNull
     public List<DreamTeam> getAvailableDreamTeams() {
         return availableDreamTeams;
+    }
+
+    @NotNull
+    public List<DreamTeam> getLowRiskDreamTeams() {
+        return lowRiskDreamTeams;
     }
 
     public void combine(@NotNull List<Driver> drivers, @NotNull List<Team> teams, @NotNull List<Engine> engines) {

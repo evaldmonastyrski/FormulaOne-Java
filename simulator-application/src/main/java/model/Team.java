@@ -11,15 +11,18 @@ public class Team implements Comparable<Team> {
     @NotNull private final List<Driver> drivers;
 
     private final double price;
+    private final double minPoints;
 
     private double points;
     private double priceChange;
+    private double maxPriceChange;
     private double priceOffset;
 
     public Team(@NotNull String name, @NotNull List<Driver> drivers) {
         this.name = name;
         this.drivers = drivers;
         this.price = derivePrice();
+        this.minPoints = deriveMinPoints();
         updateTeamFields();
     }
 
@@ -43,6 +46,14 @@ public class Team implements Comparable<Team> {
         return priceOffset;
     }
 
+    double getMinPoints() {
+        return minPoints;
+    }
+
+    double getMaxPriceChange() {
+        return maxPriceChange;
+    }
+
     public void updateTeam() {
         updateTeamFields();
     }
@@ -58,12 +69,15 @@ public class Team implements Comparable<Team> {
     private void updateTeamFields() {
         int tempPoints = 0;
         double tempPriceChange = 0;
+        double tempMaxPriceChange = 0;
         for (Driver driver : drivers) {
             tempPoints += driver.getPoints();
             tempPriceChange += driver.getPriceChange();
+            tempMaxPriceChange += driver.getMaxPriceChange();
         }
         points = Constants.TEAM_COEFFICIENT * tempPoints;
         priceChange = Constants.TEAM_COEFFICIENT * tempPriceChange;
+        maxPriceChange = Constants.TEAM_COEFFICIENT * tempMaxPriceChange;
     }
 
     private double derivePrice() {
@@ -72,6 +86,14 @@ public class Team implements Comparable<Team> {
             priceCache += Constants.TEAM_COEFFICIENT * driver.getPrice();
         }
         return priceCache;
+    }
+
+    private double deriveMinPoints() {
+        double pointsCache = 0;
+        for (Driver driver : drivers) {
+            pointsCache += Constants.TEAM_COEFFICIENT * driver.getMinPoints();
+        }
+        return pointsCache;
     }
 
     @Override

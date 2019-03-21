@@ -1,7 +1,8 @@
 package controller;
 
-import gui.CombinationsDialog;
+import gui.RegularCombinationsDialog;
 import gui.GuiMain;
+import gui.RiskCombinationsDialog;
 import model.ComponentsUpdate;
 import model.DreamTeamComponents;
 import model.DriverUpdate;
@@ -57,15 +58,19 @@ public class GuiController {
     }
 
     public void onPointsSortClicked() {
-        new CombinationsDialog(controller.getSortedByPointsList());
+        new RegularCombinationsDialog(controller.getSortedByPointsList());
     }
 
     public void onPriceChangeSortClicked() {
-        new CombinationsDialog(controller.getSortedByPriceChangeList());
+        new RegularCombinationsDialog(controller.getSortedByPriceChangeList());
     }
 
     public void onPriceOffsetSortClicked() {
-        new CombinationsDialog(controller.getSortedByPriceOffset());
+        new RegularCombinationsDialog(controller.getSortedByPriceOffset());
+    }
+
+    public void onRiskSortClicked() {
+        new RiskCombinationsDialog(controller.getSortedByRisk());
     }
 
     public void onSamplesNumChanged(@Nullable Integer samples) {

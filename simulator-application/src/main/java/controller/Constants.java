@@ -10,7 +10,9 @@ public enum Constants {
     public static final int RACE_AWARDED_PLACES = 12;
     public static final double TEAM_COEFFICIENT = 0.8d;
     public static final double ENGINE_COEFFICIENT = 0.2d;
+    public static final double INTEREST_RATE = 0.1d;
     public static final double PRICING_PRICE_COEFFICIENT = 0.66155811d;
     public static final double PRICING_POINTS_COEFFICIENT = 0.284929757d;
+    public static final double RISK_FACTOR = -0.1d;
     public static final int OFFSET_STAGES = 7;
 }

@@ -92,8 +92,11 @@ class Controller {
     }
 
     void onSimulateButtonClicked(@NotNull SimulationParameters simulationParameters) {
+        combinator.updateDreamTeams(simulationParameters.getBudget());
         combinator.setAvailableDreamTeams(simulationParameters);
-        LOGGER.info("Number of teams: {}", combinator.getAvailableDreamTeams().size());
+        combinator.setLowRiskDreamTeams(simulationParameters);
+        LOGGER.info("Number of available teams: {}", combinator.getAvailableDreamTeams().size());
+        LOGGER.info("Number of low risk teams: {}", combinator.getAvailableDreamTeams().size());
     }
 
     @NotNull
@@ -109,6 +112,11 @@ class Controller {
     @NotNull
     List<DreamTeam> getSortedByPriceOffset() {
         return Sorter.sortByPriceOffset(combinator.getAvailableDreamTeams());
+    }
+
+    @NotNull
+    List<DreamTeam> getSortedByRisk() {
+        return Sorter.sortByMaxPriceChange(combinator.getLowRiskDreamTeams());
     }
 
     private void initializePointsAndPrices() {

@@ -15,6 +15,7 @@ class Deserializer {
 
     @NotNull private static final Logger LOGGER = LoggerFactory.getLogger(Deserializer.class);
     @NotNull private static final String FILE = "Resources/MarketData.txt";
+    private static final int PRICE_ENTRY_START = 5;
     @NotNull private final List<DataEntry> data = new ArrayList<>();
     @NotNull private String[] gpStages = new String[0];
 
@@ -64,11 +65,13 @@ class Deserializer {
 
     private void createDataEntries(@NotNull String entryLine) {
         String[] dataChunks = entryLine.split("\\s+");
-        String[] priceDataChunks = Arrays.copyOfRange(dataChunks, 4, dataChunks.length);
+        String[] priceDataChunks = Arrays.copyOfRange(dataChunks, PRICE_ENTRY_START, dataChunks.length);
 
         if (dataChunks[2].contains("_")) {
             dataChunks[2] = dataChunks[2].replace("_", " ");
         }
+
+        double minPoints = Double.valueOf(dataChunks[4]);
 
         double[] prices = Arrays.stream(priceDataChunks)
                 .mapToDouble(Double::parseDouble)
@@ -79,6 +82,7 @@ class Deserializer {
                 .surname(dataChunks[1])
                 .team(dataChunks[2])
                 .engine(dataChunks[3])
+                .minPoints(minPoints)
                 .prices(prices)
                 .build();
 

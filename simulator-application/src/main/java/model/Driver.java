@@ -16,11 +16,13 @@ public class Driver implements Comparable<Driver> {
 
     private final int gpStage;
     private final double price;
+    private final double minPoints;
 
     private int qPosition = 0;
     private int rPosition = 0;
     private double points;
     private double priceChange;
+    private double maxPriceChange;
     private double priceOffset;
 
     public Driver(@NotNull DataEntry data, int gpStage) {
@@ -29,7 +31,8 @@ public class Driver implements Comparable<Driver> {
         this.team = data.getTeam();
         this.engine = data.getEngine();
         this.gpStage = gpStage;
-        price = data.getPrices()[gpStage];
+        this.price = data.getPrices()[gpStage];
+        this.minPoints = data.getMinPoints();
         updateDriverFields();
     }
 
@@ -59,6 +62,14 @@ public class Driver implements Comparable<Driver> {
         return priceOffset;
     }
 
+    double getMinPoints() {
+        return minPoints;
+    }
+
+    double getMaxPriceChange() {
+        return maxPriceChange;
+    }
+
     public void setQPosition(int qPosition) {
         this.qPosition = (qPosition <= Constants.QUALIFICATION_AWARDED_PLACES) ? qPosition : 0;
         updateDriverFields();
@@ -72,8 +83,12 @@ public class Driver implements Comparable<Driver> {
     private void updateDriverFields() {
         this.points = mapQPosition(this.qPosition) + mapRPosition(this.rPosition);
         double newPrice = Constants.PRICING_PRICE_COEFFICIENT * price + Constants.PRICING_POINTS_COEFFICIENT * points;
+        double newMaxPrice = Constants.PRICING_PRICE_COEFFICIENT * price
+                + Constants.PRICING_POINTS_COEFFICIENT * minPoints;
         newPrice = (newPrice >= 0.5d) ? newPrice : 0.5d;
+        newMaxPrice = (newMaxPrice >= 0.5d) ? newMaxPrice : 0.5d;
         priceChange = Math.round((newPrice - price) * 10.0) / 10.0;
+        maxPriceChange = Math.round((newMaxPrice - price) * 10.0) / 10.0;
     }
 
     public void setPriceOffset(@NotNull DataEntry data, int samplesNumber) {
