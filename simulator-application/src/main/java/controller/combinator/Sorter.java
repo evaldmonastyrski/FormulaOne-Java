@@ -37,4 +37,11 @@ public enum Sorter {
                 .sorted(Comparator.comparing(DreamTeam::getMaxPriceChange).reversed())
                 .collect(Collectors.toList());
     }
+
+    @NotNull
+    public static List<DreamTeam> sortByOverall(@NotNull List<DreamTeam> dreamTeamList) {
+        return dreamTeamList.stream()
+                .sorted(Comparator.comparing(DreamTeam::getOverall).reversed())
+                .collect(Collectors.toList());
+    }
 }

@@ -13,7 +13,7 @@ abstract class CombinationsDialog {
 
     CombinationsDialog(@NotNull List<DreamTeam> dreamTeams, @NotNull String name) {
         JFrame dialog = new JFrame(name);
-        dialog.setSize(860, 820);
+        dialog.setSize(935, 820);
         dialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         JTextArea textArea = new JTextArea();

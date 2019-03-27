@@ -40,6 +40,7 @@ public class SetupPanel extends JPanel {
     @NotNull private final JButton priceChangeSortButton = new JButton("Price Sort");
     @NotNull private final JButton priceOffsetSortButton = new JButton("Offset Sort");
     @NotNull private final JButton riskSortButton = new JButton("Risk Sort");
+    @NotNull private final JButton overallSortButton = new JButton("Overall Sort");
 
     SetupPanel(@NotNull GuiController guiController) {
         super(new GridBagLayout());
@@ -91,6 +92,7 @@ public class SetupPanel extends JPanel {
         priceChangeSortButton.setEnabled(enable);
         priceOffsetSortButton.setEnabled(enable);
         riskSortButton.setEnabled(enable);
+        overallSortButton.setEnabled(enable);
     }
 
     public boolean isRaceSetup() {
@@ -113,6 +115,7 @@ public class SetupPanel extends JPanel {
         priceChangeSortButton.addActionListener(e -> guiController.onPriceChangeSortClicked());
         priceOffsetSortButton.addActionListener(e -> guiController.onPriceOffsetSortClicked());
         riskSortButton.addActionListener(e -> guiController.onRiskSortClicked());
+        overallSortButton.addActionListener(e -> guiController.onOverallSortClicked());
 
         this.add(simulateButton, constraints);
         constraints.gridx = 1;
@@ -127,6 +130,8 @@ public class SetupPanel extends JPanel {
         this.add(priceOffsetSortButton, constraints);
         constraints.gridx = 6;
         this.add(riskSortButton, constraints);
+        constraints.gridx = 9;
+        this.add(overallSortButton, constraints);
     }
 
     private static int engineOffset() {

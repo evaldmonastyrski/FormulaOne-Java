@@ -73,6 +73,10 @@ public class GuiController {
         new RiskCombinationsDialog(controller.getSortedByRisk());
     }
 
+    public void onOverallSortClicked() {
+        new RegularCombinationsDialog(controller.getSortedByOverall());
+    }
+
     public void onSamplesNumChanged(@Nullable Integer samples) {
         int intSamples = 0;
         if (samples != null) {

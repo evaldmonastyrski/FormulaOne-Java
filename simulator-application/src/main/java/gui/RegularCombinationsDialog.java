@@ -18,7 +18,7 @@ public class RegularCombinationsDialog extends CombinationsDialog {
     @Override
     @NotNull
     String getEntryLine(int no, DreamTeam dreamTeam) {
-        return String.format("%4d %-1s %-12s %-12s %-12s %-8s %9.2f %9.2f %12.2f %12.2f %9.2f \n",
+        return String.format("%4d %-1s %-12s %-12s %-12s %-8s %9.2f %9.2f %12.2f %12.2f %9.2f %12.2f \n",
                 no,
                 " ",
                 dreamTeam.getDriver1().getSurname(),
@@ -29,13 +29,14 @@ public class RegularCombinationsDialog extends CombinationsDialog {
                 dreamTeam.getPoints(),
                 dreamTeam.getPriceChange(),
                 dreamTeam.getPriceOffset(),
-                dreamTeam.getRisk());
+                dreamTeam.getRisk(),
+                dreamTeam.getOverall());
     }
 
     @Override
     @NotNull
     String getFirstLine() {
-        String firstLine = String.format("%4s %-1s %-12s %-12s %-12s %-8s %9s %9s %12s %12s %9s \n",
+        String firstLine = String.format("%4s %-1s %-12s %-12s %-12s %-8s %9s %9s %12s %12s %9s %12s \n",
                 "No",
                 " ",
                 "Driver 1",
@@ -46,9 +47,10 @@ public class RegularCombinationsDialog extends CombinationsDialog {
                 "Points",
                 "Price Change",
                 "Price Offset",
-                "Risk");
+                "Risk",
+                "Overall");
         String secondLine = "-------------------------------------------------------------------------------------" +
-                "-------------------------\n";
+                "--------------------------------------\n";
         return firstLine + secondLine;
     }
 }

@@ -119,6 +119,11 @@ class Controller {
         return Sorter.sortByMaxPriceChange(combinator.getLowRiskDreamTeams());
     }
 
+    @NotNull
+    List<DreamTeam> getSortedByOverall() {
+        return Sorter.sortByOverall(combinator.getAvailableDreamTeams());
+    }
+
     private void initializePointsAndPrices() {
         for (int i = 0; i < Constants.NUMBER_OF_DRIVERS; i ++) {
             DriverUpdate driverUpdate = DriverUpdate.initialDriverUpdate(i);
