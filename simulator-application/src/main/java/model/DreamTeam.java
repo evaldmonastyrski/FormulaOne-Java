@@ -71,7 +71,7 @@ public class DreamTeam implements Comparable<DreamTeam>{
         return Constants.OVERALL_POINTS_FACTOR * getPoints()
                 + Constants.OVERALL_PRICE_CHANGE_FACTOR * getPriceOffset()
                 + Constants.OVERALL_PRICE_OFFSET_FACTOR * getPriceOffset()
-                + Constants.OVERALL_RISK_FACTOR * getRisk();
+                + (Constants.OVERALL_RISK_FACTOR * getRisk() + Constants.OVERALL_RISK_OFFSET);
     }
 
     public double getBudget() {
