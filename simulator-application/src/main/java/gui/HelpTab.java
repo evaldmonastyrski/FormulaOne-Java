@@ -19,7 +19,7 @@ class HelpTab extends JPanel {
 
     @NotNull private static final Logger LOGGER = LoggerFactory.getLogger(HelpTab.class);
     @NotNull private static final String OWNER = "© Evald Monastyrski & Evelina Monastyrska";
-    @NotNull private static final String VERSION = "Version: 2.0";
+    @NotNull private static final String VERSION = "Version: 2.1";
 
     @NotNull private final JLabel ownerLabel = new JLabel();
     @NotNull private final JLabel versionLabel = new JLabel();

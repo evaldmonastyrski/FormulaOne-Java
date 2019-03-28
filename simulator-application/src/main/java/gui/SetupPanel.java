@@ -7,6 +7,7 @@ import gui.setuppanel.SetupLabelManager;
 import gui.setuppanel.SetupOffsetManager;
 import gui.setuppanel.SetupPointManager;
 import gui.setuppanel.SetupPriceManager;
+import gui.setuppanel.SetupRiskManager;
 import model.ComponentsUpdate;
 import model.DreamTeamComponents;
 import model.DriverUpdate;
@@ -31,16 +32,17 @@ public class SetupPanel extends JPanel {
     @NotNull private final SetupComboBoxManager comboBoxManager = new SetupComboBoxManager(this, constraints);
     @NotNull private final SetupPointManager pointManager = new SetupPointManager(this, constraints);
     @NotNull private final SetupPriceManager priceManager = new SetupPriceManager(this, constraints);
+    @NotNull private final SetupRiskManager riskManager = new SetupRiskManager(this, constraints);
     @NotNull private final SetupOffsetManager offsetManager = new SetupOffsetManager(this, constraints);
 
-    @NotNull private final JButton simulateButton = new JButton("Simulate");
+    @NotNull private final JButton simulateButton = new JButton("     Simulate     ");
     @NotNull private final JButton flushQButton = new JButton("Flush Q");
     @NotNull private final JButton flushRButton = new JButton("Flush R");
-    @NotNull private final JButton pointSortButton = new JButton("Point Sort");
-    @NotNull private final JButton priceChangeSortButton = new JButton("Price Sort");
-    @NotNull private final JButton priceOffsetSortButton = new JButton("Offset Sort");
-    @NotNull private final JButton riskSortButton = new JButton("Risk Sort");
-    @NotNull private final JButton overallSortButton = new JButton("Overall Sort");
+    @NotNull private final JButton pointSortButton = new JButton(" Points ");
+    @NotNull private final JButton priceChangeSortButton = new JButton(" Prices ");
+    @NotNull private final JButton riskSortButton = new JButton("  Risk  ");
+    @NotNull private final JButton priceOffsetSortButton = new JButton(" Offset ");
+    @NotNull private final JButton overallSortButton = new JButton("Overall");
 
     SetupPanel(@NotNull GuiController guiController) {
         super(new GridBagLayout());
@@ -53,6 +55,7 @@ public class SetupPanel extends JPanel {
         comboBoxManager.init();
         pointManager.init(COMPONENTS_START_ROW, ENGINE_ROW_OFFSET);
         priceManager.init(COMPONENTS_START_ROW, ENGINE_ROW_OFFSET);
+        riskManager.init(COMPONENTS_START_ROW);
         offsetManager.init(COMPONENTS_START_ROW, ENGINE_ROW_OFFSET);
         initializeSimulationButtons(constraints);
         activateSimulationResults(false);
@@ -63,10 +66,16 @@ public class SetupPanel extends JPanel {
         activateSimulationResults(false);
     }
 
+    public void updateDriverMinPoints(int index, double points) {
+        guiController.onMinPointsChanged(index, points);
+        activateSimulationResults(false);
+    }
+
     void setLabels(@NotNull DreamTeamComponents components) {
         labelManager.setDriverLabels(components.getDrivers());
         labelManager.setTeamLabels(components.getTeams());
         labelManager.setEngineLabels(components.getEngines());
+        riskManager.setMinimumPoints(components.getDrivers());
     }
 
     void flushComboBoxes() {
@@ -127,10 +136,10 @@ public class SetupPanel extends JPanel {
         constraints.gridx = 4;
         this.add(priceChangeSortButton, constraints);
         constraints.gridx = 5;
-        this.add(priceOffsetSortButton, constraints);
-        constraints.gridx = 6;
         this.add(riskSortButton, constraints);
-        constraints.gridx = 9;
+        constraints.gridx = 6;
+        this.add(priceOffsetSortButton, constraints);
+        constraints.gridx = 10;
         this.add(overallSortButton, constraints);
     }
 

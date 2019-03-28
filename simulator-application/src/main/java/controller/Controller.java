@@ -79,6 +79,17 @@ class Controller {
         guiController.updateGUILabels(componentsUpdate);
     }
 
+    void onMinPointsChanged(int index, double points) {
+        Driver driver = drivers.get(index);
+        driver.setMinPoints(points);
+
+        Team teamToUpdate = componentsCreator.getTeamMap().get(driver.getTeam());
+        teamToUpdate.setMinPoints();
+
+        Engine engineToUpdate = componentsCreator.getEngineMap().get(driver.getEngine());
+        engineToUpdate.setMinPoints();
+    }
+
     void onSamplingChanged(int sampleNumber) {
         componentsCreator.updateDriversPriceOffset(sampleNumber);
 

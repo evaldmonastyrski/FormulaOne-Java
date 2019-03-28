@@ -19,7 +19,7 @@ import java.awt.event.WindowEvent;
 public class GuiMain {
 
     @NotNull private static final Logger LOGGER = LoggerFactory.getLogger(GuiMain.class);
-    private static final int WINDOW_WIDTH = 1100;
+    private static final int WINDOW_WIDTH = 1220;
     private static final int WINDOW_HEIGHT = 740;
 
     @NotNull private final GuiController guiController;

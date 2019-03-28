@@ -31,8 +31,8 @@ public class SetupPriceManager {
 
     public void init(int startRow, int engineRowOffset) {
         initializePriceChangeLabels(driverPriceChangeLabels, startRow, 4);
-        initializePriceChangeLabels(teamPriceChangeLabels, startRow, 8);
-        initializePriceChangeLabels(enginePriceChangeLabels, engineRowOffset, 8);
+        initializePriceChangeLabels(teamPriceChangeLabels, startRow, 9);
+        initializePriceChangeLabels(enginePriceChangeLabels, engineRowOffset, 9);
     }
 
     public void updatePriceChange(@NotNull ComponentsUpdate update) {

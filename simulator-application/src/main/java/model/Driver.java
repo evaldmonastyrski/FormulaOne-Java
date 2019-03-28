@@ -16,11 +16,13 @@ public class Driver implements Comparable<Driver> {
 
     private final int gpStage;
     private final double price;
-    private final double minPoints;
+
 
     private int qPosition = 0;
     private int rPosition = 0;
     private double points;
+    private double minPoints;
+
     private double priceChange;
     private double maxPriceChange;
     private double priceOffset;
@@ -54,6 +56,10 @@ public class Driver implements Comparable<Driver> {
         return points;
     }
 
+    public void setMinPoints(double minPoints) {
+        this.minPoints = minPoints;
+    }
+
     public double getPriceChange() {
         return priceChange;
     }
@@ -62,7 +68,7 @@ public class Driver implements Comparable<Driver> {
         return priceOffset;
     }
 
-    double getMinPoints() {
+    public double getMinPoints() {
         return minPoints;
     }
 

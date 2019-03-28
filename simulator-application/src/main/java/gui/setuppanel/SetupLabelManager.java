@@ -31,8 +31,8 @@ public class SetupLabelManager {
 
     public void init(int startRow, int engineRowOffset) {
         initializeNameLabels(constraints, driverLabels, startRow, 0);
-        initializeNameLabels(constraints, teamLabels, startRow, 6);
-        initializeNameLabels(constraints, engineLabels, engineRowOffset, 6);
+        initializeNameLabels(constraints, teamLabels, startRow, 7);
+        initializeNameLabels(constraints, engineLabels, engineRowOffset, 7);
     }
 
     public void setDriverLabels(@NotNull List<Driver> drivers) {

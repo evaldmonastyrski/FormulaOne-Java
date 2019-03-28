@@ -11,9 +11,9 @@ public class Team implements Comparable<Team> {
     @NotNull private final List<Driver> drivers;
 
     private final double price;
-    private final double minPoints;
 
     private double points;
+    private double minPoints;
     private double priceChange;
     private double maxPriceChange;
     private double priceOffset;
@@ -64,6 +64,10 @@ public class Team implements Comparable<Team> {
             priceOffset += Constants.TEAM_COEFFICIENT * driver.getPriceOffset();
         }
         this.priceOffset = priceOffset;
+    }
+
+    public void setMinPoints() {
+        this.minPoints = deriveMinPoints();
     }
 
     private void updateTeamFields() {

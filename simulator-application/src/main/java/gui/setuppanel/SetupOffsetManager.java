@@ -31,9 +31,9 @@ public class SetupOffsetManager {
     }
 
     public void init(int startRow, int engineRowOffset) {
-        initializePriceOffsetLabels(driverPriceOffsetLabels, startRow, 5);
-        initializePriceOffsetLabels(teamPriceOffsetLabels, startRow, 9);
-        initializePriceOffsetLabels(enginePriceOffsetLabels, engineRowOffset, 9);
+        initializePriceOffsetLabels(driverPriceOffsetLabels, startRow, 6);
+        initializePriceOffsetLabels(teamPriceOffsetLabels, startRow, 10);
+        initializePriceOffsetLabels(enginePriceOffsetLabels, engineRowOffset, 10);
     }
 
     public void updateOffsets(@NotNull OffsetUpdate offsetUpdate) {

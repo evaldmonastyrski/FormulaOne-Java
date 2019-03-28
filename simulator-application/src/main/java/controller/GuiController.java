@@ -41,6 +41,10 @@ public class GuiController {
         controller.onComboBoxPositionChanged(driverUpdate);
     }
 
+    public void onMinPointsChanged(int index, double points) {
+        controller.onMinPointsChanged(index, points);
+    }
+
     public void onSimulateButtonClicked() {
         controller.onSimulateButtonClicked(guiMain.getSimulationParameters());
     }
