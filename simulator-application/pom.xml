@@ -35,9 +35,5 @@
             <groupId>com.apple</groupId>
             <artifactId>AppleJavaExtensions</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-        </dependency>
     </dependencies>
 </project>

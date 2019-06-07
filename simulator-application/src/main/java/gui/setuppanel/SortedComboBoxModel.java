@@ -4,7 +4,7 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.swing.DefaultComboBoxModel;
 
-public class SortedComboBoxModel extends DefaultComboBoxModel<Integer> {
+class SortedComboBoxModel extends DefaultComboBoxModel<Integer> {
 
     @Override
     public void addElement(@Nullable Integer element) {

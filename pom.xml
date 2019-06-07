@@ -61,31 +61,6 @@
                 <artifactId>AppleJavaExtensions</artifactId>
                 <version>${apple.java.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>${guava.version}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <scm>
-        <developerConnection>scm:git:https://github.com/evaldmonastyrski/FormulaOne-Java</developerConnection>
-      <tag>HEAD</tag>
-  </scm>
-
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.5.3</version>
-                <configuration>
-                    <tagBase>
-                        2.0.0
-                    </tagBase>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
 </project>

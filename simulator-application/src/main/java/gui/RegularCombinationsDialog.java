@@ -3,10 +3,6 @@ package gui;
 import model.DreamTeam;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import java.awt.Font;
 import java.util.List;
 
 public class RegularCombinationsDialog extends CombinationsDialog {

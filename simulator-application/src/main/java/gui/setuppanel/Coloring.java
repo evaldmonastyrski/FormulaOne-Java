@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.swing.JLabel;
 import java.awt.Color;
 
-public enum Coloring {
+enum Coloring {
     ;
 
     @NotNull

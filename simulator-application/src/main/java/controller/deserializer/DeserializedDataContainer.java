@@ -7,13 +7,12 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-
-import static com.google.common.collect.Lists.newArrayList;
 
 public class DeserializedDataContainer {
 
@@ -124,7 +123,9 @@ public class DeserializedDataContainer {
         if (teamCache.containsKey(teamName)) {
             teamCache.get(teamName).add(driver);
         } else {
-            teamCache.put(teamName, newArrayList(driver));
+            List<Driver> drivers = new ArrayList<>();
+            drivers.add(driver);
+            teamCache.put(teamName, drivers);
         }
     }
 
@@ -132,7 +133,9 @@ public class DeserializedDataContainer {
         if (engineCache.containsKey(engineName)){
             engineCache.get(engineName).add(driver);
         } else {
-            engineCache.put(engineName, newArrayList(driver));
+            List<Driver> drivers = new ArrayList<>();
+            drivers.add(driver);
+            engineCache.put(engineName, drivers);
         }
     }
 }

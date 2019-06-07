@@ -43,9 +43,9 @@ class HelpTab extends JPanel {
             BufferedImage myPicture = ImageIO.read(new File("Resources/Graphics/logo.png"));
             JLabel picLabel = new JLabel(new ImageIcon(myPicture));
             picLabel.setSize(500, 500);
-            Image dimg = myPicture.getScaledInstance(picLabel.getWidth(), picLabel.getHeight(),
+            Image image = myPicture.getScaledInstance(picLabel.getWidth(), picLabel.getHeight(),
                     Image.SCALE_SMOOTH);
-            ImageIcon imageIcon = new ImageIcon(dimg);
+            ImageIcon imageIcon = new ImageIcon(image);
             picLabel.setIcon(imageIcon);
             this.add(picLabel, BorderLayout.CENTER);
 
