@@ -2,6 +2,9 @@ package gui;
 
 import controller.Constants;
 import controller.GuiController;
+import gui.handlers.ControlPanelHandler;
+import gui.handlers.ControllerHandler;
+import gui.handlers.SetupPanelHandler;
 import gui.setuppanel.SetupComboBoxManager;
 import gui.setuppanel.SetupLabelManager;
 import gui.setuppanel.SetupOffsetManager;
@@ -11,7 +14,6 @@ import gui.setuppanel.SetupRiskManager;
 import model.ComponentsUpdate;
 import model.DreamTeamComponents;
 import model.DriverUpdate;
-import model.OffsetUpdate;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.JButton;
@@ -20,7 +22,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
-public class SetupPanel extends JPanel {
+public class SetupPanel extends JPanel implements SetupPanelHandler {
 
     private static final int COMPONENTS_START_ROW = 0;
     private static final int ENGINE_ROW_OFFSET = engineOffset();
@@ -29,7 +31,7 @@ public class SetupPanel extends JPanel {
 
     @NotNull private final GridBagConstraints constraints = new GridBagConstraints();
     @NotNull private final SetupLabelManager labelManager = new SetupLabelManager(this, constraints);
-    @NotNull private final SetupComboBoxManager comboBoxManager = new SetupComboBoxManager(this, constraints);
+    @NotNull private final SetupComboBoxManager comboBoxManager;
     @NotNull private final SetupPointManager pointManager = new SetupPointManager(this, constraints);
     @NotNull private final SetupPriceManager priceManager = new SetupPriceManager(this, constraints);
     @NotNull private final SetupRiskManager riskManager = new SetupRiskManager(this, constraints);
@@ -44,15 +46,25 @@ public class SetupPanel extends JPanel {
     @NotNull private final JButton priceOffsetSortButton = new JButton(" Offset ");
     @NotNull private final JButton overallSortButton = new JButton("Overall");
 
-    SetupPanel(@NotNull GuiController guiController) {
+    @NotNull private final ControllerHandler controllerHandler;
+
+    SetupPanel(@NotNull GuiController guiController,
+               @NotNull ControllerHandler controllerHandler) {
         super(new GridBagLayout());
         this.guiController = guiController;
+        this.controllerHandler = controllerHandler;
+        comboBoxManager = new SetupComboBoxManager(this, constraints);
     }
 
-    void init() {
+    @NotNull
+    SetupComboBoxManager getComboBoxManager() {
+        return comboBoxManager;
+    }
+
+    void init(@NotNull ControlPanelHandler controlPanelHandler) {
         constraints.weightx = 1;
         labelManager.init(COMPONENTS_START_ROW, ENGINE_ROW_OFFSET);
-        comboBoxManager.init();
+        comboBoxManager.init(controlPanelHandler);
         pointManager.init(COMPONENTS_START_ROW, ENGINE_ROW_OFFSET);
         priceManager.init(COMPONENTS_START_ROW, ENGINE_ROW_OFFSET);
         riskManager.init(COMPONENTS_START_ROW);
@@ -62,50 +74,45 @@ public class SetupPanel extends JPanel {
     }
 
     public void updateDriver(@NotNull DriverUpdate driverUpdate) {
-        guiController.onComboBoxPositionChanged(driverUpdate);
+        controllerHandler.onComboBoxPositionChanged(driverUpdate);
         activateSimulationResults(false);
     }
 
     public void updateDriverMinPoints(int index, double points) {
-        guiController.onMinPointsChanged(index, points);
+        controllerHandler.onMinPointsChanged(index, points);
         activateSimulationResults(false);
     }
 
-    void setLabels(@NotNull DreamTeamComponents components) {
+    public void setLabels(@NotNull DreamTeamComponents components) {
         labelManager.setDriverLabels(components.getDrivers());
         labelManager.setTeamLabels(components.getTeams());
         labelManager.setEngineLabels(components.getEngines());
         riskManager.setMinimumPoints(components.getDrivers());
     }
 
-    void flushComboBoxes() {
+    public void flushComboBoxes() {
         comboBoxManager.flushQualificationComboBoxes();
         comboBoxManager.flushRaceComboBoxes();
     }
 
-    void updateGUILabels(@NotNull ComponentsUpdate componentsUpdate) {
+    @Override
+    public void updateGUILabels(@NotNull ComponentsUpdate componentsUpdate) {
         pointManager.updatePoints(componentsUpdate);
         priceManager.updatePriceChange(componentsUpdate);
     }
 
-    void updateOffsets(@NotNull OffsetUpdate offsetUpdate) {
-        offsetManager.updateOffsets(offsetUpdate);
+    @NotNull
+    public SetupOffsetManager getOffsetManager() {
+        return offsetManager;
     }
 
-    void raceSetup(boolean isSelected) {
-        comboBoxManager.raceSetup(isSelected);
-    }
-
-    void activateSimulationResults(boolean enable) {
+    @Override
+    public void activateSimulationResults(boolean enable) {
         pointSortButton.setEnabled(enable);
         priceChangeSortButton.setEnabled(enable);
         priceOffsetSortButton.setEnabled(enable);
         riskSortButton.setEnabled(enable);
         overallSortButton.setEnabled(enable);
-    }
-
-    public boolean isRaceSetup() {
-        return guiController.isRaceSetup();
     }
 
     private void initializeSimulationButtons(@NotNull GridBagConstraints constraints) {

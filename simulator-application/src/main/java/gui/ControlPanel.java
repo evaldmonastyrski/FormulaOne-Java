@@ -1,6 +1,10 @@
 package gui;
 
 import controller.GuiController;
+import gui.handlers.ControlPanelHandler;
+import gui.handlers.ControllerHandler;
+import gui.handlers.SetupComboBoxHandler;
+import gui.handlers.SetupPanelHandler;
 import model.ImmutableSimulationParameters;
 import model.SimulationParameters;
 import org.jetbrains.annotations.NotNull;
@@ -15,32 +19,56 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 import java.awt.FlowLayout;
 
-class ControlPanel extends JPanel {
+public class ControlPanel extends JPanel implements ControlPanelHandler {
 
-    @NotNull private final GuiController guiController;
+    @NotNull
+    private final GuiController guiController;
 
-    @NotNull private final JButton reloadButton = new JButton("Reload");
-    @NotNull private final JLabel budgetLabel = new JLabel("Budget");
-    @NotNull private final SpinnerNumberModel budgetSpinnerModel = new SpinnerNumberModel(30.0, 0.0, 100.0, 0.1);
-    @NotNull private final JSpinner budgetSpinner = new JSpinner(budgetSpinnerModel);
-    @NotNull private final JLabel grandPrixLabel = new JLabel("Grand Prix");
-    @NotNull private final JComboBox<String> grandPrixComboBox = new JComboBox<>();
-    @NotNull private final JLabel pointsThresholdSpinnerLabel = new JLabel("Points Threshold");
-    @NotNull private final SpinnerNumberModel pointsThresholdSpinnerModel = new SpinnerNumberModel(80, 0, 100, 1);
-    @NotNull private final JSpinner pointsThresholdSpinner = new JSpinner(pointsThresholdSpinnerModel);
-    @NotNull private final JCheckBox pointsThresholdCheckBox = new JCheckBox("Points Threshold", true);
-    @NotNull private final JCheckBox raceSetupCheckBox = new JCheckBox("Race Setup");
-    @NotNull private final JLabel samplesNumberLabel = new JLabel("Max Samples");
-    @NotNull private final SpinnerNumberModel samplesSpinnerModel = new SpinnerNumberModel(7, 1, 21, 1);
-    @NotNull private final JSpinner samplesSpinner = new JSpinner(samplesSpinnerModel);
+    @NotNull
+    private final JButton reloadButton = new JButton("Reload");
+    @NotNull
+    private final JLabel budgetLabel = new JLabel("Budget");
+    @NotNull
+    private final SpinnerNumberModel budgetSpinnerModel = new SpinnerNumberModel(30.0, 0.0, 100.0, 0.1);
+    @NotNull
+    private final JSpinner budgetSpinner = new JSpinner(budgetSpinnerModel);
+    @NotNull
+    private final JLabel grandPrixLabel = new JLabel("Grand Prix");
+    @NotNull
+    private final JComboBox<String> grandPrixComboBox = new JComboBox<>();
+    @NotNull
+    private final JLabel pointsThresholdSpinnerLabel = new JLabel("Points Threshold");
+    @NotNull
+    private final SpinnerNumberModel pointsThresholdSpinnerModel = new SpinnerNumberModel(80, 0, 100, 1);
+    @NotNull
+    private final JSpinner pointsThresholdSpinner = new JSpinner(pointsThresholdSpinnerModel);
+    @NotNull
+    private final JCheckBox pointsThresholdCheckBox = new JCheckBox("Points Threshold", true);
+    @NotNull
+    private final JCheckBox raceSetupCheckBox = new JCheckBox("Race Setup");
+    @NotNull
+    private final JLabel samplesNumberLabel = new JLabel("Max Samples");
+    @NotNull
+    private final SpinnerNumberModel samplesSpinnerModel = new SpinnerNumberModel(7, 1, 21, 1);
+    @NotNull
+    private final JSpinner samplesSpinner = new JSpinner(samplesSpinnerModel);
 
-    ControlPanel(@NotNull GuiController guiController) {
+    @NotNull
+    private final SetupComboBoxHandler setupComboBoxHandler;
+    @NotNull
+    private final ControllerHandler controllerHandler;
+
+    ControlPanel(@NotNull GuiController guiController,
+                 @NotNull SetupComboBoxHandler setupComboBoxHandler,
+                 @NotNull ControllerHandler controllerHandler) {
         super(new FlowLayout());
 
         this.guiController = guiController;
+        this.setupComboBoxHandler = setupComboBoxHandler;
+        this.controllerHandler = controllerHandler;
     }
 
-    void init(@NotNull String[] gpStages) {
+    void init(@NotNull String[] gpStages, @NotNull SetupPanelHandler setupPanelHandler) {
         pointsThresholdSpinner.setValue(80);
 
         grandPrixComboBox.setMaximumRowCount(gpStages.length);
@@ -51,12 +79,16 @@ class ControlPanel extends JPanel {
 
         reloadButton.addActionListener(e -> guiController.onReloadButtonClicked());
         grandPrixComboBox.addActionListener(e -> guiController.onGPIndexChanged(grandPrixComboBox.getSelectedIndex()));
-        raceSetupCheckBox.addActionListener(e -> guiController.onRaceSetupStateChanged(raceSetupCheckBox.isSelected()));
-        budgetSpinner.addChangeListener(e -> guiController.disableSimulationResults());
-        samplesSpinner.addChangeListener(e -> guiController.onSamplesNumChanged((Integer) samplesSpinner.getValue()));
-        pointsThresholdSpinner.addChangeListener(e -> guiController.disableSimulationResults());
-        pointsThresholdCheckBox.addActionListener(e -> guiController.disableSimulationResults());
-        raceSetupCheckBox.addActionListener(e -> guiController.disableSimulationResults());
+        raceSetupCheckBox.addActionListener(e ->
+                setupComboBoxHandler.onRaceSetupStateChanged(raceSetupCheckBox.isSelected()));
+        budgetSpinner.addChangeListener(e -> setupPanelHandler.activateSimulationResults(false));
+        samplesSpinner.addChangeListener(e -> {
+            controllerHandler.onSamplingChanged((Integer) samplesSpinner.getValue());
+            setupPanelHandler.activateSimulationResults(false);
+        });
+        pointsThresholdSpinner.addChangeListener(e -> setupPanelHandler.activateSimulationResults(false));
+        pointsThresholdCheckBox.addActionListener(e -> setupPanelHandler.activateSimulationResults(false));
+        raceSetupCheckBox.addActionListener(e -> setupPanelHandler.activateSimulationResults(false));
 
         this.add(reloadButton);
         this.add(budgetLabel);
@@ -71,7 +103,8 @@ class ControlPanel extends JPanel {
         this.add(raceSetupCheckBox);
     }
 
-    @NotNull SimulationParameters getSimulationParameters() {
+    @NotNull
+    public SimulationParameters getSimulationParameters() {
         return ImmutableSimulationParameters.builder()
                 .budget((Double) budgetSpinner.getValue())
                 .pointsThreshold((Integer) pointsThresholdSpinner.getValue())
@@ -79,7 +112,8 @@ class ControlPanel extends JPanel {
                 .build();
     }
 
-    boolean isRaceSetup() {
+    @Override
+    public boolean isRaceSetup() {
         return raceSetupCheckBox.isSelected();
     }
 

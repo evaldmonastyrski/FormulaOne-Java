@@ -2,6 +2,8 @@ package gui.setuppanel;
 
 import controller.Constants;
 import gui.SetupPanel;
+import gui.handlers.ControlPanelHandler;
+import gui.handlers.SetupComboBoxHandler;
 import model.DriverUpdate;
 import model.ImmutableDriverUpdate;
 import org.jetbrains.annotations.NotNull;
@@ -14,7 +16,7 @@ import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SetupComboBoxManager {
+public class SetupComboBoxManager implements SetupComboBoxHandler {
 
     @NotNull private final List<JComboBox<Integer>> driverQualificationPositions = new ArrayList<>();
     @NotNull private final List<JComboBox<Integer>> driverRacePositions = new ArrayList<>();
@@ -26,7 +28,10 @@ public class SetupComboBoxManager {
     @NotNull private final GridBagConstraints constraints;
     @NotNull private final ComboBoxUpdater comboBoxUpdater;
 
-    public SetupComboBoxManager(@NotNull SetupPanel setupPanel, @NotNull GridBagConstraints constraints) {
+    @NotNull private ControlPanelHandler controlPanelHandler;
+
+    public SetupComboBoxManager(@NotNull SetupPanel setupPanel,
+                                @NotNull GridBagConstraints constraints) {
         this.setupPanel = setupPanel;
         this.constraints = constraints;
         this.comboBoxUpdater = new ComboBoxUpdater(setupPanel);
@@ -37,9 +42,10 @@ public class SetupComboBoxManager {
         }
     }
 
-    public void init() {
+    public void init(@NotNull ControlPanelHandler controlPanelHandler) {
         initializeComboBoxes(constraints, driverQualificationPositions, CompetitionType.QUALIFICATION, 1);
         initializeComboBoxes(constraints, driverRacePositions,CompetitionType.RACE, 2);
+        this.controlPanelHandler = controlPanelHandler;
     }
 
     public void flushQualificationComboBoxes() {
@@ -58,7 +64,8 @@ public class SetupComboBoxManager {
         }
     }
 
-    public void raceSetup(boolean isSelected) {
+    @Override
+    public void onRaceSetupStateChanged(boolean isSelected) {
         for (JComboBox<Integer> cb : driverQualificationPositions) {
             cb.setEnabled(!isSelected);
         }
@@ -103,7 +110,7 @@ public class SetupComboBoxManager {
 
     private void updateComboBox(int cacheIndex, @NotNull JComboBox<Integer> receivedCB, @NotNull CompetitionType type) {
         @Nullable Integer position = (Integer) receivedCB.getSelectedItem();
-        boolean isRaceSetup = setupPanel.isRaceSetup();
+        boolean isRaceSetup = controlPanelHandler.isRaceSetup();
 
         if (type == CompetitionType.QUALIFICATION) {
             comboBoxUpdater.newNumberSelected(cacheIndex, receivedCB, position, qualificationCache,

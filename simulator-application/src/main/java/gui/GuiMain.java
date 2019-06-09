@@ -1,11 +1,8 @@
 package gui;
 
 import com.apple.eawt.Application;
-import model.ComponentsUpdate;
-import model.DreamTeamComponents;
+import gui.handlers.GuiMainHandler;
 import controller.GuiController;
-import model.OffsetUpdate;
-import model.SimulationParameters;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +13,7 @@ import javax.swing.JTabbedPane;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class GuiMain {
+public class GuiMain implements GuiMainHandler {
 
     @NotNull private static final Logger LOGGER = LoggerFactory.getLogger(GuiMain.class);
     private static final int WINDOW_WIDTH = 1220;
@@ -55,38 +52,12 @@ public class GuiMain {
         mainFrame.setVisible(true);
     }
 
-    public void initializeLabels(@NotNull DreamTeamComponents components) {
-        simulationTab.setLabels(components);
+    @NotNull
+    public SimulationTab getSimulationTab() {
+        return simulationTab;
     }
 
-    public void flushComboBoxes() {
-        simulationTab.flushComboBoxes();
-    }
-
-    public void updateGUILabels(@NotNull ComponentsUpdate componentsUpdate) {
-        simulationTab.updateGUILabels(componentsUpdate);
-    }
-
-    public void updateOffsets(@NotNull OffsetUpdate offsetUpdate) {
-        simulationTab.updateOffsets(offsetUpdate);
-    }
-
-    public void raceSetup(boolean isSelected) {
-        simulationTab.raceSetup(isSelected);
-    }
-
-    public boolean isRaceSetup() {
-        return simulationTab.isRaceSetup();
-    }
-
-    public void disableSimulationResults() {
-        simulationTab.disableSimulationResults();
-    }
-
-    @NotNull public SimulationParameters getSimulationParameters() {
-        return simulationTab.getSimulationParameters();
-    }
-
+    @Override
     public void closeGui() {
         mainFrame.setVisible(false);
     }

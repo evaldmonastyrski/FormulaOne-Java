@@ -3,6 +3,7 @@ package controller;
 import controller.combinator.Combinator;
 import controller.combinator.Sorter;
 import controller.deserializer.DeserializedDataContainer;
+import gui.handlers.ControllerHandler;
 import gui.setuppanel.CompetitionType;
 import model.ComponentsUpdate;
 import model.Driver;
@@ -16,6 +17,7 @@ import model.Engine;
 import model.DriverUpdate;
 import model.DreamTeam;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +25,7 @@ import javax.swing.SwingUtilities;
 import java.util.ArrayList;
 import java.util.List;
 
-class Controller {
+class Controller implements ControllerHandler {
 
     @NotNull private static final Logger LOGGER = LoggerFactory.getLogger(Controller.class);
 
@@ -42,20 +44,22 @@ class Controller {
         initializeLabels();
     }
 
-    void onReloadButtonClicked() {
+    @Override
+    public void onReloadButtonClicked() {
         LOGGER.info("Simulator is restarting");
         new Controller();
     }
 
-    void onGPIndexChanged(int gpIndex) {
-        LOGGER.info("GP Index: {}", gpIndex);
+    @Override
+    public void onGPIndexChanged(int gpIndex) {
         componentsCreator.createDreamTeamComponents(gpIndex);
         combinator.combine(drivers, teams, engines);
         initializeLabels();
         initializePointsAndPrices();
     }
 
-    void onComboBoxPositionChanged(@NotNull DriverUpdate driverUpdate) {
+    @Override
+    public void onComboBoxPositionChanged(@NotNull DriverUpdate driverUpdate) {
         Driver driver = drivers.get(driverUpdate.getIndex());
         setPosition(driverUpdate, driver);
 
@@ -76,10 +80,11 @@ class Controller {
                 .enginePriceChange(engineToUpdate.getPriceChange())
                 .build();
 
-        guiController.updateGUILabels(componentsUpdate);
+        guiController.getGuiMain().getSimulationTab().getSetupPanel().updateGUILabels(componentsUpdate);
     }
 
-    void onMinPointsChanged(int index, double points) {
+    @Override
+    public void onMinPointsChanged(int index, double points) {
         Driver driver = drivers.get(index);
         driver.setMinPoints(points);
 
@@ -90,7 +95,13 @@ class Controller {
         engineToUpdate.setMinPoints();
     }
 
-    void onSamplingChanged(int sampleNumber) {
+    @Override
+    public void onSamplingChanged(@Nullable Integer samples) {
+        int sampleNumber = 0;
+        if (samples != null) {
+            sampleNumber = samples;
+        }
+
         componentsCreator.updateDriversPriceOffset(sampleNumber);
 
         OffsetUpdate offsetUpdate = ImmutableOffsetUpdate.builder()
@@ -99,10 +110,11 @@ class Controller {
                 .addAllEngines(engines)
                 .build();
 
-        guiController.updateOffsets(offsetUpdate);
+        guiController.getGuiMain().getSimulationTab().getSetupPanel().getOffsetManager().updateOffsets(offsetUpdate);
     }
 
-    void onSimulateButtonClicked(@NotNull SimulationParameters simulationParameters) {
+    @Override
+    public void onSimulateButtonClicked(@NotNull SimulationParameters simulationParameters) {
         combinator.updateDreamTeams(simulationParameters.getBudget());
         combinator.setAvailableDreamTeams(simulationParameters);
         combinator.setLowRiskDreamTeams(simulationParameters);
@@ -165,7 +177,7 @@ class Controller {
     }
 
     private void initializeLabels() {
-        guiController.initializeLabels(ImmutableDreamTeamComponents.builder()
+        guiController.getGuiMain().getSimulationTab().getSetupPanel().setLabels(ImmutableDreamTeamComponents.builder()
                 .drivers(drivers)
                 .teams(teams)
                 .engines(engines)
