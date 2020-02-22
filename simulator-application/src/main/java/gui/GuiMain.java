@@ -1,8 +1,8 @@
 package gui;
 
 import com.apple.eawt.Application;
+import controller.GuiViewController;
 import gui.handlers.GuiMainHandler;
-import controller.GuiController;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,17 +19,17 @@ public class GuiMain implements GuiMainHandler {
     private static final int WINDOW_WIDTH = 1220;
     private static final int WINDOW_HEIGHT = 740;
 
-    @NotNull private final GuiController guiController;
+    @NotNull private final GuiViewController guiViewController;
     @NotNull private final JFrame mainFrame = new JFrame("Formula 1");
     @NotNull private final JTabbedPane tabbedPane = new JTabbedPane();
     @NotNull private final SimulationTab simulationTab;
     @NotNull private final HelpTab helpTab;
     @NotNull private final ImageIcon icon = new ImageIcon("Resources/Graphics/logo.png");
 
-    public GuiMain(@NotNull GuiController guiController) {
-        simulationTab = new SimulationTab(guiController);
+    public GuiMain(@NotNull GuiViewController guiViewController) {
+        simulationTab = new SimulationTab(guiViewController);
         helpTab = new HelpTab();
-        this.guiController = guiController;
+        this.guiViewController = guiViewController;
     }
 
     public void runGui(@NotNull String[] gpStages) {
@@ -48,7 +48,7 @@ public class GuiMain implements GuiMainHandler {
 
         simulationTab.init(gpStages);
         helpTab.init();
-        LOGGER.info("GUI has started, {} is received", guiController);
+        LOGGER.info("GUI has started, {} is received", guiViewController);
         mainFrame.setVisible(true);
     }
 

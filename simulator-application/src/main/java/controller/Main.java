@@ -10,6 +10,6 @@ class Main {
 
     public static void main(@NotNull String[] args) {
         LOGGER.info("Formula 1 Simulator is starting up...");
-        new Controller();
+        new GuiViewController();
     }
 }
