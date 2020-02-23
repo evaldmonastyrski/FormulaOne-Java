@@ -78,7 +78,12 @@ public class ControlPanel extends JPanel implements ControlPanelHandler {
                 setupComboBoxHandler.onRaceSetupStateChanged(raceSetupCheckBox.isSelected()));
         budgetSpinner.addChangeListener(e -> setupPanelHandler.activateSimulationResults(false));
         samplesSpinner.addChangeListener(e -> {
-            guiViewController.onSamplingChanged((Integer) samplesSpinner.getValue());
+            Integer samplesSpinnerValue = (Integer) samplesSpinner.getValue();
+            if (samplesSpinnerValue == null) {
+                guiViewController.onSamplingChanged(0);
+            } else {
+                guiViewController.onSamplingChanged(samplesSpinnerValue);
+            }
             setupPanelHandler.activateSimulationResults(false);
         });
         pointsThresholdSpinner.addChangeListener(e -> setupPanelHandler.activateSimulationResults(false));

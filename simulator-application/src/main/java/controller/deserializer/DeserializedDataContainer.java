@@ -1,11 +1,13 @@
 package controller.deserializer;
 
+import model.DeserializedData;
 import model.DreamTeamComponents;
 import model.Driver;
 import model.Engine;
 import model.ImmutableDreamTeamComponents;
 import model.Team;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +22,9 @@ public class DeserializedDataContainer {
 
     @NotNull private static final Logger LOGGER = LoggerFactory.getLogger(DeserializedDataContainer.class);
 
-    @NotNull private final Deserializer deserializer = new Deserializer();
+    @NotNull private final List<DataEntry> data;
+    @NotNull private final String[] gpStages;
+
     @NotNull private final Map<String, List<Driver>> teamCache = new HashMap<>();
     @NotNull private final Map<String, List<Driver>> engineCache = new HashMap<>();
 
@@ -36,6 +40,16 @@ public class DeserializedDataContainer {
         this.drivers = new ArrayList<>();
         this.teams = new ArrayList<>();
         this.engines = new ArrayList<>();
+        this.data = new ArrayList<>();
+
+        @Nullable DeserializedData deserializedData = Deserializer.read();
+
+        if (deserializedData != null) {
+            this.data.addAll(deserializedData.getData());
+            this.gpStages = deserializedData.getGPStages();
+        } else {
+            this.gpStages = new String[0];
+        }
     }
 
     @NotNull
@@ -83,7 +97,11 @@ public class DeserializedDataContainer {
 
     @NotNull
     public String[] getGPStages() {
-        return deserializer.getGPStages();
+        return gpStages;
+    }
+
+    public int lastGPIndex() {
+        return gpStages.length - 1;
     }
 
     @NotNull
@@ -106,7 +124,7 @@ public class DeserializedDataContainer {
 
     private void createDrivers(int gpStage) {
         @NotNull final Set<Driver> driverSet = new TreeSet<>();
-        for (DataEntry dataEntry : deserializer.getData()) {
+        for (DataEntry dataEntry : data) {
             Driver driver = new Driver(dataEntry, gpStage);
             driverCache.put(driver, dataEntry);
             cacheTeam(dataEntry.getTeam(), driver);

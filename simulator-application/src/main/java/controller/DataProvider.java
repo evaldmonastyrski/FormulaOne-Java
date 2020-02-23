@@ -2,83 +2,84 @@ package controller;
 
 import controller.combinator.Combinator;
 import controller.deserializer.DeserializedDataContainer;
-import model.DreamTeam;
-import model.DreamTeamComponents;
-import model.Driver;
-import model.Engine;
-import model.SimulationParameters;
-import model.Team;
+import model.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.Map;
 
 class DataProvider {
-    @NotNull private final DeserializedDataContainer componentsCreator;
+    @NotNull private final DeserializedDataContainer dataContainer;
     @NotNull private final Combinator combinator;
 
     DataProvider() {
-        this.componentsCreator = new DeserializedDataContainer();
+        this.dataContainer = new DeserializedDataContainer();
         this.combinator = new Combinator();
     }
 
     @NotNull
-    DreamTeamComponents getDreamTeamComponents() {
-        return componentsCreator.createDreamTeamComponents(getGPStages().length - 1);
+    String[] getGPStages() {
+        return dataContainer.getGPStages();
+    }
+
+    @NotNull
+    DreamTeamComponents getDefaultDreamTeamComponents() {
+        return getDreamTeamComponents(dataContainer.lastGPIndex());
     }
 
     @NotNull
     DreamTeamComponents getDreamTeamComponents(int gpIndex) {
-        return componentsCreator.createDreamTeamComponents(gpIndex);
+        return dataContainer.createDreamTeamComponents(gpIndex);
     }
 
     @NotNull
-    String[] getGPStages() {
-        return componentsCreator.getGPStages();
-    }
+    ComponentsUpdate onComboBoxPositionChanged(@NotNull DriverUpdate driverUpdate) {
+        Driver driver = dataContainer.getDrivers().get(driverUpdate.getIndex());
+        driver.setPosition(driverUpdate);
 
-    @NotNull List<Driver>  getDrivers() {
-        return componentsCreator.getDrivers();
+        Team teamToUpdate = dataContainer.getTeamMap().get(driver.getTeam());
+        teamToUpdate.updateTeam();
+        Engine engineToUpdate =  dataContainer.getEngineMap().get(driver.getEngine());
+        engineToUpdate.updateEngine();
+
+        return ImmutableComponentsUpdate.builder()
+                .driverIndex(driverUpdate.getIndex())
+                .driverPoints(driver.getPoints())
+                .driverPriceChange(driver.getPriceChange())
+                .teamIndex(dataContainer.getTeams().indexOf(teamToUpdate))
+                .teamPoints(teamToUpdate.getPoints())
+                .teamPriceChange(teamToUpdate.getPriceChange())
+                .engineIndex(dataContainer.getEngines().indexOf(engineToUpdate))
+                .enginePoints(engineToUpdate.getPoints())
+                .enginePriceChange(engineToUpdate.getPriceChange())
+                .build();
     }
 
     @NotNull
-    List<Team> getTeams() {
-        return componentsCreator.getTeams();
+    OffsetUpdate onSamplingChanged(int samples) {
+        dataContainer.updateDriversPriceOffset(samples);
+        return ImmutableOffsetUpdate.builder()
+                .addAllDrivers(dataContainer.getDrivers())
+                .addAllTeams(dataContainer.getTeams())
+                .addAllEngines(dataContainer.getEngines())
+                .build();
     }
 
-    @NotNull
-    List<Engine> getEngines() {
-        return componentsCreator.getEngines();
+    void onMinPointsChanged(int index, double points) {
+        Driver driver = dataContainer.getDrivers().get(index);
+        driver.setMinPoints(points);
+
+        Team teamToUpdate = dataContainer.getTeamMap().get(driver.getTeam());
+        teamToUpdate.setMinPoints();
+
+        Engine engineToUpdate = dataContainer.getEngineMap().get(driver.getEngine());
+        engineToUpdate.setMinPoints();
     }
 
-    @NotNull
-    Map<String, Team> getTeamMap() {
-        return componentsCreator.getTeamMap();
-    }
-
-    @NotNull
-    Map<String, Engine> getEngineMap() {
-        return componentsCreator.getEngineMap();
-    }
-
-    void combine() {
-        combinator.combine(componentsCreator.getDrivers(), componentsCreator.getTeams(), componentsCreator.getEngines());
-    }
-
-    void updateDriversPriceOffset(int sampling) {
-        componentsCreator.updateDriversPriceOffset(sampling);
-    }
-
-    void setAvailableDreamTeams(@NotNull SimulationParameters simulationParameters) {
+    void applySimulationParameters(@NotNull SimulationParameters simulationParameters) {
+        combinator.combine(dataContainer.getDrivers(), dataContainer.getTeams(), dataContainer.getEngines());
+        combinator.updateDreamTeams(simulationParameters.getBudget());
         combinator.setAvailableDreamTeams(simulationParameters);
-    }
-
-    void setLowRiskDreamTeams(@NotNull SimulationParameters simulationParameters) {
         combinator.setLowRiskDreamTeams(simulationParameters);
-    }
-
-    void updateDreamTeams(double budget) {
-        combinator.updateDreamTeams(budget);
     }
 
     @NotNull
