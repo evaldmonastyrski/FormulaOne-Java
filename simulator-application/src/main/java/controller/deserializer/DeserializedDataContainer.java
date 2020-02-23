@@ -1,7 +1,9 @@
 package controller.deserializer;
 
+import model.DreamTeamComponents;
 import model.Driver;
 import model.Engine;
+import model.ImmutableDreamTeamComponents;
 import model.Team;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -30,15 +32,29 @@ public class DeserializedDataContainer {
     @NotNull private final List<Team> teams;
     @NotNull private final List<Engine> engines;
 
-    public DeserializedDataContainer(@NotNull List<Driver> drivers,
-                                     @NotNull List<Team> teams,
-                                     @NotNull List<Engine> engines) {
-        this.drivers = drivers;
-        this.teams = teams;
-        this.engines = engines;
+    public DeserializedDataContainer() {
+        this.drivers = new ArrayList<>();
+        this.teams = new ArrayList<>();
+        this.engines = new ArrayList<>();
     }
 
-    public void createDreamTeamComponents(int gpStage) {
+    @NotNull
+    public List<Driver> getDrivers() {
+        return drivers;
+    }
+
+    @NotNull
+    public List<Team> getTeams() {
+        return teams;
+    }
+
+    @NotNull
+    public List<Engine> getEngines() {
+        return engines;
+    }
+
+    @NotNull
+    public DreamTeamComponents createDreamTeamComponents(int gpStage) {
         clearCollections();
         createDrivers(gpStage);
         createTeams();
@@ -46,6 +62,11 @@ public class DeserializedDataContainer {
         LOGGER.debug("Drivers: {}", drivers.size());
         LOGGER.debug("Teams: {}", teams.size());
         LOGGER.debug("Engines: {}", engines.size());
+        return ImmutableDreamTeamComponents.builder()
+                .addAllDrivers(drivers)
+                .addAllTeams(teams)
+                .addAllEngines(engines)
+                .build();
     }
 
     public void updateDriversPriceOffset(int sampling) {
