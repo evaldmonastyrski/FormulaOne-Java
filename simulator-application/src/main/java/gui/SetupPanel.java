@@ -1,9 +1,8 @@
 package gui;
 
 import controller.Constants;
-import controller.GuiController;
+import controller.GuiViewController;
 import gui.handlers.ControlPanelHandler;
-import gui.handlers.ControllerHandler;
 import gui.handlers.SetupPanelHandler;
 import gui.setuppanel.SetupComboBoxManager;
 import gui.setuppanel.SetupLabelManager;
@@ -27,7 +26,7 @@ public class SetupPanel extends JPanel implements SetupPanelHandler {
     private static final int COMPONENTS_START_ROW = 0;
     private static final int ENGINE_ROW_OFFSET = engineOffset();
 
-    @NotNull private final GuiController guiController;
+    @NotNull private final GuiViewController guiViewController;
 
     @NotNull private final GridBagConstraints constraints = new GridBagConstraints();
     @NotNull private final SetupLabelManager labelManager = new SetupLabelManager(this, constraints);
@@ -46,13 +45,9 @@ public class SetupPanel extends JPanel implements SetupPanelHandler {
     @NotNull private final JButton priceOffsetSortButton = new JButton(" Offset ");
     @NotNull private final JButton overallSortButton = new JButton("Overall");
 
-    @NotNull private final ControllerHandler controllerHandler;
-
-    SetupPanel(@NotNull GuiController guiController,
-               @NotNull ControllerHandler controllerHandler) {
+    SetupPanel(@NotNull GuiViewController guiViewController) {
         super(new GridBagLayout());
-        this.guiController = guiController;
-        this.controllerHandler = controllerHandler;
+        this.guiViewController = guiViewController;
         comboBoxManager = new SetupComboBoxManager(this, constraints);
     }
 
@@ -74,12 +69,12 @@ public class SetupPanel extends JPanel implements SetupPanelHandler {
     }
 
     public void updateDriver(@NotNull DriverUpdate driverUpdate) {
-        controllerHandler.onComboBoxPositionChanged(driverUpdate);
+        guiViewController.onComboBoxPositionChanged(driverUpdate);
         activateSimulationResults(false);
     }
 
     public void updateDriverMinPoints(int index, double points) {
-        controllerHandler.onMinPointsChanged(index, points);
+        guiViewController.onMinPointsChanged(index, points);
         activateSimulationResults(false);
     }
 
@@ -122,16 +117,16 @@ public class SetupPanel extends JPanel implements SetupPanelHandler {
         constraints.insets = new Insets(15, 0, 0, 0);
 
         simulateButton.addActionListener(e -> {
-            guiController.onSimulateButtonClicked();
+            guiViewController.onSimulateButtonClicked();
             activateSimulationResults(true);
         });
         flushQButton.addActionListener(e -> comboBoxManager.flushQualificationComboBoxes());
         flushRButton.addActionListener(e -> comboBoxManager.flushRaceComboBoxes());
-        pointSortButton.addActionListener(e -> guiController.onPointsSortClicked());
-        priceChangeSortButton.addActionListener(e -> guiController.onPriceChangeSortClicked());
-        priceOffsetSortButton.addActionListener(e -> guiController.onPriceOffsetSortClicked());
-        riskSortButton.addActionListener(e -> guiController.onRiskSortClicked());
-        overallSortButton.addActionListener(e -> guiController.onOverallSortClicked());
+        pointSortButton.addActionListener(e -> guiViewController.onPointsSortClicked());
+        priceChangeSortButton.addActionListener(e -> guiViewController.onPriceChangeSortClicked());
+        priceOffsetSortButton.addActionListener(e -> guiViewController.onPriceOffsetSortClicked());
+        riskSortButton.addActionListener(e -> guiViewController.onRiskSortClicked());
+        overallSortButton.addActionListener(e -> guiViewController.onOverallSortClicked());
 
         this.add(simulateButton, constraints);
         constraints.gridx = 1;

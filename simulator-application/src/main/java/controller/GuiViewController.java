@@ -3,7 +3,9 @@ package controller;
 import controller.combinator.Combinator;
 import controller.combinator.Sorter;
 import controller.deserializer.DeserializedDataContainer;
-import gui.handlers.ControllerHandler;
+import gui.GuiMain;
+import gui.RegularCombinationsDialog;
+import gui.RiskCombinationsDialog;
 import gui.setuppanel.CompetitionType;
 import model.ComponentsUpdate;
 import model.Driver;
@@ -15,7 +17,6 @@ import model.SimulationParameters;
 import model.Team;
 import model.Engine;
 import model.DriverUpdate;
-import model.DreamTeam;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -25,40 +26,40 @@ import javax.swing.SwingUtilities;
 import java.util.ArrayList;
 import java.util.List;
 
-class Controller implements ControllerHandler {
+public class GuiViewController {
 
-    @NotNull private static final Logger LOGGER = LoggerFactory.getLogger(Controller.class);
+    @NotNull private static final Logger LOGGER = LoggerFactory.getLogger(GuiViewController.class);
 
-    @NotNull private final GuiController guiController;
     @NotNull private final DeserializedDataContainer componentsCreator;
     @NotNull private final Combinator combinator = new Combinator();
+    @NotNull private final GuiMain guiMain;
 
     @NotNull private final List<Driver> drivers = new ArrayList<>();
     @NotNull private final List<Team> teams = new ArrayList<>();
     @NotNull private final List<Engine> engines = new ArrayList<>();
 
-    Controller() {
-        guiController = new GuiController(this);
-        componentsCreator = new DeserializedDataContainer(drivers, teams, engines);
+    GuiViewController() {
+        this.componentsCreator = new DeserializedDataContainer(drivers, teams, engines);
+        this.guiMain = new GuiMain(this);
         initializeGUI();
         initializeLabels();
     }
 
-    @Override
     public void onReloadButtonClicked() {
         LOGGER.info("Simulator is restarting");
-        new Controller();
+        new GuiViewController();
+        guiMain.closeGui();
     }
 
-    @Override
     public void onGPIndexChanged(int gpIndex) {
         componentsCreator.createDreamTeamComponents(gpIndex);
         combinator.combine(drivers, teams, engines);
         initializeLabels();
         initializePointsAndPrices();
+        guiMain.getSimulationTab().getSetupPanel().flushComboBoxes();
+        guiMain.getSimulationTab().getSetupPanel().activateSimulationResults(false);
     }
 
-    @Override
     public void onComboBoxPositionChanged(@NotNull DriverUpdate driverUpdate) {
         Driver driver = drivers.get(driverUpdate.getIndex());
         setPosition(driverUpdate, driver);
@@ -80,10 +81,9 @@ class Controller implements ControllerHandler {
                 .enginePriceChange(engineToUpdate.getPriceChange())
                 .build();
 
-        guiController.getGuiMain().getSimulationTab().getSetupPanel().updateGUILabels(componentsUpdate);
+        getGuiMain().getSimulationTab().getSetupPanel().updateGUILabels(componentsUpdate);
     }
 
-    @Override
     public void onMinPointsChanged(int index, double points) {
         Driver driver = drivers.get(index);
         driver.setMinPoints(points);
@@ -95,7 +95,6 @@ class Controller implements ControllerHandler {
         engineToUpdate.setMinPoints();
     }
 
-    @Override
     public void onSamplingChanged(@Nullable Integer samples) {
         int sampleNumber = 0;
         if (samples != null) {
@@ -110,11 +109,11 @@ class Controller implements ControllerHandler {
                 .addAllEngines(engines)
                 .build();
 
-        guiController.getGuiMain().getSimulationTab().getSetupPanel().getOffsetManager().updateOffsets(offsetUpdate);
+        getGuiMain().getSimulationTab().getSetupPanel().getOffsetManager().updateOffsets(offsetUpdate);
     }
 
-    @Override
-    public void onSimulateButtonClicked(@NotNull SimulationParameters simulationParameters) {
+    public void onSimulateButtonClicked() {
+        SimulationParameters simulationParameters = guiMain.getSimulationTab().getControlPanel().getSimulationParameters();
         combinator.updateDreamTeams(simulationParameters.getBudget());
         combinator.setAvailableDreamTeams(simulationParameters);
         combinator.setLowRiskDreamTeams(simulationParameters);
@@ -122,29 +121,33 @@ class Controller implements ControllerHandler {
         LOGGER.info("Number of low risk teams: {}", combinator.getAvailableDreamTeams().size());
     }
 
-    @NotNull
-    List<DreamTeam> getSortedByPointsList() {
-        return Sorter.sortByPoints(combinator.getAvailableDreamTeams());
+    public void onPointsSortClicked() {
+        new RegularCombinationsDialog(Sorter.sortByPoints(combinator.getAvailableDreamTeams()));
+    }
+
+    public void onPriceChangeSortClicked() {
+        new RegularCombinationsDialog(Sorter.sortByPriceChange(combinator.getAvailableDreamTeams()));
+    }
+
+    public void onPriceOffsetSortClicked() {
+        new RegularCombinationsDialog(Sorter.sortByPriceOffset(combinator.getAvailableDreamTeams()));
+    }
+
+    public void onRiskSortClicked() {
+        new RiskCombinationsDialog(Sorter.sortByMaxPriceChange(combinator.getLowRiskDreamTeams()));
+    }
+
+    public void onOverallSortClicked() {
+        new RegularCombinationsDialog(combinator.getAvailableDreamTeams());
     }
 
     @NotNull
-    List<DreamTeam> getSortedByPriceChangeList() {
-        return Sorter.sortByPriceChange(combinator.getAvailableDreamTeams());
+    private GuiMain getGuiMain() {
+        return guiMain;
     }
 
-    @NotNull
-    List<DreamTeam> getSortedByPriceOffset() {
-        return Sorter.sortByPriceOffset(combinator.getAvailableDreamTeams());
-    }
-
-    @NotNull
-    List<DreamTeam> getSortedByRisk() {
-        return Sorter.sortByMaxPriceChange(combinator.getLowRiskDreamTeams());
-    }
-
-    @NotNull
-    List<DreamTeam> getSortedByOverall() {
-        return Sorter.sortByOverall(combinator.getAvailableDreamTeams());
+    private void startGui(@NotNull String[] gpStages) {
+        guiMain.runGui(gpStages);
     }
 
     private void initializePointsAndPrices() {
@@ -173,11 +176,11 @@ class Controller implements ControllerHandler {
     }
 
     private void initializeGUI() {
-        guiController.startGui(componentsCreator.getGPStages());
+        startGui(componentsCreator.getGPStages());
     }
 
     private void initializeLabels() {
-        guiController.getGuiMain().getSimulationTab().getSetupPanel().setLabels(ImmutableDreamTeamComponents.builder()
+        getGuiMain().getSimulationTab().getSetupPanel().setLabels(ImmutableDreamTeamComponents.builder()
                 .drivers(drivers)
                 .teams(teams)
                 .engines(engines)

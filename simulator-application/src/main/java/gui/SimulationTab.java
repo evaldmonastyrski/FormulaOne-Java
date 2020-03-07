@@ -1,6 +1,6 @@
 package gui;
 
-import controller.GuiController;
+import controller.GuiViewController;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.JPanel;
@@ -11,12 +11,10 @@ public class SimulationTab extends JPanel {
     @NotNull private final SetupPanel setupPanel;
     @NotNull private final ControlPanel controlPanel;
 
-    SimulationTab(@NotNull GuiController guiController) {
+    SimulationTab(@NotNull GuiViewController guiViewController) {
         super(new BorderLayout());
-        setupPanel = new SetupPanel(guiController, guiController.getController());
-        controlPanel = new ControlPanel(guiController,
-                setupPanel.getComboBoxManager(),
-                guiController.getController());
+        setupPanel = new SetupPanel(guiViewController);
+        controlPanel = new ControlPanel(guiViewController, setupPanel.getComboBoxManager());
     }
 
     void init(@NotNull String[] gpStages) {

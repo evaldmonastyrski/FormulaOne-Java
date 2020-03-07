@@ -1,8 +1,7 @@
 package gui;
 
-import controller.GuiController;
+import controller.GuiViewController;
 import gui.handlers.ControlPanelHandler;
-import gui.handlers.ControllerHandler;
 import gui.handlers.SetupComboBoxHandler;
 import gui.handlers.SetupPanelHandler;
 import model.ImmutableSimulationParameters;
@@ -22,7 +21,7 @@ import java.awt.FlowLayout;
 public class ControlPanel extends JPanel implements ControlPanelHandler {
 
     @NotNull
-    private final GuiController guiController;
+    private final GuiViewController guiViewController;
 
     @NotNull
     private final JButton reloadButton = new JButton("Reload");
@@ -55,17 +54,13 @@ public class ControlPanel extends JPanel implements ControlPanelHandler {
 
     @NotNull
     private final SetupComboBoxHandler setupComboBoxHandler;
-    @NotNull
-    private final ControllerHandler controllerHandler;
 
-    ControlPanel(@NotNull GuiController guiController,
-                 @NotNull SetupComboBoxHandler setupComboBoxHandler,
-                 @NotNull ControllerHandler controllerHandler) {
+    ControlPanel(@NotNull GuiViewController guiViewController,
+                 @NotNull SetupComboBoxHandler setupComboBoxHandler) {
         super(new FlowLayout());
 
-        this.guiController = guiController;
+        this.guiViewController = guiViewController;
         this.setupComboBoxHandler = setupComboBoxHandler;
-        this.controllerHandler = controllerHandler;
     }
 
     void init(@NotNull String[] gpStages, @NotNull SetupPanelHandler setupPanelHandler) {
@@ -77,13 +72,13 @@ public class ControlPanel extends JPanel implements ControlPanelHandler {
             grandPrixComboBox.setSelectedIndex(gpStages.length - 1);
         });
 
-        reloadButton.addActionListener(e -> guiController.onReloadButtonClicked());
-        grandPrixComboBox.addActionListener(e -> guiController.onGPIndexChanged(grandPrixComboBox.getSelectedIndex()));
+        reloadButton.addActionListener(e -> guiViewController.onReloadButtonClicked());
+        grandPrixComboBox.addActionListener(e -> guiViewController.onGPIndexChanged(grandPrixComboBox.getSelectedIndex()));
         raceSetupCheckBox.addActionListener(e ->
                 setupComboBoxHandler.onRaceSetupStateChanged(raceSetupCheckBox.isSelected()));
         budgetSpinner.addChangeListener(e -> setupPanelHandler.activateSimulationResults(false));
         samplesSpinner.addChangeListener(e -> {
-            controllerHandler.onSamplingChanged((Integer) samplesSpinner.getValue());
+            guiViewController.onSamplingChanged((Integer) samplesSpinner.getValue());
             setupPanelHandler.activateSimulationResults(false);
         });
         pointsThresholdSpinner.addChangeListener(e -> setupPanelHandler.activateSimulationResults(false));
