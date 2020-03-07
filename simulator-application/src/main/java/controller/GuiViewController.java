@@ -4,14 +4,10 @@ import controller.combinator.Sorter;
 import gui.GuiMain;
 import gui.RegularCombinationsDialog;
 import gui.RiskCombinationsDialog;
-import gui.setuppanel.CompetitionType;
 import model.*;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.swing.SwingUtilities;
 
 public class GuiViewController {
 
@@ -26,7 +22,11 @@ public class GuiViewController {
         this.reloadHandler = reloadHandler;
         this.guiMain = new GuiMain(this);
         initializeGUI();
-        initializeLabels(dataProvider.getDreamTeamComponents());
+    }
+
+    private void initializeGUI() {
+        guiMain.initGui(dataProvider.getGPStages());
+        initializeLabels(dataProvider.getDefaultDreamTeamComponents());
     }
 
     public void onReloadButtonClicked() {
@@ -36,70 +36,35 @@ public class GuiViewController {
     }
 
     public void onGPIndexChanged(int gpIndex) {
-        dataProvider.combine();
         initializeLabels(dataProvider.getDreamTeamComponents(gpIndex));
         initializePointsAndPrices();
         guiMain.getSimulationTab().getSetupPanel().flushComboBoxes();
         guiMain.getSimulationTab().getSetupPanel().activateSimulationResults(false);
     }
 
+    private void initializePointsAndPrices() {
+        for (int driverIndex = 0; driverIndex < Constants.NUMBER_OF_DRIVERS; driverIndex++) {
+            DriverUpdate driverUpdate = DriverUpdate.defaultDriverUpdate(driverIndex);
+            onComboBoxPositionChanged(driverUpdate);
+            onSamplingChanged(Constants.OFFSET_STAGES);
+        }
+    }
+
     public void onComboBoxPositionChanged(@NotNull DriverUpdate driverUpdate) {
-        Driver driver = dataProvider.getDrivers().get(driverUpdate.getIndex());
-        setPosition(driverUpdate, driver);
-
-        Team teamToUpdate = dataProvider.getTeamMap().get(driver.getTeam());
-        teamToUpdate.updateTeam();
-        Engine engineToUpdate = dataProvider.getEngineMap().get(driver.getEngine());
-        engineToUpdate.updateEngine();
-
-        ComponentsUpdate componentsUpdate = ImmutableComponentsUpdate.builder()
-                .driverIndex(driverUpdate.getIndex())
-                .driverPoints(driver.getPoints())
-                .driverPriceChange(driver.getPriceChange())
-                .teamIndex(dataProvider.getTeams().indexOf(teamToUpdate))
-                .teamPoints(teamToUpdate.getPoints())
-                .teamPriceChange(teamToUpdate.getPriceChange())
-                .engineIndex(dataProvider.getEngines().indexOf(engineToUpdate))
-                .enginePoints(engineToUpdate.getPoints())
-                .enginePriceChange(engineToUpdate.getPriceChange())
-                .build();
-
-        getGuiMain().getSimulationTab().getSetupPanel().updateGUILabels(componentsUpdate);
+        getGuiMain().getSimulationTab().getSetupPanel().updateGUILabels(dataProvider.onComboBoxPositionChanged(driverUpdate));
     }
 
     public void onMinPointsChanged(int index, double points) {
-        Driver driver = dataProvider.getDrivers().get(index);
-        driver.setMinPoints(points);
-
-        Team teamToUpdate = dataProvider.getTeamMap().get(driver.getTeam());
-        teamToUpdate.setMinPoints();
-
-        Engine engineToUpdate = dataProvider.getEngineMap().get(driver.getEngine());
-        engineToUpdate.setMinPoints();
+        dataProvider.onMinPointsChanged(index, points);
     }
 
-    public void onSamplingChanged(@Nullable Integer samples) {
-        int sampleNumber = 0;
-        if (samples != null) {
-            sampleNumber = samples;
-        }
-
-        dataProvider.updateDriversPriceOffset(sampleNumber);
-
-        OffsetUpdate offsetUpdate = ImmutableOffsetUpdate.builder()
-                .addAllDrivers(dataProvider.getDrivers())
-                .addAllTeams(dataProvider.getTeams())
-                .addAllEngines(dataProvider.getEngines())
-                .build();
-
-        getGuiMain().getSimulationTab().getSetupPanel().getOffsetManager().updateOffsets(offsetUpdate);
+    public void onSamplingChanged(int samples) {
+        getGuiMain().getSimulationTab().getSetupPanel().getOffsetManager().updateOffsets(dataProvider.onSamplingChanged(samples));
     }
 
     public void onSimulateButtonClicked() {
         SimulationParameters simulationParameters = guiMain.getSimulationTab().getControlPanel().getSimulationParameters();
-        dataProvider.updateDreamTeams(simulationParameters.getBudget());
-        dataProvider.setAvailableDreamTeams(simulationParameters);
-        dataProvider.setLowRiskDreamTeams(simulationParameters);
+        dataProvider.applySimulationParameters(simulationParameters);
         LOGGER.info("Number of available teams: {}", dataProvider.getAvailableDreamTeams().size());
         LOGGER.info("Number of low risk teams: {}", dataProvider.getAvailableDreamTeams().size());
     }
@@ -127,39 +92,6 @@ public class GuiViewController {
     @NotNull
     private GuiMain getGuiMain() {
         return guiMain;
-    }
-
-    private void startGui(@NotNull String[] gpStages) {
-        guiMain.runGui(gpStages);
-    }
-
-    private void initializePointsAndPrices() {
-        for (int i = 0; i < Constants.NUMBER_OF_DRIVERS; i ++) {
-            DriverUpdate driverUpdate = DriverUpdate.initialDriverUpdate(i);
-            SwingUtilities.invokeLater(() -> onComboBoxPositionChanged(driverUpdate));
-            SwingUtilities.invokeLater(() -> onSamplingChanged(Constants.OFFSET_STAGES));
-        }
-    }
-
-    private void setPosition(@NotNull DriverUpdate driverUpdate, @NotNull Driver driver) {
-        if (!driverUpdate.getIsRaceSetup()) {
-            setPosition(driverUpdate.getPosition(), driverUpdate.getCompetitionType(), driver);
-        } else {
-            driver.setQPosition(driverUpdate.getPosition());
-            driver.setRPosition(driverUpdate.getPosition());
-        }
-    }
-
-    private void setPosition(int position, @NotNull CompetitionType type, @NotNull Driver driver) {
-        if (type == CompetitionType.QUALIFICATION) {
-            driver.setQPosition(position);
-        } else {
-            driver.setRPosition(position);
-        }
-    }
-
-    private void initializeGUI() {
-        startGui(dataProvider.getGPStages());
     }
 
     private void initializeLabels(@NotNull DreamTeamComponents dreamTeamComponents) {

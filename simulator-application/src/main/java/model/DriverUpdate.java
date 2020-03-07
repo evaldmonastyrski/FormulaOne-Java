@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 public interface DriverUpdate {
 
     @NotNull
-    static DriverUpdate initialDriverUpdate(int i) {
+    static DriverUpdate defaultDriverUpdate(int i) {
         return ImmutableDriverUpdate.builder()
                 .index(i)
                 .position(0)

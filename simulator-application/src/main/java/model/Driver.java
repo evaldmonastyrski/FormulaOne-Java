@@ -2,6 +2,7 @@ package model;
 
 import controller.Constants;
 import controller.deserializer.DataEntry;
+import gui.setuppanel.CompetitionType;
 import org.jetbrains.annotations.NotNull;
 
 import static model.PositionToPointsMap.mapQPosition;
@@ -76,12 +77,29 @@ public class Driver implements Comparable<Driver> {
         return maxPriceChange;
     }
 
-    public void setQPosition(int qPosition) {
+    public void setPosition(@NotNull DriverUpdate driverUpdate) {
+        if (!driverUpdate.getIsRaceSetup()) {
+            setPosition(driverUpdate.getPosition(), driverUpdate.getCompetitionType());
+        } else {
+            setQPosition(driverUpdate.getPosition());
+            setRPosition(driverUpdate.getPosition());
+        }
+    }
+
+    private void setPosition(int position, @NotNull CompetitionType type) {
+        if (type == CompetitionType.QUALIFICATION) {
+            setQPosition(position);
+        } else {
+            setRPosition(position);
+        }
+    }
+
+    private void setQPosition(int qPosition) {
         this.qPosition = (qPosition <= Constants.QUALIFICATION_AWARDED_PLACES) ? qPosition : 0;
         updateDriverFields();
     }
 
-    public void setRPosition(int rPosition) {
+    private void setRPosition(int rPosition) {
         this.rPosition = rPosition;
         updateDriverFields();
     }

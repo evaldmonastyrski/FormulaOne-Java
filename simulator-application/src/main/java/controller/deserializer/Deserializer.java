@@ -1,6 +1,9 @@
 package controller.deserializer;
 
+import model.DeserializedData;
+import model.ImmutableDeserializedData;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,23 +14,25 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-class Deserializer {
+enum Deserializer {
+    ;
 
     @NotNull private static final Logger LOGGER = LoggerFactory.getLogger(Deserializer.class);
     @NotNull private static final String FILE = "Resources/MarketData.txt";
     private static final int PRICE_ENTRY_START = 5;
-    @NotNull private final List<DataEntry> data = new ArrayList<>();
-    @NotNull private String[] gpStages = new String[0];
 
-    Deserializer() {
+    @Nullable
+    public static DeserializedData read() {
         LOGGER.info("Reading Market Data...");
         try {
             File file = new File(FILE);
             Scanner scanner = new Scanner(file);
-            gpStages = extractGPStages(scanner.nextLine());
+
+            @NotNull String[] gpStages = extractGPStages(scanner.nextLine());
+            @NotNull List<DataEntry> data = new ArrayList<>();
 
             while (scanner.hasNextLine()) {
-                createDataEntries(scanner.nextLine());
+                data.add(createDataEntries(scanner.nextLine()));
             }
 
             LOGGER.info("Parsing {} is completed", FILE);
@@ -35,23 +40,15 @@ class Deserializer {
             LOGGER.info("Number of data entries: {}", data.size());
 
             scanner.close();
+            return ImmutableDeserializedData.builder().gPStages(gpStages).addAllData(data).build();
         } catch (FileNotFoundException e) {
             LOGGER.error("No {} found", FILE);
+            return null;
         }
     }
 
     @NotNull
-    String[] getGPStages() {
-        return gpStages;
-    }
-
-    @NotNull
-    List<DataEntry> getData() {
-        return data;
-    }
-
-    @NotNull
-    private String[] extractGPStages(String firstLine) {
+    private static String[] extractGPStages(String firstLine) {
         String[] gpStageEntries = firstLine.trim().split("\\s+");
 
         for (int i = 0; i < gpStageEntries.length; i++) {
@@ -63,7 +60,7 @@ class Deserializer {
         return gpStageEntries;
     }
 
-    private void createDataEntries(@NotNull String entryLine) {
+    private static DataEntry createDataEntries(@NotNull String entryLine) {
         String[] dataChunks = entryLine.split("\\s+");
         String[] priceDataChunks = Arrays.copyOfRange(dataChunks, PRICE_ENTRY_START, dataChunks.length);
 
@@ -77,7 +74,7 @@ class Deserializer {
                 .mapToDouble(Double::parseDouble)
                 .toArray();
 
-        DataEntry dataEntry = ImmutableDataEntry.builder()
+        return ImmutableDataEntry.builder()
                 .name(dataChunks[0])
                 .surname(dataChunks[1])
                 .team(dataChunks[2])
@@ -85,7 +82,5 @@ class Deserializer {
                 .minPoints(minPoints)
                 .prices(prices)
                 .build();
-
-        this.data.add(dataEntry);
     }
 }
