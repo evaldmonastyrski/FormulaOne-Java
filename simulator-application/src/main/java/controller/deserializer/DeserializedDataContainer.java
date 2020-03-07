@@ -19,7 +19,6 @@ public class DeserializedDataContainer {
     @NotNull private static final Logger LOGGER = LoggerFactory.getLogger(DeserializedDataContainer.class);
 
     @NotNull private final Deserializer deserializer = new Deserializer();
-    @NotNull private final List<DataEntry> data;
     @NotNull private final Map<String, List<Driver>> teamCache = new HashMap<>();
     @NotNull private final Map<String, List<Driver>> engineCache = new HashMap<>();
 
@@ -34,7 +33,6 @@ public class DeserializedDataContainer {
     public DeserializedDataContainer(@NotNull List<Driver> drivers,
                                      @NotNull List<Team> teams,
                                      @NotNull List<Engine> engines) {
-        this.data = deserializer.getData();
         this.drivers = drivers;
         this.teams = teams;
         this.engines = engines;
@@ -87,7 +85,7 @@ public class DeserializedDataContainer {
 
     private void createDrivers(int gpStage) {
         @NotNull final Set<Driver> driverSet = new TreeSet<>();
-        for (DataEntry dataEntry : data) {
+        for (DataEntry dataEntry : deserializer.getData()) {
             Driver driver = new Driver(dataEntry, gpStage);
             driverCache.put(driver, dataEntry);
             cacheTeam(dataEntry.getTeam(), driver);
@@ -99,11 +97,10 @@ public class DeserializedDataContainer {
 
     private void createTeams() {
         @NotNull final Set<Team> teamSet = new TreeSet<>();
-        for (String team : teamCache.keySet()) {
-            List<Driver> drivers = teamCache.get(team);
-            Team newTeam = new Team(team, drivers);
-            teamSet.add(newTeam);
-            teamMap.put(team, newTeam);
+        for (String teamName : teamCache.keySet()) {
+            Team team = new Team(teamName, teamCache.get(teamName));
+            teamSet.add(team);
+            teamMap.put(teamName, team);
         }
         teams.addAll(teamSet);
     }
@@ -111,8 +108,7 @@ public class DeserializedDataContainer {
     private void createEngines(){
         @NotNull final Set<Engine> engineSet = new TreeSet<>();
         for (String engine : engineCache.keySet()){
-            List<Driver> drivers = engineCache.get(engine);
-            Engine newEngine = new Engine(engine, drivers);
+            Engine newEngine = new Engine(engine, engineCache.get(engine));
             engineSet.add(newEngine);
             engineMap.put(engine, newEngine);
         }
