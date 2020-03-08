@@ -2,8 +2,8 @@ package controller;
 
 import controller.combinator.Sorter;
 import gui.GuiMain;
-import gui.RegularCombinationsDialog;
-import gui.RiskCombinationsDialog;
+import gui.resultpanel.RegularCombinationsDialog;
+import gui.resultpanel.RiskCombinationsDialog;
 import model.*;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
