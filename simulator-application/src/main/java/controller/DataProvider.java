@@ -16,6 +16,11 @@ class DataProvider {
         this.combinator = new Combinator();
     }
 
+    void createCombinations() {
+        dataContainer.updateDriversPriceOffset(Constants.OFFSET_STAGES);
+        combinator.combine(dataContainer.getDrivers(), dataContainer.getTeams(), dataContainer.getEngines());
+    }
+
     @NotNull
     String[] getGPStages() {
         return dataContainer.getGPStages();
@@ -76,8 +81,7 @@ class DataProvider {
     }
 
     void applySimulationParameters(@NotNull SimulationParameters simulationParameters) {
-        combinator.combine(dataContainer.getDrivers(), dataContainer.getTeams(), dataContainer.getEngines());
-        combinator.updateDreamTeams(simulationParameters.getBudget());
+        combinator.updateDreamTeamsSurplus(simulationParameters.getBudget());
         combinator.setAvailableDreamTeams(simulationParameters);
         combinator.setLowRiskDreamTeams(simulationParameters);
     }

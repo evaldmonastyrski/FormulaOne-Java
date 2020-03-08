@@ -9,7 +9,7 @@ public class DreamTeam implements Comparable<DreamTeam>{
     @NotNull private final Driver driver2;
     @NotNull private final Team team;
     @NotNull private final Engine engine;
-    private double budget;
+    private double surplus;
 
     public DreamTeam(@NotNull Driver driver1, @NotNull Driver driver2, @NotNull Team team, @NotNull Engine engine) {
         this.driver1 = driver1;
@@ -48,7 +48,7 @@ public class DreamTeam implements Comparable<DreamTeam>{
 
     public double getPriceChange() {
         return driver1.getPriceChange() + driver2.getPriceChange() + team.getPriceChange() + engine.getPriceChange()
-                + Constants.INTEREST_RATE * (budget - getPrice());
+                + Constants.INTEREST_RATE * surplus;
     }
 
     public double getMinPoints() {
@@ -57,7 +57,7 @@ public class DreamTeam implements Comparable<DreamTeam>{
 
     public double getMaxPriceChange() {
         return driver1.getMaxPriceChange() + driver2.getMaxPriceChange() + team.getMaxPriceChange()
-                + engine.getMaxPriceChange() + Constants.INTEREST_RATE * (budget - getPrice());
+                + engine.getMaxPriceChange() + Constants.INTEREST_RATE * surplus;
     }
 
     public double getRisk() {
@@ -74,12 +74,12 @@ public class DreamTeam implements Comparable<DreamTeam>{
                 + (Constants.OVERALL_RISK_FACTOR * getRisk() + Constants.OVERALL_RISK_OFFSET);
     }
 
-    public double getBudget() {
-        return budget;
+    public double getSurplus() {
+        return surplus;
     }
 
-    public void setBudget(double budget) {
-        this.budget = budget;
+    public void setSurplus(double budget) {
+        this.surplus = budget - getPrice();
     }
 
     @Override

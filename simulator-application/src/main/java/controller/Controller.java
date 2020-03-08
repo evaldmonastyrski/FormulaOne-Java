@@ -11,6 +11,7 @@ class Controller {
     Controller() {
         this.dataProvider = new DataProvider();
         this.guiViewController = new GuiViewController(dataProvider, reloadHandler());
+        dataProvider.createCombinations();
     }
 
     @NotNull

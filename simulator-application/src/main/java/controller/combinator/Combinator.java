@@ -60,10 +60,10 @@ public class Combinator {
         }
     }
 
-    public void updateDreamTeams(double budget) {
-        if (dreamTeams.get(0).getBudget() != budget) {
+    public void updateDreamTeamsSurplus(double budget) {
+        if (dreamTeams.get(0).getSurplus() != budget - dreamTeams.get(0).getPrice()) {
             for (DreamTeam dreamTeam : dreamTeams) {
-                dreamTeam.setBudget(budget);
+                dreamTeam.setSurplus(budget);
             }
         }
     }
