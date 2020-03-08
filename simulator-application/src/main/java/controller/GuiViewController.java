@@ -46,8 +46,8 @@ public class GuiViewController {
         for (int driverIndex = 0; driverIndex < Constants.NUMBER_OF_DRIVERS; driverIndex++) {
             DriverUpdate driverUpdate = DriverUpdate.defaultDriverUpdate(driverIndex);
             onComboBoxPositionChanged(driverUpdate);
-            onSamplingChanged(Constants.OFFSET_STAGES);
         }
+        onSamplingChanged(Constants.OFFSET_STAGES);
     }
 
     public void onComboBoxPositionChanged(@NotNull DriverUpdate driverUpdate) {
