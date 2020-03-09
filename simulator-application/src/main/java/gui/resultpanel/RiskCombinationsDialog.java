@@ -20,7 +20,7 @@ public class RiskCombinationsDialog extends CombinationsDialog {
             "Risk",
             "Overall"};
 
-    public RiskCombinationsDialog(@NotNull List<DreamTeam> dreamTeams) {
-        super(header, dreamTeams, "Risk Results", CombinationsType.RISK);
+    public RiskCombinationsDialog(@NotNull List<DreamTeam> dreamTeams, double maxPoints) {
+        super(header, dreamTeams, "Risk Results", CombinationsType.RISK, maxPoints);
     }
 }

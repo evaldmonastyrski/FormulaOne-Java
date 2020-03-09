@@ -20,7 +20,7 @@ public class RegularCombinationsDialog extends CombinationsDialog {
             "Risk",
             "Overall"};
 
-    public RegularCombinationsDialog(@NotNull List<DreamTeam> dreamTeams) {
-        super(header, dreamTeams, "Regular Results", CombinationsType.REGULAR);
+    public RegularCombinationsDialog(@NotNull List<DreamTeam> dreamTeams, double maxPoints) {
+        super(header, dreamTeams, "Regular Results", CombinationsType.REGULAR, maxPoints);
     }
 }

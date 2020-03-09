@@ -70,23 +70,28 @@ public class GuiViewController {
     }
 
     public void onPointsSortClicked() {
-        new RegularCombinationsDialog(Sorter.sortByPoints(dataProvider.getAvailableDreamTeams()));
+        new RegularCombinationsDialog(Sorter.sortByPoints(dataProvider.getAvailableDreamTeams()),
+                dataProvider.getMaxPoints());
     }
 
     public void onPriceChangeSortClicked() {
-        new RegularCombinationsDialog(Sorter.sortByPriceChange(dataProvider.getAvailableDreamTeams()));
+        new RegularCombinationsDialog(
+                Sorter.sortByPriceChange(dataProvider.getAvailableDreamTeams()), dataProvider.getMaxPoints());
     }
 
     public void onPriceOffsetSortClicked() {
-        new RegularCombinationsDialog(Sorter.sortByPriceOffset(dataProvider.getAvailableDreamTeams()));
+        new RegularCombinationsDialog(
+                Sorter.sortByPriceOffset(dataProvider.getAvailableDreamTeams()), dataProvider.getMaxPoints());
     }
 
     public void onRiskSortClicked() {
-        new RiskCombinationsDialog(Sorter.sortByMaxPriceChange(dataProvider.getLowRiskDreamTeams()));
+        new RiskCombinationsDialog(
+                Sorter.sortByMaxPriceChange(dataProvider.getLowRiskDreamTeams()), dataProvider.getMaxPoints());
     }
 
     public void onOverallSortClicked() {
-        new RegularCombinationsDialog(dataProvider.getAvailableDreamTeams());
+        new RegularCombinationsDialog(
+                Sorter.sortByOverall(dataProvider.getAvailableDreamTeams()), dataProvider.getMaxPoints());
     }
 
     @NotNull

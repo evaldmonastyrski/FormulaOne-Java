@@ -10,6 +10,7 @@ import java.util.List;
 class DataProvider {
     @NotNull private final DeserializedDataContainer dataContainer;
     @NotNull private final Combinator combinator;
+    private double maxPoints = Double.NaN;
 
     DataProvider() {
         this.dataContainer = new DeserializedDataContainer();
@@ -82,7 +83,7 @@ class DataProvider {
 
     void applySimulationParameters(@NotNull SimulationParameters simulationParameters) {
         combinator.updateDreamTeamsSurplus(simulationParameters.getBudget());
-        combinator.setAvailableDreamTeams(simulationParameters);
+        maxPoints = combinator.setAvailableDreamTeams(simulationParameters);
         combinator.setLowRiskDreamTeams(simulationParameters);
     }
 
@@ -94,5 +95,9 @@ class DataProvider {
     @NotNull
     List<DreamTeam> getLowRiskDreamTeams() {
         return combinator.getLowRiskDreamTeams();
+    }
+
+    public double getMaxPoints() {
+        return maxPoints;
     }
 }

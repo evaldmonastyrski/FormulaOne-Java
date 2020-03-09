@@ -16,7 +16,7 @@ public class Combinator {
     @NotNull private final List<DreamTeam> availableDreamTeams = new ArrayList<>();
     @NotNull private final List<DreamTeam> lowRiskDreamTeams = new ArrayList<>();
 
-    public void setAvailableDreamTeams(@NotNull SimulationParameters simulationParameters) {
+    public double setAvailableDreamTeams(@NotNull SimulationParameters simulationParameters) {
         List<DreamTeam> tempDreamTeams = new ArrayList<>();
         availableDreamTeams.clear();
 
@@ -26,8 +26,8 @@ public class Combinator {
             }
         }
 
-        double pointsThreshold =
-                getPointsThreshold(simulationParameters.getPointsThreshold(), maxPoints(tempDreamTeams));
+        double maxPoints = maxPoints(tempDreamTeams);
+        double pointsThreshold = getPointsThreshold(simulationParameters.getPointsThreshold(), maxPoints);
         for (DreamTeam dreamTeam : tempDreamTeams) {
             if (dreamTeam.getPrice() <= simulationParameters.getBudget()) {
                 if (simulationParameters.usePointsThreshold()) {
@@ -39,6 +39,7 @@ public class Combinator {
                 }
             }
         }
+        return maxPoints;
     }
 
     public void setLowRiskDreamTeams(@NotNull SimulationParameters simulationParameters) {
